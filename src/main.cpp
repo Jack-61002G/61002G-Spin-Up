@@ -29,6 +29,7 @@ std::shared_ptr<AsyncMotionProfileController> profileController =
 void intaketoggle();
 void flywheelpid();
 void gatetoggle();
+void real_Odometry();
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -45,7 +46,12 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-	profileController->setTarget("A"); 
+  pros::Task odom(real_Odometry);
+	profileController->setTarget("A");
+  while (true) {
+  std::cout<<degrees<<"\n"<<posX<<"\n"<<posY;
+  }
+  
 }
 
 void opcontrol() {

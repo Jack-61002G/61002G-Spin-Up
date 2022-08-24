@@ -7,3 +7,9 @@ pros::Motor gate (1, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGR
 bool flywheel_state{false};
 bool intake_state{true};
 bool gate_state{true};
+
+//odom
+
+int degrees;
+double posX, posY;
+bool odom_state{false};

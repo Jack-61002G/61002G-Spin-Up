@@ -8,8 +8,9 @@ extern bool intake_state;
 extern pros::Motor front_intake;
 extern pros::Motor gate;
 extern bool gate_state;
+extern std::shared_ptr<ChassisController> chassis;
 
-//odom
+// odom
 extern int degrees;
 extern double posX, posY;
 extern bool odom_state;

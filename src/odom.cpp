@@ -1,12 +1,11 @@
 #include "globals.h"
 #include "main.h"
 
-
 void real_Odometry() {
 #define center 5         // distance between side wheels
 #define back_to_center 0 // yes
   int oldR{0}, oldL{0}, oldB{0}, head, R, L, B;
-  double cst = M_PI * 3.25 / 360; // inches per encoder tick
+  double cst{M_PI * 2.75 / 360}; // inches per encoder tick
   double dX, dY, dH, dR, dL, dB;
 
   pros::ADIEncoder left('A', 'B', true);
@@ -30,14 +29,14 @@ void real_Odometry() {
                                  // heading, and then convert to degrees
 
     posX += (dX * cos(head)) - (dY * sin(head));
-    posY +=
-        (dX * sin(head)) +
-        dY * (cos(head)); // add the change in x and y to the global position
+    posY += (dX * sin(head)) + dY * (cos(head));
+    // add the change in x and y to the global position
 
     oldR = R;
     oldL = L; // update old encoder values
     oldB = B;
 
     pros::delay(10);
+    
   }
 }

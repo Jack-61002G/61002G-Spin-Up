@@ -2,10 +2,13 @@
 #include "main.h"
 
 void flywheelpid() {
-  int target = 0;
-  double Kp = 1;
-  int error = 0;
-  int voltage = 0;
+  // define variables we need for the tbh controller
+  int target{4000}; // our voltage target
+  double gain{1};
+  double error{0};
+  int output{0};
+  double tbh{0};
+  double prev_error{0};
 
   while (true) {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
@@ -17,9 +20,15 @@ void flywheelpid() {
         flywheel_state = !flywheel_state;
       }
     }
-    error = (target) - (int(spinnyman.getVoltage()));
 
-    voltage += Kp * error;
+    error = target - spinnyman.getVoltage();
+    output += gain * error;
+
+    if (signbit(error) != signbit(prev_error)) {
+      output = 0.5 * (output + tbh);
+      tbh = output;
+      prev_error = error;
+    }
 
     spinnyman.moveVoltage(target);
     pros::delay(10);

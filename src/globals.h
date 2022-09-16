@@ -10,6 +10,7 @@ extern pros::Motor gate;
 extern bool gate_state;
 
 // odom
+extern double head;
 extern int degrees;
 extern double posX, posY;
 extern bool odom_state;

@@ -5,7 +5,7 @@
 void real_Odometry() {
 #define center 5         // distance between side wheels
 #define back_to_center 0 // yes
-  int oldR{0}, oldL{0}, oldB{0}, head, R, L, B;
+  int oldR{0}, oldL{0}, oldB{0}, R, L, B;
   double cst{M_PI * 2.75 / 360}; // inches per encoder tick
   double dX, dY, dH, dR, dL, dB;
 

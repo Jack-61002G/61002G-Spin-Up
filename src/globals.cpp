@@ -12,4 +12,5 @@ bool gate_state{true};
 
 int degrees;
 double posX, posY;
+double head;
 bool odom_state{false};

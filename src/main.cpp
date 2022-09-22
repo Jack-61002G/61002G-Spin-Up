@@ -26,12 +26,12 @@ std::shared_ptr<AsyncMotionProfiler> profiler =
         //.withLinearController(leftController, rightController)
         .build();
 
-void flywheelpid();
+void flywheelpid(); // calling ahead
 void intaketoggle();
 
 void initialize() { pros::lcd::initialize(); }
 
-void disabled() {}
+void disabled() {} 
 
 void competition_initialize() {}
 

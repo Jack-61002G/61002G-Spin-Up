@@ -12,7 +12,7 @@ ProfileConstraint moveLimit({5.3_ftps, 6_ftps2, 27_ftps3});
 
 std::shared_ptr<ChassisController> chassis =
     ChassisControllerBuilder()
-        .withMotors({-6, -9}, {14, 15})
+        .withMotors({-11, -12}, {19, 20})
         // {motor cartridge, wheel gear / motor gear}, {{wheel diameter, track
         // diameter} imev5<cart>TPR}
         // {motor cartridge, wheel gear / motor gear}, {{wheel diameter, track diameter} imev5<cart>TPR}
@@ -51,7 +51,7 @@ void opcontrol() {
   Controller master(ControllerId::master);
   auto model = chassis->getModel();
   while (true) {
-    model->arcade(master.getAnalog(ControllerAnalog::leftY),
+    model->curvature(master.getAnalog(ControllerAnalog::leftY),
                      master.getAnalog(ControllerAnalog::rightX), 0.05);
     pros::delay(10);
   }

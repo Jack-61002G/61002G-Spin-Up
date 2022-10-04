@@ -13,7 +13,7 @@ void flywheelpid() {
   while (true) {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
       if (flywheel_state == false) {
-        target = 10000;
+        target = 7500;
         flywheel_state = !flywheel_state;
       } else {
         target = 4000;
@@ -21,14 +21,12 @@ void flywheelpid() {
       }
     }
 
-    error = target - spinnyman.getVoltage();
-    output += gain * error;
-
-    if (signbit(error) != signbit(prev_error)) {
-      output = 0.5 * (output + tbh);
-      tbh = output;
-      prev_error = error;
+    if (spinnyman.getActualVelocity() <= 140) {
+    spinnyman.moveVoltage(target);
+    }else {
+    spinnyman.moveVoltage(3500);
     }
+
 
     spinnyman.moveVoltage(target);
     pros::delay(10);

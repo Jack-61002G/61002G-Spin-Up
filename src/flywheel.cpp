@@ -2,7 +2,7 @@
 #include "main.h"
 
 void flywheelpid() {
-  int target{50}; // our voltage target
+  int target{50}; // our rpm target
   double gain{100};
   double error{0};
   int output{0};
@@ -18,7 +18,7 @@ void flywheelpid() {
       }
     }
 
-    error = target - spinnyman.getActualVelocity(); 
+    error = target - spinnyman.getActualVelocity();
 
     output = (error * gain) + 7500;
 
@@ -26,7 +26,11 @@ void flywheelpid() {
       output = 12000;
     }
 
+    if (target != 170) {
+        spinnyman.moveVoltage(3500);
+    } else {
     spinnyman.moveVoltage(output);
+    }
 
     pros::delay(10);
   }

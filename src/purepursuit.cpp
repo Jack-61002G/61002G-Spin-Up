@@ -14,8 +14,10 @@ class robotMovement {
         double relativeXToPoint = cos(realativeAngleToPoint)*distanceToTarget;
         double relativeYToPoint = sin(realativeAngleToPoint)*distanceToTarget;
 
-        double movmentXPower = relativeXToPoint / (abs(relativeYToPoint) + abs(relativeYToPoint));
-        double movementYPower = relativeYToPoint / (abs(relativeYToPoint) + abs(relativeYToPoint));
+        double movementXPower = relativeXToPoint / (abs(relativeYToPoint) + abs(relativeYToPoint));
+        //double movementYPower = relativeYToPoint / (abs(relativeYToPoint) + abs(relativeYToPoint));
+
+        chassis->moveRaw(movementXPower);
 
     }   
 

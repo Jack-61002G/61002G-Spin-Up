@@ -29,7 +29,7 @@ std::shared_ptr<AsyncMotionProfiler> profiler =
 void flywheelpid(); // calling ahead
 void intaketoggle();
 
-void initialize() { pros::lcd::initialize(); }
+void initialize() {}
 
 void disabled() {} 
 

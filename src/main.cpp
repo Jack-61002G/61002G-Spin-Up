@@ -2,6 +2,7 @@
 #include "okapi/api.hpp"
 #include "pros/rtos.hpp"
 #include "ryanlib/api.hpp"
+#include "globals.hpp"
 using namespace okapi;
 
 // Chassis' max velocity, acceleration, and jerk
@@ -29,7 +30,7 @@ std::shared_ptr<AsyncMotionProfiler> profiler =
 void flywheelpid(); // calling ahead
 void intaketoggle();
 
-void initialize() {}
+void initialize() { pros::lcd::initialize(); }
 
 void disabled() {} 
 
@@ -50,6 +51,7 @@ void opcontrol() {
 
   Controller master(ControllerId::master);
   auto model = chassis->getModel();
+  
   while (true) {
     model->curvature(master.getAnalog(ControllerAnalog::leftY),
                      master.getAnalog(ControllerAnalog::rightX), 0.05);

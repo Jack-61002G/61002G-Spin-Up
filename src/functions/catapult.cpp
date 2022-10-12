@@ -7,7 +7,7 @@ void cataTask() {
                 catapultMotor.move(127);
         } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
             catapultMotor.move_voltage(127);
-        }
+        } else {catapultMotor.move(0);}
         pros::delay(10);
     }
 }

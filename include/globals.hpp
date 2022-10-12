@@ -8,6 +8,10 @@ extern pros::Motor catapultMotor;
 extern pros::ADIButton limitButton;
 extern pros::Controller master;
 
+extern pros::Motor intake1;
+extern pros::Motor intake2;
+extern int intakeState;
+
 
 extern void cataTask();
 

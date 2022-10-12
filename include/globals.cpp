@@ -7,6 +7,9 @@ using namespace okapi;
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Motor catapultMotor(1, true);
 pros::ADIButton LimitButton('A');
+pros::Motor intake1(5);
+pros::Motor intake2(6);
+int intakeState = 0;
 
 void cataTask();
 

@@ -3,15 +3,11 @@
 #include "pros/motors.hpp"
 #include "ryanlib/api.hpp"
 
-extern okapi::MotorGroup spinnyman;
 extern bool flywheel_state;
 extern pros::Motor catapultMotor;
 extern pros::ADIButton limitButton;
 extern pros::Controller master;
-extern bool intake_state;
-extern pros::Motor front_intake;
-extern pros::Motor gate;
-extern bool gate_state;
+
 
 extern void cataTask();
 

@@ -4,17 +4,10 @@
 #include "ryanlib/api.hpp"
 using namespace okapi;
 
-okapi::MotorGroup spinnyman({-1, 2});
 pros::Controller master(pros::E_CONTROLLER_MASTER);
-pros::Motor front_intake(9);
-pros::Motor gate(8);
 pros::Motor catapultMotor(1, true);
-bool flywheel_state{false};
-bool intake_state{true};
-bool gate_state{true};
 pros::ADIButton LimitButton('A');
 
-void flywheelpid(); // calling ahead
 void cataTask();
 
 // odom

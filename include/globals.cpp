@@ -12,6 +12,7 @@ pros::Motor intake2(6);
 int intakeState = 0;
 
 void cataTask();
+void intaketoggle();
 
 // odom
 

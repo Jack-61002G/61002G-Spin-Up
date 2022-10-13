@@ -14,6 +14,7 @@ extern int intakeState;
 
 
 extern void cataTask();
+extern void intaketoggle();
 
 // odom
 extern double head;

@@ -1,14 +1,15 @@
 #include "main.h"
 #include "pros/adi.hpp"
+#include "pros/motors.h"
 #include "pros/motors.hpp"
 #include "ryanlib/api.hpp"
 using namespace okapi;
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
-pros::Motor catapultMotor(1, true);
-pros::ADIButton LimitButton('A');
-pros::Motor intake1(5);
-pros::Motor intake2(6);
+pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
+pros::ADIButton limitButton('A');
+pros::Motor intake1(11);
+pros::Motor intake2(12);
 int intakeState = 0;
 
 void cataTask();
@@ -31,7 +32,7 @@ ProfileConstraint moveLimit({5.3_ftps, 6_ftps2, 27_ftps3});
 
 std::shared_ptr<ChassisController> chassis =
     ChassisControllerBuilder()
-        .withMotors({-11, -12}, {19, 20})
+        .withMotors({-18, -1}, {13, 14})
         // {motor cartridge, wheel gear / motor gear}, {{wheel diameter, track
         // diameter} imev5<cart>TPR}
         // {motor cartridge, wheel gear / motor gear}, {{wheel diameter, track diameter} imev5<cart>TPR}

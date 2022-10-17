@@ -1,11 +1,12 @@
 #include "main.h"
-#include "pros/rtos.hpp"
+#include "globals.h"
 
 void cataTask() {
-        while (true) {
+        while (1 == 1) {
             if (!limitButton.get_value()) {
                 catapultMotor.move(127);
-        } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+        } 
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && limitButton.get_value()) {
             catapultMotor.move_voltage(127);
         } else {catapultMotor.move(0);}
         pros::delay(10);

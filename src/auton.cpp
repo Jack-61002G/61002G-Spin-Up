@@ -21,39 +21,138 @@ void autonomous() {
         //.withLinearController(leftController, rightController)
         .build();
 
-
-
-    //intake active
     profiler->setTarget(6_ft);
-    profiler->waitUntilSettled();
-    profiler->setTarget(-90_deg);
-    profiler->waitUntilSettled();
-    profiler->setTarget(0.75_ft);
-    profiler->waitUntilSettled();
-    profiler->setTarget(-0.75_ft);
-    profiler->waitUntilSettled();
-    profiler->setTarget(90_deg);
     profiler->waitUntilSettled();
     profiler->setTarget(-6_ft);
     profiler->waitUntilSettled();
+    /*
+    //intake on
+    profiler->setTarget(4_ft);
+    profiler->waitUntilSettled();
+    profiler->setTarget(-90_deg);
+    profiler->waitUntilSettled();
+    profiler->setTarget(1.5_ft);
+    profiler->waitUntilSettled();
+    //intake off
+    profiler->setTarget(-1.5_ft);
+    profiler->waitUntilSettled();
+    profiler->setTarget(90_deg);
+    profiler->waitUntilSettled();
+    profiler->setTarget(-4_ft);
+    profiler->waitUntilSettled();
     profiler->setTarget(45_deg);
-    //adjust distance
-    //shoot discs
-    profiler->setTarget(-12_deg);
+    pros::delay(1000);
+    //adjust and shoot
+    profiler->setTarget(-48_deg);
     profiler->waitUntilSettled();
-    profiler->setTarget(4.6_ft);
+    //intake on
+    profiler->setTarget(8.2_ft);
     profiler->waitUntilSettled();
+    //intake off
+    profiler->setTarget(135_deg);
+    profiler->waitUntilSettled();
+    //adjust and shoot
+    profiler->setTarget(-16_deg);
+    profiler->waitUntilSettled();
+    //intake on
+    profiler->setTarget(4_ft);
+    profiler->waitUntilSettled();
+    //intake off
+    profiler->setTarget(-4_ft);
+    profiler->waitUntilSettled();
+    profiler->setTarget(16_deg);
+    profiler->waitUntilSettled();
+    //spin roller
+    profiler->setTarget(-61_deg);
+    profiler->waitUntilSettled();
+    //intake on
+    profiler->setTarget(2_ft);
+    profiler->waitUntilSettled();
+    //intake off
     profiler->setTarget(-2_ft);
     profiler->waitUntilSettled();
-    profiler->setTarget(57_deg);
+    profiler->setTarget(-55_deg);
     profiler->waitUntilSettled();
     profiler->setTarget(2_ft);
     profiler->waitUntilSettled();
-    profiler->setTarget(-2_ft);
+    //spin roller
+    profiler->setTarget(-6_ft);
     profiler->waitUntilSettled();
+    profiler->setTarget(11_deg);
+    profiler->waitUntilSettled();
+    //adjust and shoot
+    profiler->setTarget(-66_deg);
+    profiler->waitUntilSettled();
+    //intake on
+    profiler->setTarget(-79_deg);
+    profiler->waitUntilSettled();
+    profiler->setTarget(1.5_ft);
+    profiler->waitUntilSettled();
+    profiler->setTarget(-55_deg);
+    profiler->waitUntilSettled();
+    profiler->setTarget(4_ft);
+    profiler->waitUntilSettled();
+    //intake off
+    profiler->setTarget(100_deg);
+    profiler->waitUntilSettled();
+    //shoot
+    profiler->setTarget(70_deg);
+    profiler->waitUntilSettled();
+    //intake on
+    profiler->setTarget(5.5_ft);
+    profiler->waitUntilSettled();
+    //intake off
+    profiler->setTarget(-30_deg);
+    profiler->waitUntilSettled();
+    profiler->setTarget(3_ft);
+    profiler->waitUntilSettled();
+    //turn roller
+    profiler->setTarget(-3_ft);
+    profiler->waitUntilSettled();
+    profiler->setTarget(30_deg);
+    profiler->waitUntilSettled();
+    profiler->setTarget(-5.5_ft);
+    profiler->waitUntilSettled();
+    profiler->setTarget(-70_deg);
+    profiler->waitUntilSettled();
+    //shoot
+    profiler->setTarget(35_deg);
+    profiler->waitUntilSettled();
+    //intake on
+    profiler->setTarget(3.5_ft);
+    profiler->waitUntilSettled();
+    //intake off
+    profiler->setTarget(-3.5_ft);
+    profiler->waitUntilSettled();
+    profiler->setTarget(-35_deg);
+    profiler->waitUntilSettled();
+    //shoot
     profiler->setTarget(60_deg);
     profiler->waitUntilSettled();
-    profiler->setTarget(1_ft);
-
-
+    profiler->setTarget(2.75_ft);
+    profiler->waitUntilSettled();
+    profiler->setTarget(-15_deg);
+    profiler->waitUntilSettled();
+    //intake on
+    profiler->setTarget(6_ft);
+    profiler->waitUntilSettled();
+    profiler->setTarget(-45_deg);
+    profiler->waitUntilSettled();
+    profiler->setTarget(1.5_ft);
+    profiler->waitUntilSettled();
+    //intake off
+    profiler->setTarget(-90_deg);
+    profiler->waitUntilSettled();
+    //shoot em up
+    profiler->setTarget(-13_deg);
+    profiler->waitUntilSettled();
+    profiler->setTarget(1.5_ft);
+    profiler->waitUntilSettled();
+    profiler->setTarget(-32_deg);
+    profiler->waitUntilSettled();
+    //intake on
+    profiler->setTarget(5_ft);
+    profiler->waitUntilSettled();
+    //intake off
+    */
 }

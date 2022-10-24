@@ -20,14 +20,15 @@ void opcontrol() {
   auto model = chassis->getModel();
   bool cataState = true;
   
+  Controller controller;
   while (true) {
 
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
       if (intakeState == 0) {
         intakeState = -1;
         intaketoggle();
       } else {intakeState = 0; intaketoggle();}
-    } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+    } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
       if (intakeState == 0) {
         intakeState = 1;
         intaketoggle();
@@ -35,7 +36,7 @@ void opcontrol() {
     }
 
 
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && (cataState == true)){
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && (cataState == true)){
         catapultMotor.move_voltage(12000);
 
     } else if (limitButton.get_value() == false) { 
@@ -46,8 +47,8 @@ void opcontrol() {
         catapultMotor.move_voltage(0);
         cataState = true;
     }
-    model->curvature(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),
-                     master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 0.05);
+    model->curvature(controller.getAnalog(ControllerAnalog::leftY),
+                     controller.getAnalog(ControllerAnalog::rightX), 0.005);
     pros::delay(10);
   }
 }

@@ -6,7 +6,7 @@ void cataTask() {
             if (!limitButton.get_value()) {
                 catapultMotor.move(127);
         } 
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && limitButton.get_value()) {
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && limitButton.get_value()) {
             catapultMotor.move_voltage(127);
         } else {catapultMotor.move(0);}
         pros::delay(10);

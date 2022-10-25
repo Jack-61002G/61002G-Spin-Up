@@ -1,7 +1,5 @@
 #include "globals.h"
 #include "main.h"
-#include "pros/misc.h"
-#include "pros/rtos.hpp"
 
 void intaketoggle() {
   if (intakeState != 0) {

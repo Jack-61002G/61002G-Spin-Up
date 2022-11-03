@@ -4,21 +4,20 @@
 #include "pros/motors.hpp"
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
-pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
+pros::Motor catapultMotor(17, pros::E_MOTOR_GEARSET_36, true);
 pros::ADIButton limitButton('A');
 pros::Motor intake1(11);
-pros::Motor intake2(12);
 int intakeState = 0;
 
 // Chassis constructor
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
   //   the first port is the sensored port (when trackers are not used!)
-  {-18, -1}
+  {-18, -1, 15}
 
   // Right Chassis Ports (negative port will reverse it!)
   //   the first port is the sensored port (when trackers are not used!)
-  ,{13, 14}
+  ,{13, 14, -19}
 
   // IMU Port
   ,2

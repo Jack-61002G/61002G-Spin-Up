@@ -188,8 +188,8 @@
       }
     },
     "upload_options": {
-      "slot": 2,
-      "icon": "planet"
+      "slot": 3,
+      "icon": "X"
     }
   }
 }

@@ -1,4 +1,6 @@
+#include "autons.hpp"
 #include "main.h"
+#include "globals.h"
 
 
 /////
@@ -239,4 +241,114 @@ void interfered_example() {
 // Make your own autonomous functions here!
 // . . .
 
-void rSideAuton(){}
+void rAutonOne(){
+
+  intakeState = -1;
+  intaketoggle();
+
+  chassis.set_drive_pid(52, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(-90, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(14, DRIVE_SPEED);
+  chassis.wait_drive();
+  
+  intakeState = 0;
+  intaketoggle();
+
+  chassis.set_drive_pid(-14, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(0, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-52, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(45, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-12, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  // shoot
+
+}
+
+void rAutonTwo() {
+
+  chassis.set_drive_pid(12, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(0, TURN_SPEED);
+  chassis.wait_drive();
+
+  intakeState = -1;
+  intaketoggle();
+
+  chassis.set_drive_pid(108, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  intakeState = 0;
+  intaketoggle();
+
+  chassis.set_turn_pid(135, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-12, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  // shoot
+
+  chassis.set_drive_pid(12, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(165);
+
+  intakeState = -1;
+  intaketoggle();
+
+  chassis.set_drive_pid(60, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  intakeState = 0;
+  intaketoggle();
+
+  chassis.set_drive_pid(-60, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(135, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-12, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  // shoot
+
+  chassis.set_drive_pid(12, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(150, TURN_SPEED);
+  chassis.wait_drive();
+
+  intakeState = -1;
+  intaketoggle();
+
+  chassis.set_drive_pid(102, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-24, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(90, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(18, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-18, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(40, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(30, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  intakeState = 0;
+  intaketoggle();
+
+  chassis.set_drive_pid(-120, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  // shoot
+
+}
+
+void rAutonThree() {
+  // placeholder because ye
+}

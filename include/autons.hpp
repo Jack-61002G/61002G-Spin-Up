@@ -11,7 +11,9 @@ void wait_until_change_speed();
 void swing_example();
 void combining_movements();
 void interfered_example();
-void rSideAuton();
+void rAutonOne();
+void rAutonTwo();
+void rAutonThree();
 
 void garage_constants();
 void one_mogo_constants();

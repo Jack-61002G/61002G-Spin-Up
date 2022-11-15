@@ -296,7 +296,7 @@ void rAutonTwo() {
 
   chassis.set_drive_pid(12, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(165);
+  chassis.set_turn_pid(165, TURN_SPEED);
 
   intakeState = -1;
   intaketoggle();

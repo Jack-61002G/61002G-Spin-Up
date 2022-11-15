@@ -2,6 +2,7 @@
 #include "EZ-Template/util.hpp"
 #include "autons.hpp"
 #include "globals.h"
+#include "cata.h"
 
 
 /////
@@ -90,9 +91,7 @@ void autonomous() {
 
 void opcontrol() {
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
-  bool cataState = true;
-
-  
+  Catapult cata;
 
   while (true) {
 
@@ -110,18 +109,8 @@ void opcontrol() {
       } else {intakeState = 0; intaketoggle();}
     }
 
-
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && (cataState == true)){
-        catapultMotor.move_voltage(12000);
-
-    } else if (limitButton.get_value() == false) { 
-        //move catapult down until its reached loading position
-        catapultMotor.move_voltage(12000);
-        cataState = false;
-    } else {
-        catapultMotor.move_voltage(0);
-        cataState = true;
-    }
+    if (cata.doCata()) {catapultMotor.move_voltage(12000);}
+    else {catapultMotor.move_voltage(0);}
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

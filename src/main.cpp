@@ -91,7 +91,11 @@ void autonomous() {
 
 void opcontrol() {
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
+
   Catapult cata;
+
+  pros::ADIDigitalOut piston ('B');
+  piston.set_value(false);
 
   while (true) {
 
@@ -111,6 +115,10 @@ void opcontrol() {
 
     if (cata.doCata()) {catapultMotor.move_voltage(12000);}
     else {catapultMotor.move_voltage(0);}
+
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) && master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+      piston.set_value(true);
+    }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

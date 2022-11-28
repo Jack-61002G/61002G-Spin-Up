@@ -13,3 +13,9 @@ void intaketoggle() {
 
   } else {intake1.move(0);}
 }
+
+void spinRoller() {
+  intake1.move_voltage(12000);
+  pros::delay(500);
+  intake1.move_voltage(0);
+}

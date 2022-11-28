@@ -311,7 +311,25 @@ void matchRightFull() {
 
 }
 
-void matchRightPartial() {}
+void matchRightPartial() {
+
+  chassis.set_drive_pid(30, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(90, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(6, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  spinRoller();
+
+  chassis.set_drive_pid(-6, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(0, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-20, DRIVE_SPEED);
+  chassis.wait_drive();
+
+}
 
 void matchLeftFull() {
   
@@ -363,7 +381,22 @@ void matchLeftFull() {
 
 }
 
-void matchLeftPartial() {}
+void matchLeftPartial() {
+
+  spinRoller();
+
+  chassis.set_drive_pid(-6, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(-90, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(20, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(180, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(20, DRIVE_SPEED);
+  chassis.wait_drive();
+
+}
 
 void matchAutonWP() {
   

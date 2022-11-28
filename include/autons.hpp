@@ -5,15 +5,10 @@
 extern Drive chassis;
 
 void drive_example();
-void turn_example();
-void drive_and_turn();
-void wait_until_change_speed();
-void swing_example();
-void combining_movements();
-void interfered_example();
-void rAutonOne();
-void rAutonTwo();
-void rAutonThree();
+void autonSkills();
+void matchAutonRight();
+void matchAutonLeft();
+void matchNoAuton();
 
 void garage_constants();
 void one_mogo_constants();

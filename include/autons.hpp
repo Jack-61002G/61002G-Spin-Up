@@ -6,8 +6,10 @@ extern Drive chassis;
 
 void drive_example();
 void autonSkills();
-void matchAutonRight();
-void matchAutonLeft();
+void matchRightFull();
+void matchRightPartial();
+void matchLeftFull();
+void matchLeftPartial();
 void matchAutonWP();
 void matchNoAuton();
 

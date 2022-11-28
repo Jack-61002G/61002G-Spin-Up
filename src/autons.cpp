@@ -222,7 +222,7 @@ void autonSkills(){
 
 }
 
-void matchAutonRight() {
+void matchRightFull() {
 
   intakeState = -1;
   intaketoggle();
@@ -311,7 +311,9 @@ void matchAutonRight() {
 
 }
 
-void matchAutonLeft() {
+void matchRightPartial() {}
+
+void matchLeftFull() {
   
   spinRoller();
 
@@ -360,6 +362,8 @@ void matchAutonLeft() {
   chassis.wait_drive();
 
 }
+
+void matchLeftPartial() {}
 
 void matchAutonWP() {
   

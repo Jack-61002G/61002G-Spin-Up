@@ -39,8 +39,8 @@ void initialize() {
   ez::as::auton_selector.add_autons({
     Auton("Autonomous Skills, Right Side", autonSkills),
     Auton("Teamwork Match, Right Side", matchAutonRight),
-    Auton("Teamwork Match, Left Side", matchAutonLeft),
-    Auton("Solo Win Point, Start Right Side", matchAutonWP),
+    Auton("Match Left, UNFINISHED", matchAutonLeft),
+    Auton("Win Point, UNFINISHED", matchAutonWP),
     Auton("Teamwork Match NO AUTON", matchNoAuton),
     Auton("Example Drive\n\nDrive forward and come back.", drive_example),
   });

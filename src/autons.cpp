@@ -1,6 +1,7 @@
 #include "autons.hpp"
 #include "main.h"
 #include "globals.h"
+#include "intake.cpp"
 
 
 /////
@@ -184,7 +185,7 @@ void autonSkills(){
   chassis.set_drive_pid(7, DRIVE_SPEED);
   chassis.wait_drive();
 
-  // turn roller
+  spinRoller();
 
   chassis.set_drive_pid(-24, DRIVE_SPEED);
   chassis.wait_drive();
@@ -205,7 +206,7 @@ void autonSkills(){
   chassis.set_drive_pid(30, DRIVE_SPEED);
   chassis.wait_drive();
 
-  // turn roller
+  spinRoller();
   
   chassis.set_drive_pid(-120, DRIVE_SPEED);
   chassis.wait_drive();
@@ -299,7 +300,7 @@ void matchAutonRight() {
   chassis.set_drive_pid(6, DRIVE_SPEED);
   chassis.wait_drive();
 
-  // turn roller
+  spinRoller();
 
   chassis.set_drive_pid(-6, DRIVE_SPEED);
   chassis.wait_drive();

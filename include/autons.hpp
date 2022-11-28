@@ -8,6 +8,7 @@ void drive_example();
 void autonSkills();
 void matchAutonRight();
 void matchAutonLeft();
+void matchAutonWP();
 void matchNoAuton();
 
 void garage_constants();

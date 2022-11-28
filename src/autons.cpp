@@ -89,7 +89,6 @@ void autonSkills(){
 
   intakeState = -1;
   intaketoggle();
-
   chassis.set_drive_pid(52, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(-90, TURN_SPEED);
@@ -99,7 +98,6 @@ void autonSkills(){
   
   intakeState = 0;
   intaketoggle();
-
   chassis.set_drive_pid(-14, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(0, TURN_SPEED);
@@ -111,7 +109,13 @@ void autonSkills(){
   chassis.set_drive_pid(-12, DRIVE_SPEED);
   chassis.wait_drive();
 
+
   // shoot
+  catapultMotor.move_voltage(12000);
+  pros::delay(500);
+  while (limitButton.get_value() == false) { pros::delay(10); }
+  catapultMotor.move_voltage(0);
+
 
   chassis.set_drive_pid(12, DRIVE_SPEED);
   chassis.wait_drive();
@@ -120,19 +124,23 @@ void autonSkills(){
 
   intakeState = -1;
   intaketoggle();
-
   chassis.set_drive_pid(108, DRIVE_SPEED);
   chassis.wait_drive();
 
   intakeState = 0;
   intaketoggle();
-
   chassis.set_turn_pid(135, TURN_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(-12, DRIVE_SPEED);
   chassis.wait_drive();
 
+
   // shoot
+  catapultMotor.move_voltage(12000);
+  pros::delay(500);
+  while (limitButton.get_value() == false) { pros::delay(10); }
+  catapultMotor.move_voltage(0);
+
 
   chassis.set_drive_pid(12, DRIVE_SPEED);
   chassis.wait_drive();
@@ -140,13 +148,11 @@ void autonSkills(){
 
   intakeState = -1;
   intaketoggle();
-
   chassis.set_drive_pid(60, DRIVE_SPEED);
   chassis.wait_drive();
 
   intakeState = 0;
   intaketoggle();
-
   chassis.set_drive_pid(-60, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(135, TURN_SPEED);
@@ -154,7 +160,13 @@ void autonSkills(){
   chassis.set_drive_pid(-12, DRIVE_SPEED);
   chassis.wait_drive();
 
+  
   // shoot
+  catapultMotor.move_voltage(12000);
+  pros::delay(500);
+  while (limitButton.get_value() == false) { pros::delay(10); }
+  catapultMotor.move_voltage(0);
+
 
   chassis.set_drive_pid(12, DRIVE_SPEED);
   chassis.wait_drive();
@@ -163,7 +175,6 @@ void autonSkills(){
 
   intakeState = -1;
   intaketoggle();
-
   chassis.set_drive_pid(102, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(-24, DRIVE_SPEED);
@@ -181,11 +192,15 @@ void autonSkills(){
 
   intakeState = 0;
   intaketoggle();
-
   chassis.set_drive_pid(-120, DRIVE_SPEED);
   chassis.wait_drive();
 
+
   // shoot
+  catapultMotor.move_voltage(12000);
+  pros::delay(500);
+  while (limitButton.get_value() == false) { pros::delay(10); }
+  catapultMotor.move_voltage(0);
 
 }
 
@@ -194,6 +209,10 @@ void matchAutonRight() {
 }
 
 void matchAutonLeft() {
+  // placeholder
+}
+
+void matchAutonWP() {
   // placeholder
 }
 

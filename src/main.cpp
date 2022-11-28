@@ -42,7 +42,7 @@ void initialize() {
     Auton("Teamwork Match, Right Side\n\nFull Routine", matchRightFull),
     Auton("Teamwork Match, Right Side\n\nPartial", matchRightPartial),
     Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
-    Auton("Teamwork Match, Left Side\n\nPartial"),
+    Auton("Teamwork Match, Left Side\n\nPartial", matchLeftPartial),
     Auton("Teamwork Match Auton Win Point", matchAutonWP),
     Auton("Test Drive\n\nDrive forward and come back.", drive_example),
   });

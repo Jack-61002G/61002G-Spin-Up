@@ -15,3 +15,4 @@ extern Drive chassis;
 
 extern void cataTask();
 extern void intaketoggle();
+extern void spinRoller();

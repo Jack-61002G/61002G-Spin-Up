@@ -16,6 +16,6 @@ void intaketoggle() {
 
 void spinRoller() {
   intake1.move_voltage(12000);
-  pros::delay(500);
+  pros::delay(250);
   intake1.move_voltage(0);
 }

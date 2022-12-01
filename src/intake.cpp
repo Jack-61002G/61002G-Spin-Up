@@ -1,7 +1,7 @@
 #include "globals.h"
 #include "main.h"
 
-void intaketoggle() {
+void intaketoggle() { // 0 = stop, -1 = intake, 1 = output
   if (intakeState != 0) {
 
     if (intakeState == 1) {

@@ -38,12 +38,12 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons({
     Auton("Teamwork Match NO AUTON", matchNoAuton),
-    Auton("Autonomous Skills, Right Side", autonSkills),
-    Auton("Teamwork Match, Right Side\n\nFull Routine", matchRightFull),
-    Auton("Teamwork Match, Right Side\n\nPartial", matchRightPartial),
-    Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
-    Auton("Teamwork Match, Left Side\n\nPartial", matchLeftPartial),
+    Auton("Autonomous Skills\n\nStart On Right Side", autonSkills),
     Auton("Teamwork Match Auton Win Point", matchAutonWP),
+    Auton("Teamwork Match, Right Side\n\nFull Routine", matchRightFull),
+    Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
+    Auton("Teamwork Match, Right Side\n\nPartial", matchRightPartial),
+    Auton("Teamwork Match, Left Side\n\nPartial", matchLeftPartial),
     Auton("Test Drive\n\nDrive forward and come back.", drive_example),
   });
 
@@ -109,7 +109,23 @@ void opcontrol() {
         intakeState = 1;
         intaketoggle();
       } else {intakeState = 0; intaketoggle();}
+    } 
+    /*
+    else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+      if (intakeState == 0) {
+        intakeState = 2;
+        intaketoggle();
+      } else {intakeState = 0; intaketoggle();}
     }
+
+    if (intakeState == 2) {
+      int error = 100 + (intake1.get_actual_velocity());
+      double kp = 40;
+      int voltage = (-8000 - (error * kp));
+      intake1.move_voltage(voltage);
+      std::cout<<voltage<<"\n";
+    }
+    */
 
     if (cata.doCata()) {catapultMotor.move_voltage(12000);}
     else {catapultMotor.move_voltage(0);}

@@ -223,96 +223,7 @@ void autonSkills(){
 
 }
 
-void matchRightFull() {
-
-  intakeState = 1;
-  intaketoggle();
-  chassis.set_drive_pid(36, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-45, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(16.97, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 0;
-  intaketoggle();
-  chassis.set_turn_pid(-135, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-2, DRIVE_SPEED);
-  chassis.wait_drive();
-
-
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) { pros::delay(10); }
-  catapultMotor.move_voltage(0);
-
-
-  chassis.set_drive_pid(2, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(175, TURN_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-  chassis.set_drive_pid(20, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(45, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(2, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 0;
-  intaketoggle();
-  chassis.set_drive_pid(-4, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(135, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(16.97, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-135, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-2, DRIVE_SPEED);
-  chassis.wait_drive();
-
-
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) { pros::delay(10); }
-  catapultMotor.move_voltage(0);
-
-
-  chassis.set_drive_pid(2, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(135, TURN_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-  chassis.set_drive_pid(60, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 0;
-  intaketoggle();
-  chassis.set_turn_pid(180, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(2, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  spinRoller();
-
-  chassis.set_drive_pid(-2, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(90, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-36, DRIVE_SPEED);
-  chassis.wait_drive();
-
-}
-
-void matchRightPartial() {
+void matchRight() {
 
   chassis.set_drive_pid(30, DRIVE_SPEED);
   chassis.wait_drive();
@@ -343,7 +254,7 @@ void matchLeftFull() {
 
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(39, DRIVE_SPEED);
+  chassis.set_drive_pid(40, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(-180, TURN_SPEED);
   chassis.wait_drive();
@@ -355,8 +266,6 @@ void matchLeftFull() {
   chassis.wait_drive();
   chassis.set_turn_pid(-42, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(1, DRIVE_SPEED);
-  chassis.wait_drive();
 
   // shoot
   catapultMotor.move_voltage(12000);
@@ -364,7 +273,7 @@ void matchLeftFull() {
   while (limitButton.get_value() == false) { pros::delay(10); }
   catapultMotor.move_voltage(0);
 
-  chassis.set_turn_pid(-35, TURN_SPEED);
+  chassis.set_turn_pid(-30, TURN_SPEED);
   chassis.wait_drive();
 
   intakeState = 1;
@@ -377,9 +286,11 @@ void matchLeftFull() {
   intakeState = 0;
   intaketoggle();
 
-  chassis.set_drive_pid(-8, DRIVE_SPEED);
+  chassis.set_drive_pid(-7, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(-48, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-2, DRIVE_SPEED);
   chassis.wait_drive();
 
   // shoot
@@ -388,7 +299,7 @@ void matchLeftFull() {
   while (limitButton.get_value() == false) { pros::delay(10); }
   catapultMotor.move_voltage(0);
 
-  chassis.set_turn_pid(-133, TURN_SPEED);
+  chassis.set_turn_pid(-130, TURN_SPEED);
   chassis.wait_drive();
 
   intakeState = 1;
@@ -403,7 +314,7 @@ void matchLeftFull() {
 
   chassis.set_drive_pid(-16, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(-45, TURN_SPEED);
+  chassis.set_turn_pid(-48, TURN_SPEED);
   chassis.wait_drive();
 
 
@@ -421,52 +332,47 @@ void matchLeftFull() {
 
 void matchLeftPartial() {
 
+  chassis.set_drive_pid(4, DRIVE_SPEED);
+  chassis.wait_drive();
   spinRoller();
 
   chassis.set_drive_pid(-6, DRIVE_SPEED);
   chassis.wait_drive();
+
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(20, DRIVE_SPEED);
+  chassis.set_drive_pid(40, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(180, TURN_SPEED);
+  chassis.set_turn_pid(-180, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(20, DRIVE_SPEED);
+  chassis.set_drive_pid(12, DRIVE_SPEED);
   chassis.wait_drive();
 
 }
 
 void matchAutonWP() {
   
+  chassis.set_drive_pid(4, DRIVE_SPEED);
+  chassis.wait_drive();
   spinRoller();
 
   chassis.set_drive_pid(-6, DRIVE_SPEED);
   chassis.wait_drive();
+
   chassis.set_turn_pid(-90, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(48, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(180, TURN_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(40, DRIVE_SPEED);
   chassis.wait_drive();
+  chassis.set_turn_pid(-180, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(43, DRIVE_SPEED);
+  chassis.wait_drive();
   chassis.set_turn_pid(-135, TURN_SPEED);
   chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-  chassis.set_drive_pid(33.95, DRIVE_SPEED);
+  chassis.set_drive_pid(10, DRIVE_SPEED);
   chassis.wait_drive();
-
-  intakeState = 0;
-  intaketoggle();
-  chassis.set_drive_pid(-16.97, DRIVE_SPEED);
+  chassis.set_turn_pid(-42, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(45, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-2, DRIVE_SPEED);
-  chassis.wait_drive();
-
 
   // shoot
   catapultMotor.move_voltage(12000);
@@ -474,54 +380,57 @@ void matchAutonWP() {
   while (limitButton.get_value() == false) { pros::delay(10); }
   catapultMotor.move_voltage(0);
 
-
-  chassis.set_drive_pid(2, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-135, TURN_SPEED);
+  chassis.set_turn_pid(-30, TURN_SPEED);
   chassis.wait_drive();
 
   intakeState = 1;
   intaketoggle();
-  chassis.set_drive_pid(33.94, DRIVE_SPEED);
+
+  chassis.set_drive_pid(12, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(135, TURN_SPEED);
+
+  pros::delay(600);
+  intakeState = 0;
+  intaketoggle();
+
+  chassis.set_drive_pid(-7, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(-48, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-2, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  // shoot
+  catapultMotor.move_voltage(12000);
+  pros::delay(500);
+  while (limitButton.get_value() == false) { pros::delay(10); }
+  catapultMotor.move_voltage(0);
+
+  chassis.set_turn_pid(-130, TURN_SPEED);
+  chassis.wait_drive();
+
+  intakeState = 1;
+  intaketoggle();
+
+  chassis.set_drive_pid(66, 80);
+  chassis.wait_drive();
+
+  intakeState = 0;
+  intaketoggle();
+
+  chassis.set_turn_pid(-180, TURN_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(6, DRIVE_SPEED);
   chassis.wait_drive();
-  
-  intakeState = 0;
-  intaketoggle();
+  chassis.set_turn_pid(-90, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(6, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  spinRoller();
+
   chassis.set_drive_pid(-6, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(-135, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-33.94, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(45, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-2, DRIVE_SPEED);
-  chassis.wait_drive();
-  
-
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) { pros::delay(10); }
-  catapultMotor.move_voltage(0);
-
-
-  chassis.set_drive_pid(2, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-135, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(80, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-90, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(6, DRIVE_SPEED);
-  chassis.wait_drive();
-  
-  spinRoller();
 
 }
 

@@ -12,6 +12,7 @@ void matchLeftPartial();
 void matchAutonWP();
 void matchNoAuton();
 void turn_test();
+void skillsSafe();
 
 void garage_constants();
 void one_mogo_constants();

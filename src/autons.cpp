@@ -75,7 +75,7 @@ void drive_example() {
 
   chassis.set_drive_pid(-12, DRIVE_SPEED);
   chassis.wait_drive();
-  
+
 }
 
 // Auton Functions
@@ -87,22 +87,20 @@ void autonSkills(){
   spinRoller();
   spinRoller();
 
-  chassis.set_drive_pid(-6, DRIVE_SPEED);
+  chassis.set_drive_pid(-15, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(90, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(30, DRIVE_SPEED);
   chassis.wait_drive();
 
-  chassis.set_turn_pid(-90, TURN_SPEED);
+  spinRoller();
+  spinRoller();
+
+  chassis.set_drive_pid(-53, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(40, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-180, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(43, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-135, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(10, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-42, TURN_SPEED);
+
+  chassis.set_turn_pid(98, TURN_SPEED);
   chassis.wait_drive();
 
   // shoot
@@ -111,7 +109,37 @@ void autonSkills(){
   while (limitButton.get_value() == false) { pros::delay(10); }
   catapultMotor.move_voltage(0);
 
-  chassis.set_turn_pid(-30, TURN_SPEED);
+  chassis.set_turn_pid(180, TURN_SPEED);
+  chassis.wait_drive();
+
+  intakeState = 1;
+  intaketoggle();
+
+  chassis.set_drive_pid(36, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  intakeState = 0;
+  intaketoggle();
+
+  chassis.set_turn_pid(225, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(20, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(318, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-12, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  // shoot
+  catapultMotor.move_voltage(12000);
+  pros::delay(500);
+  while (limitButton.get_value() == false) { pros::delay(10); }
+  catapultMotor.move_voltage(0);
+
+  chassis.set_drive_pid(10, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(-35, TURN_SPEED);
   chassis.wait_drive();
 
   intakeState = 1;
@@ -176,13 +204,10 @@ void autonSkills(){
   intakeState = 0;
   intaketoggle();
 
-  chassis.set_turn_pid(-180, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(4, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(-90, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(6, DRIVE_SPEED);
+  chassis.set_drive_pid(7, DRIVE_SPEED);
   chassis.wait_drive();
 
   spinRoller();
@@ -190,31 +215,28 @@ void autonSkills(){
 
   chassis.set_drive_pid(-6, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(-90, TURN_SPEED);
+  chassis.set_turn_pid(90, TURN_SPEED);
   chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-
-  chassis.set_drive_pid(24, DRIVE_SPEED);
+  chassis.set_drive_pid(22, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(-135, TURN_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(24, DRIVE_SPEED);
   chassis.wait_drive();
 
-  intakeState = 0;
-  intaketoggle();
+  spinRoller();
+  spinRoller();
 
-  chassis.set_drive_pid(-24, DRIVE_SPEED);
+  chassis.set_drive_pid(-12, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(180, TURN_SPEED);
   chassis.wait_drive();
+
+/*
+  chassis.set_turn_pid(-270, TURN_SPEED);
+  chassis.wait_drive();
   chassis.set_drive_pid(24, DRIVE_SPEED);
   chassis.wait_drive();
-
-  spinRoller();
-  spinRoller();
 
   chassis.set_drive_pid(-6, DRIVE_SPEED);
   chassis.wait_drive();
@@ -231,6 +253,7 @@ void autonSkills(){
 
   chassis.set_turn_pid(135, TURN_SPEED);
   chassis.wait_drive();
+*/
 
   // expansion
   pros::ADIDigitalOut piston ('B');
@@ -425,4 +448,23 @@ void matchAutonWP() {
 
 void matchNoAuton() {
   // no auton
+}
+
+void skillsSafe() {
+
+  chassis.set_drive_pid(4, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  spinRoller();
+  spinRoller();
+
+  chassis.set_drive_pid(-4, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(45, TURN_SPEED);
+  chassis.wait_drive();
+
+  // expansion
+  pros::ADIDigitalOut piston ('B');
+  piston.set_value(true);
+
 }

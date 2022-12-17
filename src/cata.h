@@ -19,5 +19,4 @@ class Catapult {
             return false;
         }
     }
-
 };

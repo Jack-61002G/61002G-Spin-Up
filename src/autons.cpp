@@ -460,8 +460,10 @@ void skillsSafe() {
 
   chassis.set_drive_pid(-4, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(45, TURN_SPEED);
+  chassis.set_turn_pid(35, TURN_SPEED);
   chassis.wait_drive();
+
+  pros::delay(2000);
 
   // expansion
   pros::ADIDigitalOut piston ('B');

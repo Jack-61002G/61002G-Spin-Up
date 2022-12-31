@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EZ-Template/drive/drive.hpp"
+#include "autons.hpp"
 
 extern Drive chassis;
 
@@ -13,6 +14,7 @@ void matchAutonWP();
 void matchNoAuton();
 void turn_test();
 void skillsSafe();
+void autonSkillsNew();
 
 void garage_constants();
 void one_mogo_constants();

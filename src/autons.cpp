@@ -112,7 +112,7 @@ void autonSkillsNew() {
   intakeState = 0;
   intaketoggle();
 
-  chassis.set_drive_pid(-73, DRIVE_SPEED);
+  chassis.set_drive_pid(-75, DRIVE_SPEED);
   chassis.wait_drive();
 
   // shoot
@@ -121,7 +121,7 @@ void autonSkillsNew() {
   while (limitButton.get_value() == false) { pros::delay(10); }
   catapultMotor.move_voltage(0);
 
-  chassis.set_drive_pid(41, DRIVE_SPEED);
+  chassis.set_drive_pid(43, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_swing_pid(ez::RIGHT_SWING, -90, SWING_SPEED);
   chassis.wait_drive();
@@ -143,7 +143,7 @@ void autonSkillsNew() {
   chassis.wait_drive();
   chassis.set_swing_pid(ez::RIGHT_SWING, 0, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-44, DRIVE_SPEED);
+  chassis.set_drive_pid(-42, DRIVE_SPEED);
   chassis.wait_drive();
 
   // shoot
@@ -156,7 +156,7 @@ void autonSkillsNew() {
   chassis.wait_drive();
   chassis.set_swing_pid(ez::RIGHT_SWING, 0, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-44, DRIVE_SPEED);
+  chassis.set_drive_pid(-46, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_swing_pid(ez::RIGHT_SWING, 90, SWING_SPEED);
   chassis.wait_drive();
@@ -182,7 +182,7 @@ void autonSkillsNew() {
   chassis.wait_drive();
   chassis.set_swing_pid(ez::LEFT_SWING, -90, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-24, DRIVE_SPEED);
+  chassis.set_drive_pid(-22, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(-97, TURN_SPEED);
   chassis.wait_drive();
@@ -195,7 +195,7 @@ void autonSkillsNew() {
 
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(50, DRIVE_SPEED);
+  chassis.set_drive_pid(48, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_swing_pid(ez::LEFT_SWING, 0, SWING_SPEED);
   chassis.wait_drive();
@@ -217,7 +217,7 @@ void autonSkillsNew() {
   chassis.wait_drive();
   chassis.set_swing_pid(ez::LEFT_SWING, -90, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-48, DRIVE_SPEED);
+  chassis.set_drive_pid(-46, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(-97, TURN_SPEED);
   chassis.wait_drive();
@@ -232,7 +232,7 @@ void autonSkillsNew() {
   chassis.wait_drive();
   intakeState = 1;
   intaketoggle();
-  chassis.set_drive_pid(56, DRIVE_SPEED);
+  chassis.set_drive_pid(54, DRIVE_SPEED);
   chassis.wait_drive();
   intakeState = 0;
   intaketoggle();

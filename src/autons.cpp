@@ -87,13 +87,18 @@ void autonSkillsNew() {
 
   chassis.set_drive_pid(-2, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_swing_pid(ez::RIGHT_SWING, 120, SWING_SPEED);
+  chassis.set_swing_pid(ez::RIGHT_SWING, 105, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(29, DRIVE_SPEED);
+  intakeState = 1;
+  intaketoggle();
+  chassis.set_drive_pid(25, DRIVE_SPEED);
   chassis.wait_drive();
+  intakeState = 0;
+  intaketoggle();
   chassis.set_turn_pid(90, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(4, DRIVE_SPEED);
+  
+  chassis.set_drive_pid(8, DRIVE_SPEED);
   chassis.wait_drive();
 
   spinRoller();
@@ -102,17 +107,7 @@ void autonSkillsNew() {
   chassis.set_swing_pid(ez::LEFT_SWING, 0, SWING_SPEED);
   chassis.wait_drive();
 
-  intakeState = 1;
-  intaketoggle();
-
-  chassis.set_drive_pid(25, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  pros::delay(600);
-  intakeState = 0;
-  intaketoggle();
-
-  chassis.set_drive_pid(-75, DRIVE_SPEED);
+  chassis.set_drive_pid(-55, DRIVE_SPEED);
   chassis.wait_drive();
 
   // shoot
@@ -129,7 +124,7 @@ void autonSkillsNew() {
   intakeState = 1;
   intaketoggle();
 
-  chassis.set_drive_pid(20, 50);
+  chassis.set_drive_pid(20, 25);
   chassis.wait_drive();
   pros::delay(600);
 
@@ -152,11 +147,11 @@ void autonSkillsNew() {
   while (limitButton.get_value() == false) { pros::delay(10); }
   catapultMotor.move_voltage(0);
 
-  chassis.set_swing_pid(ez::LEFT_SWING, 35, SWING_SPEED);
+  chassis.set_swing_pid(ez::LEFT_SWING, 45, SWING_SPEED);
   chassis.wait_drive();
   chassis.set_swing_pid(ez::RIGHT_SWING, 0, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-46, DRIVE_SPEED);
+  chassis.set_drive_pid(-50, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_swing_pid(ez::RIGHT_SWING, 90, SWING_SPEED);
   chassis.wait_drive();

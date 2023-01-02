@@ -92,6 +92,7 @@ void autonomous() {
 }
 
 void opcontrol() {
+
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   Catapult cata;

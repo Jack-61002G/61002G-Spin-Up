@@ -1,7 +1,6 @@
 #include "autons.hpp"
 #include "globals.h"
 #include "main.h"
-#include "gif-pros/gifclass.hpp"
 
 // #include "intake.cpp"
 
@@ -80,7 +79,7 @@ void drive_example() {
 
 void autonSkillsNew() {
 
-  Gif gif("/usd/vla.gif", lv_scr_act());
+  //Gif gif("/usd/vla.gif", lv_scr_act());
 
   chassis.set_drive_pid(2.5, DRIVE_SPEED);
   chassis.wait_drive();

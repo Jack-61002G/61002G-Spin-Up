@@ -1,7 +1,6 @@
 #include "autons.hpp"
 #include "globals.h"
 #include "main.h"
-#include "gif-pros/gifclass.hpp"
 
 // #include "intake.cpp"
 

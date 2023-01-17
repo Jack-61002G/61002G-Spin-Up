@@ -15,6 +15,8 @@ void matchNoAuton();
 void turn_test();
 void skillsSafe();
 void autonSkillsNew();
+void rollerAuto();
+void pushAuton();
 
 void garage_constants();
 void one_mogo_constants();

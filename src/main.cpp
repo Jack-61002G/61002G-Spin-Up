@@ -43,9 +43,11 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons(
-      {Auton("new skills route", autonSkillsNew),
-        Auton("Teamwork Match NO AUTON", matchNoAuton),
-       Auton("Autonomous Skills\n\nStart On Right Side", autonSkills),
+      {
+            Auton("Teamwork Match, Push Disks In", pushAuton),
+       Auton("Teamwork Match NO AUTON", matchNoAuton),
+       Auton("new skills route", autonSkillsNew),
+       Auton("roller auto", rollerAuto),
        Auton("Autonomous Skills\n\nSafe Route", skillsSafe),
        Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
        Auton("Teamwork Match, Left Side\n\nPartial", matchLeftPartial),

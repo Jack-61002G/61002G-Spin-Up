@@ -1,5 +1,6 @@
 #include "main.h"
 #include "pros/adi.hpp"
+#include "pros/misc.hpp"
 #include "pros/motors.hpp"
 
 
@@ -10,7 +11,7 @@ extern pros::ADIButton limitButton;
 extern pros::Motor intake1;
 extern pros::Motor intake2;
 extern int intakeState;
-extern Drive chassis;
+extern pros::Controller master;
 
 
 extern void cataTask();

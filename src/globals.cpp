@@ -27,7 +27,7 @@ Drive chassis(
     // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
     //    (or tracking wheel diameter)
     ,
-    4.125
+    3.25
 
     // Cartridge RPM
     //   (or tick per rotation if using tracking wheels)
@@ -40,7 +40,7 @@ Drive chassis(
     // be 2.333. eg. if your drive is 36:60 where the 60t is powered, your RATIO
     // would be 0.6.
     ,
-    2.333
+    .6
 
     // Uncomment if using tracking wheels
     /*

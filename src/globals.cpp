@@ -60,3 +60,4 @@ Drive chassis(
 
 void cataTask();
 void intaketoggle();
+bool cata_override = false;

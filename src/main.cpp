@@ -1,13 +1,38 @@
 #include "main.h"
 #include "EZ-Template/util.hpp"
 #include "autons.hpp"
-#include "cata.h"
 #include "globals.h"
+#include "pros/rtos.hpp"
 
 /////
 // For instalattion, upgrading, documentations and tutorials, check out website!
 // https://ez-robotics.github.io/EZ-Template/
 /////
+
+void cata_task_fn() {
+  
+  bool cataState = false;
+
+  while (true) {
+
+    if (cata_override) {
+      cataState = false;
+      catapultMotor = 127;
+      pros::delay(300);
+      cata_override = false;
+
+    } else if ((limitButton.get_value() == false) && (cataState == false)) {
+      // move catapult down until its reached loading position
+      catapultMotor = 127;
+
+    } else {
+      cataState = true;
+      catapultMotor = 0;
+    }
+
+    pros::delay(10);
+  }
+}
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -15,7 +40,11 @@
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
 void initialize() {
+
+  pros::Task cata_task(cata_task_fn);
+
   // Print our branding over your terminal :D
   ez::print_ez_template();
 
@@ -44,16 +73,17 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons(
       {
-            Auton("Teamwork Match, Push Disks In", pushAuton),
-       Auton("Teamwork Match NO AUTON", matchNoAuton),
-       Auton("new skills route", autonSkillsNew),
-       Auton("roller auto", rollerAuto),
-       Auton("Autonomous Skills\n\nSafe Route", skillsSafe),
-       Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
-       Auton("Teamwork Match, Left Side\n\nPartial", matchLeftPartial),
-       Auton("Teamwork Match, Right Side", matchRight),
-       Auton("Test Drive\n\nDrive forward and come back.", drive_example),
-       Auton("turn test\n\ntest turn", turn_test)});
+        Auton("Test the Cata", testCata),
+        Auton("Teamwork Match, Push Disks In", pushAuton),
+        Auton("Teamwork Match NO AUTON", matchNoAuton),
+        Auton("new skills route", autonSkillsNew),
+        Auton("roller auto", rollerAuto),
+        Auton("Autonomous Skills\n\nSafe Route", skillsSafe),
+        Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
+        Auton("Teamwork Match, Left Side\n\nPartial", matchLeftPartial),
+        Auton("Teamwork Match, Right Side", matchRight),
+        Auton("Test Drive\n\nDrive forward and come back.", drive_example),
+        Auton("turn test\n\ntest turn", turn_test)});
 
   // Initialize chassis and auton selector
   chassis.initialize();
@@ -97,14 +127,16 @@ void opcontrol() {
 
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
-  Catapult cata;
-
   pros::ADIDigitalOut piston('B');
   piston.set_value(false);
 
   while (true) {
 
     chassis.arcade_standard(ez::SPLIT);
+
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+      cata_override = true;
+    }
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
       if (intakeState == 0) {
@@ -122,28 +154,6 @@ void opcontrol() {
         intakeState = 0;
         intaketoggle();
       }
-    }
-    /*
-    else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-      if (intakeState == 0) {
-        intakeState = 2;
-        intaketoggle();
-      } else {intakeState = 0; intaketoggle();}
-    }
-
-    if (intakeState == 2) {
-      int error = 100 + (intake1.get_actual_velocity());
-      double kp = 40;
-      int voltage = (-8000 - (error * kp));
-      intake1.move_voltage(voltage);
-      std::cout<<voltage<<"\n";
-    }
-    */
-
-    if (cata.doCata()) {
-      catapultMotor.move_voltage(12000);
-    } else {
-      catapultMotor.move_voltage(0);
     }
 
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) &&

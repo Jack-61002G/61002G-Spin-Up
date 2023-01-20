@@ -17,6 +17,7 @@ void skillsSafe();
 void autonSkillsNew();
 void rollerAuto();
 void pushAuton();
+void testCata();
 
 void garage_constants();
 void one_mogo_constants();

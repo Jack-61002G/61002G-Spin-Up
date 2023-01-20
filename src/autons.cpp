@@ -77,6 +77,12 @@ void drive_example() {
 
 // Auton Functions
 
+void testCata(){
+  cata_override = true;
+
+
+}
+
 void autonSkillsNew() {
 
 

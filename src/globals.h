@@ -1,3 +1,5 @@
+#pragma once
+
 #include "main.h"
 #include "pros/adi.hpp"
 #include "pros/motors.hpp"
@@ -13,6 +15,6 @@ extern int intakeState;
 extern Drive chassis;
 
 
-extern void cataTask();
+extern void cata_task_fn();
 extern void intaketoggle();
 extern void spinRoller();

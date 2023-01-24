@@ -74,7 +74,7 @@ void opcontrol() {
 
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      cata_override = true;
+      catapult->fire();
     }
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
       if (intakeState == 0) {

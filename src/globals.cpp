@@ -70,6 +70,6 @@ public:
   }
 };
 
-
+std::unique_ptr<Catapult> catapult = std::make_unique<Catapult>();
 
 

@@ -1,7 +1,11 @@
+#pragma once
 #include "main.h"
 #include "pros/adi.hpp"
 #include "pros/misc.hpp"
 #include "pros/motors.hpp"
+#include <algorithm>
+#include <memory>
+#include "globals.cpp"
 
 
 extern bool flywheel_state;
@@ -18,3 +22,4 @@ extern void cata_task_fn();
 extern void intaketoggle();
 extern void spinRoller();
 extern bool cata_override;
+extern std::unique_ptr<Catapult> catapult;

@@ -20,7 +20,7 @@ void initialize() {
 
   arms::init();
   //arms::odom::imu->reset(true);
-  pros::Task cata_task(cata_task_fn);
+  //pros::Task cata_task(cata_task_fn);
   
 }
 
@@ -50,6 +50,7 @@ void autonomous() {
 
   arms::chassis::turn(45, 75, arms::RELATIVE);
   arms::chassis::move(-45, 75, arms::REVERSE);
+  catapult->fire();
 
 }
 

@@ -2,6 +2,7 @@
 #define _ARMS_ODOM_H_
 
 #include "ARMS/point.h"
+#include "pros/imu.hpp"
 #include <memory>
 
 namespace arms::odom {

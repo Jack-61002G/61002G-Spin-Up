@@ -14,6 +14,7 @@ extern int intakeState;
 extern pros::Controller master;
 
 
-extern void cataTask();
+extern void cata_task_fn();
 extern void intaketoggle();
 extern void spinRoller();
+extern bool cata_override;

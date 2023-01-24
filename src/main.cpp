@@ -1,6 +1,7 @@
 #include "main.h"
 #include "ARMS/chassis.h"
-#include "cata.h"
+#include "ARMS/flags.h"
+#include "ARMS/odom.h"
 #include "globals.h"
 #include "ARMS/config.h"
 
@@ -16,7 +17,11 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+
   arms::init();
+  //arms::odom::imu->reset(true);
+  pros::Task cata_task(cata_task_fn);
+  
 }
 
 /**
@@ -43,15 +48,12 @@ void competition_initialize() {
 
 void autonomous() {
 
-  arms::chassis::move({12, 12, 90}, 85);
-  // move back to 0,0,0
-  arms::chassis::move({0, 0, 0}, 85);
+  arms::chassis::turn(45, 75, arms::RELATIVE);
+  arms::chassis::move(-45, 75, arms::REVERSE);
 
 }
 
 void opcontrol() {
-
-  Catapult cata;
 
   int power = 0;
   int turn = 0;
@@ -61,11 +63,18 @@ void opcontrol() {
 
   while (true) {
 
+    //print out arms odom info
+    //printf arms odom using arms::odom::getPosition();
+
     power = 0.787 * master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     turn = 0.787 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
     arms::chassis::arcade(power, turn);
 
+
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+      cata_override = true;
+    }
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
       if (intakeState == 0) {
         intakeState = -1;
@@ -82,12 +91,6 @@ void opcontrol() {
         intakeState = 0;
         intaketoggle();
       }
-    }
-
-    if (cata.doCata()) {
-      catapultMotor.move_voltage(12000);
-    } else {
-      catapultMotor.move_voltage(0);
     }
 
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) &&

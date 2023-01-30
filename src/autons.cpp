@@ -1,4 +1,5 @@
 #include "autons.hpp"
+#include "EZ-Template/util.hpp"
 #include "globals.h"
 #include "main.h"
 
@@ -26,8 +27,8 @@ void garage_constants() {
   chassis.set_slew_min_power(55, 55);
   chassis.set_slew_distance(7, 7);
   chassis.set_pid_constants(&chassis.headingPID, 11, 0, 20, 0);
-  chassis.set_pid_constants(&chassis.forward_drivePID, .3, 0, 6, 0);
-  chassis.set_pid_constants(&chassis.backward_drivePID, .35, 0, 6, 0);
+  chassis.set_pid_constants(&chassis.forward_drivePID, .45, 0, 5, 0);
+  chassis.set_pid_constants(&chassis.backward_drivePID, .45, 0, 5, 0);
   chassis.set_pid_constants(&chassis.turnPID, 5, 0.003, 35, 15);
   chassis.set_pid_constants(&chassis.swingPID, 7, 0, 45, 0);
 }
@@ -329,27 +330,29 @@ void matchLeftFull() {
 
   //move into roller and spin it
   chassis.set_drive_pid(2, DRIVE_SPEED);
-  chassis.wait_drive();
   spinRoller();
+  chassis.wait_drive();
+  
   //right swing to face 45 degrees
   chassis.set_swing_pid(ez::RIGHT_SWING, 45, SWING_SPEED);
   chassis.wait_drive();
   //back up to the middle of the field
-  chassis.set_drive_pid(-50, DRIVE_SPEED);
+  chassis.set_drive_pid(-55, DRIVE_SPEED);
   chassis.wait_drive();
   //turn left 90 degrees to face the goal
-  chassis.set_turn_pid(-90, TURN_SPEED);
+  chassis.set_swing_pid(ez::LEFT_SWING, -40, SWING_SPEED);
   chassis.wait_drive();
+  chassis.set_drive_pid(-3, DRIVE_SPEED);
   //fire
   fire();
   //swing forwards and to the left
-  chassis.set_swing_pid(ez::RIGHT_SWING, 45, SWING_SPEED);
+  chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
   chassis.wait_drive();
   //move towards the roller
-  chassis.set_drive_pid(50, DRIVE_SPEED);
+  chassis.set_drive_pid(60, DRIVE_SPEED);
   chassis.wait_drive();
   //spin the roller
-  spinRoller();
+  intake1.move_relative(1100, 100);
   
 }
 

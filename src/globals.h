@@ -18,3 +18,4 @@ extern Drive chassis;
 extern void cata_task_fn();
 extern void intaketoggle();
 extern void spinRoller();
+extern void fire();

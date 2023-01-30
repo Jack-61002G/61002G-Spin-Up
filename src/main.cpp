@@ -112,7 +112,7 @@ void opcontrol() {
     chassis.arcade_standard(ez::SPLIT);
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      cata_override = true;
+      fire();
     }
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {

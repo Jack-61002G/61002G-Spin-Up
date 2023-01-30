@@ -66,25 +66,22 @@ bool cata_override = false;
 
 void cata_task_fn() {
   
-  bool cataState = false;
-
   while (true) {
 
-    if (cata_override) {
-      cataState = false;
-      catapultMotor = 127;
-      pros::delay(300);
-      cata_override = false;
-
-    } else if ((limitButton.get_value() == false) && (cataState == false)) {
+    if (limitButton.get_value() == false) {
       // move catapult down until its reached loading position
       catapultMotor = 127;
 
     } else {
-      cataState = true;
       catapultMotor = 0;
     }
 
     pros::delay(10);
   }
+}
+
+void fire() {
+  catapultMotor = 127;
+  pros::delay(150);
+  catapultMotor = 0;
 }

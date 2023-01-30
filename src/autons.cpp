@@ -327,91 +327,30 @@ void matchRight() {
 
 void matchLeftFull() {
 
-  chassis.set_drive_pid(4, DRIVE_SPEED);
+  //move into roller and spin it
+  chassis.set_drive_pid(2, DRIVE_SPEED);
   chassis.wait_drive();
   spinRoller();
-
-  chassis.set_drive_pid(-6, DRIVE_SPEED);
+  //right swing to face 45 degrees
+  chassis.set_swing_pid(ez::RIGHT_SWING, 45, SWING_SPEED);
   chassis.wait_drive();
-
+  //back up to the middle of the field
+  chassis.set_drive_pid(-50, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn left 90 degrees to face the goal
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(40, DRIVE_SPEED);
+  //fire
+  fire();
+  //swing forwards and to the left
+  chassis.set_swing_pid(ez::RIGHT_SWING, 45, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(-180, TURN_SPEED);
+  //move towards the roller
+  chassis.set_drive_pid(50, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(43, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-135, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(10, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-42, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-2, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) {
-    pros::delay(10);
-  }
-  catapultMotor.move_voltage(0);
-
-  chassis.set_turn_pid(-30, TURN_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-
-  chassis.set_drive_pid(12, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  pros::delay(600);
-  intakeState = 0;
-  intaketoggle();
-
-  chassis.set_drive_pid(-7, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-48, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-4, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) {
-    pros::delay(10);
-  }
-  catapultMotor.move_voltage(0);
-
-  chassis.set_turn_pid(-130, TURN_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-
-  chassis.set_drive_pid(16, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  pros::delay(300);
-  intakeState = 0;
-  intaketoggle();
-
-  chassis.set_drive_pid(-16, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-48, TURN_SPEED);
-  chassis.wait_drive();
-
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) {
-    pros::delay(10);
-  }
-  catapultMotor.move_voltage(0);
+  //spin the roller
+  spinRoller();
+  
 }
 
 void rollerAuto() {  

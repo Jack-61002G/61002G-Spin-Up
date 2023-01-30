@@ -23,21 +23,11 @@ const int SWING_SPEED = 90;
 // doesn't change much, then there isn't a concern here.
 
 void garage_constants() {
-  chassis.set_slew_min_power(80, 80);
+  chassis.set_slew_min_power(55, 55);
   chassis.set_slew_distance(7, 7);
   chassis.set_pid_constants(&chassis.headingPID, 11, 0, 20, 0);
-  chassis.set_pid_constants(&chassis.forward_drivePID, .45, 0, 5, 0);
-  chassis.set_pid_constants(&chassis.backward_drivePID, .45, 0, 5, 0);
-  chassis.set_pid_constants(&chassis.turnPID, 5, 0.003, 35, 15);
-  chassis.set_pid_constants(&chassis.swingPID, 7, 0, 45, 0);
-}
-
-void even_floor_constants() {
-  chassis.set_slew_min_power(80, 80);
-  chassis.set_slew_distance(7, 7);
-  chassis.set_pid_constants(&chassis.headingPID, 11, 0, 20, 0);
-  chassis.set_pid_constants(&chassis.forward_drivePID, 0.45, 0, 5, 0);
-  chassis.set_pid_constants(&chassis.backward_drivePID, 0.45, 0, 5, 0);
+  chassis.set_pid_constants(&chassis.forward_drivePID, .3, 0, 6, 0);
+  chassis.set_pid_constants(&chassis.backward_drivePID, .35, 0, 6, 0);
   chassis.set_pid_constants(&chassis.turnPID, 5, 0.003, 35, 15);
   chassis.set_pid_constants(&chassis.swingPID, 7, 0, 45, 0);
 }
@@ -65,13 +55,13 @@ void drive_example() {
   // slew at the start of drive motions for slew, only enable it when the drive
   // distance is greater then the slew distance + a few inches
 
-  chassis.set_drive_pid(24, DRIVE_SPEED);
+  chassis.set_drive_pid(24, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  chassis.set_drive_pid(-12, DRIVE_SPEED);
+  chassis.set_drive_pid(-12, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  chassis.set_drive_pid(-12, DRIVE_SPEED);
+  chassis.set_drive_pid(-12, DRIVE_SPEED, true);
   chassis.wait_drive();
 }
 
@@ -125,11 +115,8 @@ void autonSkillsNew() {
   chassis.set_drive_pid(-12, 40);
   chassis.wait_drive();
 
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) { pros::delay(10); }
-  catapultMotor.move_voltage(0);
+ cata_override = true;
+ pros::delay(100);
 
   chassis.set_drive_pid(12, 40);
   chassis.wait_drive();
@@ -295,190 +282,28 @@ void pushAuton() {
 
 void autonSkills() {
 
-  chassis.set_drive_pid(4, DRIVE_SPEED);
+  //move 2 inches forward and spin the roller
+  chassis.set_drive_pid(2, DRIVE_SPEED);
   chassis.wait_drive();
   spinRoller();
-  spinRoller();
-
-  chassis.set_drive_pid(-15, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(90, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(30, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  spinRoller();
-  spinRoller();
-
-  chassis.set_drive_pid(-53, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_turn_pid(98, TURN_SPEED);
-  chassis.wait_drive();
-
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) {
-    pros::delay(10);
-  }
-  catapultMotor.move_voltage(0);
-
-  chassis.set_turn_pid(180, TURN_SPEED);
-  chassis.wait_drive();
-
+  //swing to face next roller
+  chassis.set_swing_pid(ez::LEFT_SWING, 105, SWING_SPEED);
+  //toggle intake and move towards roller
   intakeState = 1;
   intaketoggle();
-
-  chassis.set_drive_pid(36, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 0;
-  intaketoggle();
-
-  chassis.set_turn_pid(225, TURN_SPEED);
-  chassis.wait_drive();
   chassis.set_drive_pid(20, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(318, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-12, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) {
-    pros::delay(10);
-  }
-  catapultMotor.move_voltage(0);
-
-  chassis.set_drive_pid(10, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_turn_pid(-35, TURN_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-
-  chassis.set_drive_pid(12, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  pros::delay(600);
+  //toggle intake, move into the roller, and spin the roller
   intakeState = 0;
   intaketoggle();
-
-  chassis.set_drive_pid(-7, DRIVE_SPEED);
+  chassis.set_drive_pid(2, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(-48, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-2, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) {
-    pros::delay(10);
-  }
-  catapultMotor.move_voltage(0);
-
-  chassis.set_turn_pid(-130, TURN_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-
-  chassis.set_drive_pid(16, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  pros::delay(300);
-  intakeState = 0;
-  intaketoggle();
-
-  chassis.set_drive_pid(-16, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-48, TURN_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(3, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) {
-    pros::delay(10);
-  }
-  catapultMotor.move_voltage(0);
-
-  chassis.set_turn_pid(-130, TURN_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-
-  chassis.set_drive_pid(66, 80);
-  chassis.wait_drive();
-
-  intakeState = 0;
-  intaketoggle();
-
-  chassis.wait_drive();
-  chassis.set_turn_pid(-90, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(7, DRIVE_SPEED);
-  chassis.wait_drive();
-
   spinRoller();
-  spinRoller();
+  //move back and swing the goal
 
-  chassis.set_drive_pid(-6, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(90, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(30, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-135, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(24, DRIVE_SPEED);
-  chassis.wait_drive();
+  //back up and shoot
 
-  spinRoller();
-  spinRoller();
 
-  chassis.set_drive_pid(-12, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(180, TURN_SPEED);
-  chassis.wait_drive();
-
-  /*
-    chassis.set_turn_pid(-270, TURN_SPEED);
-    chassis.wait_drive();
-    chassis.set_drive_pid(24, DRIVE_SPEED);
-    chassis.wait_drive();
-
-    chassis.set_drive_pid(-6, DRIVE_SPEED);
-    chassis.wait_drive();
-    chassis.set_turn_pid(90, TURN_SPEED);
-    chassis.wait_drive();
-    chassis.set_drive_pid(-72, DRIVE_SPEED);
-    chassis.wait_drive();
-
-    // shoot
-    catapultMotor.move_voltage(12000);
-    pros::delay(500);
-    while (limitButton.get_value() == false) { pros::delay(10); }
-    catapultMotor.move_voltage(0);
-
-    chassis.set_turn_pid(135, TURN_SPEED);
-    chassis.wait_drive();
-  */
-
-  // expansion
-  pros::ADIDigitalOut piston('B');
-  piston.set_value(true);
 }
 
 void matchRight() {

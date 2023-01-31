@@ -27,7 +27,7 @@ Drive chassis(
     // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
     //    (or tracking wheel diameter)
     ,
-    4.125
+    3.25
 
     // Cartridge RPM
     //   (or tick per rotation if using tracking wheels)
@@ -40,7 +40,7 @@ Drive chassis(
     // be 2.333. eg. if your drive is 36:60 where the 60t is powered, your RATIO
     // would be 0.6.
     ,
-    2.333
+    1.666
 
     // Uncomment if using tracking wheels
     /*
@@ -65,6 +65,8 @@ void intaketoggle();
 bool cata_override = false;
 
 void cata_task_fn() {
+
+  bool state = false;
   
   while (true) {
 
@@ -72,7 +74,7 @@ void cata_task_fn() {
       // move catapult down until its reached loading position
       catapultMotor = 127;
 
-    } else {
+    } else if (!cata_override && limitButton.get_value()) {
       catapultMotor = 0;
     }
 
@@ -81,7 +83,8 @@ void cata_task_fn() {
 }
 
 void fire() {
+  cata_override = true;
   catapultMotor = 127;
-  pros::delay(150);
-  catapultMotor = 0;
+  pros::delay(500);
+  cata_override = false;
 }

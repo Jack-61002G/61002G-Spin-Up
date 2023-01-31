@@ -371,22 +371,38 @@ void rollerAuto() {
 }
 
 void matchLeftPartial() {
-
-  chassis.set_drive_pid(4, DRIVE_SPEED);
-  chassis.wait_drive();
+  //move into roller and spin it
+  chassis.set_drive_pid(2, DRIVE_SPEED);
   spinRoller();
+  chassis.wait_drive();
+  
+  //right swing to face 45 degrees
+  chassis.set_swing_pid(ez::RIGHT_SWING, 45, SWING_SPEED);
+  chassis.wait_drive();
+  //back up to the middle of the field
+  chassis.set_drive_pid(-55, 110);
+  chassis.wait_drive();
+  //turn left 90 degrees to face the goal
+  chassis.set_swing_pid(ez::LEFT_SWING, -40, SWING_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-3, 110);
+  //fire
+  fire();
+  //move forward to low goal right side
+  chassis.set_drive_pid(15, 110);
+  chassis.wait_drive();
+  //turn to face 0 degrees
+  chassis.set_swing_pid(ez::RIGHT_SWING, 0, SWING_SPEED);
+  intakeState = 1;
+  intaketoggle();
+  chassis.wait_drive();
+  //move forwards 25 inches at 50% speed
+  chassis.set_drive_pid(25, 50);
+  chassis.wait_drive();
+  intakeState = 0;
+  intaketoggle();
 
-  chassis.set_drive_pid(-6, DRIVE_SPEED);
-  chassis.wait_drive();
 
-  chassis.set_turn_pid(-90, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(40, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-180, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(12, DRIVE_SPEED);
-  chassis.wait_drive();
 }
 
 void matchAutonWP() {

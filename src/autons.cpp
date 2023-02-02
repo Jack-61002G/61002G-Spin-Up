@@ -2,6 +2,8 @@
 #include "EZ-Template/util.hpp"
 #include "globals.h"
 #include "main.h"
+#include "pros/adi.h"
+#include "pros/rtos.hpp"
 
 // #include "intake.cpp"
 
@@ -76,7 +78,6 @@ void testCata(){
 
 void autonSkillsNew() {
 
-
   chassis.set_drive_pid(2.5, DRIVE_SPEED);
   chassis.wait_drive();
 
@@ -101,9 +102,9 @@ void autonSkillsNew() {
   intakeState = 0;
   intaketoggle();
 
-  chassis.set_turn_pid(90, TURN_SPEED);
+  chassis.set_turn_pid(85, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(8, DRIVE_SPEED);
+  chassis.set_drive_pid(11, DRIVE_SPEED);
   chassis.wait_drive();
 
   spinRoller();
@@ -113,164 +114,158 @@ void autonSkillsNew() {
   chassis.wait_drive();
   chassis.set_drive_pid(-53, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-12, 40);
-  chassis.wait_drive();
 
- cata_override = true;
- pros::delay(100);
+  fire();
 
-  chassis.set_drive_pid(12, 40);
+  //turn to face 3 stack
+  chassis.set_turn_pid(-20, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(49, DRIVE_SPEED);
+  //move into 3 stack
+  chassis.set_drive_pid(43, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_turn_pid(-90, TURN_SPEED);
-  chassis.wait_drive();
-
+  //turn intake on and move forward slowly
   intakeState = 1;
   intaketoggle();
-
-  chassis.set_drive_pid(30, 50);
+  chassis.set_drive_pid(32, 30);
   chassis.wait_drive();
-
-  pros::delay(700);
-  intakeState = -1;
-  intaketoggle();
-  pros::delay(200);
+  //move back to the goal
+  chassis.set_drive_pid(-75, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn to face goal
   intakeState = 0;
   intaketoggle();
 
-  chassis.set_drive_pid(-30, DRIVE_SPEED);
-  chassis.wait_drive();
   chassis.set_turn_pid(0, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-51, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-12, 40);
+  //fire
+  fire();
+
+  //turn 45 deg to 3 row
+  chassis.set_turn_pid(-45, TURN_SPEED);
   chassis.wait_drive();
 
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) { pros::delay(10); }
-  catapultMotor.move_voltage(0);
-
-  chassis.set_drive_pid(12, 40);
-  chassis.wait_drive();
-  chassis.set_swing_pid(ez::LEFT_SWING, 45, SWING_SPEED);
-  chassis.wait_drive();
-  chassis.set_swing_pid(ez::RIGHT_SWING, 0, SWING_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-46, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_swing_pid(ez::RIGHT_SWING, 90, SWING_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-63, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(0, TURN_SPEED);
-  chassis.wait_drive();
-
+  //intake on
   intakeState = 1;
   intaketoggle();
 
-  chassis.set_drive_pid(37, 60);
+  //move forward into disc
+  chassis.set_drive_pid(40, DRIVE_SPEED);
   chassis.wait_drive();
-
-  pros::delay(1000);
-  intakeState = -1;
-  intaketoggle();
-  pros::delay(200);
-  intakeState = 0;
-  intaketoggle();
-
-  chassis.set_drive_pid(-29, DRIVE_SPEED);
+  chassis.set_drive_pid(-15, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_swing_pid(ez::LEFT_SWING, -90, SWING_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-21, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-97, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-12, 40);
-  chassis.wait_drive();
-  
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) { pros::delay(10); }
-  catapultMotor.move_voltage(0);
-
-  chassis.set_drive_pid(12, 40);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-90, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(47, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_swing_pid(ez::LEFT_SWING, 0, SWING_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-
-  chassis.set_drive_pid(25, 50);
-  chassis.wait_drive();
-
-  pros::delay(1100);
-  intakeState = -1;
-  intaketoggle();
-  pros::delay(200);
-  intakeState = 0;
-  intaketoggle();
-
-  chassis.set_drive_pid(-25, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_swing_pid(ez::LEFT_SWING, -90, SWING_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-46, DRIVE_SPEED);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-97, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-12, 40);
-  chassis.wait_drive();
-  
-  // shoot
-  catapultMotor.move_voltage(12000);
-  pros::delay(500);
-  while (limitButton.get_value() == false) { pros::delay(10); }
-  catapultMotor.move_voltage(0);
-
-  chassis.set_drive_pid(12, 40);
-  chassis.wait_drive();
-  chassis.set_turn_pid(-90, TURN_SPEED);
-  chassis.wait_drive();
-
-  intakeState = 1;
-  intaketoggle();
-
-  chassis.set_drive_pid(54, 75);
-  chassis.wait_drive();
-
-  intakeState = -1;
-  intaketoggle();
-  pros::delay(200);
-  intakeState = 0;
-  intaketoggle();
-
-  chassis.set_turn_pid(-180, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(6, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  spinRoller();
-  pros::delay(500);
-
-  chassis.set_drive_pid(-12, DRIVE_SPEED);
-  chassis.wait_drive();
+  //turn to 135 deg
   chassis.set_turn_pid(-135, TURN_SPEED);
   chassis.wait_drive();
+  //move forward into 3 row
+  chassis.set_drive_pid(50, 60);
+  chassis.wait_drive();
+  //turn to 180 deg
+  chassis.set_turn_pid(-180, TURN_SPEED);
+  chassis.wait_drive();
+  //move forward towards wall
+  chassis.set_drive_pid(30, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn intake off
+  intakeState = 0;
+  intaketoggle();
+  //turn to 90 deg
+  chassis.set_turn_pid(-90, TURN_SPEED);
+  chassis.wait_drive();
+  //move back to goal
+  chassis.set_drive_pid(-15, DRIVE_SPEED);
+  chassis.wait_drive();
+  //fire
+  fire();
+  //move forward 40 inches
+  chassis.set_drive_pid(42, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn to 180 deg
+  chassis.set_turn_pid(-180, TURN_SPEED);
+  chassis.wait_drive();
+  //move forward 6 inches and spin roller
+  chassis.set_drive_pid(8.5, DRIVE_SPEED);
+  chassis.wait_drive();
+  spinRoller();
+  pros::delay(500);
+  // move back 3 inches and turn to 0 deg
+  chassis.set_drive_pid(-3.5, DRIVE_SPEED);
+  chassis.wait_drive(); 
+  chassis.set_turn_pid(-10, TURN_SPEED);
+  chassis.wait_drive();
+  //move forward 7 inches and turn intake on
+  intakeState = 1;
+  intaketoggle();
+  chassis.set_drive_pid(14, DRIVE_SPEED);
+  chassis.wait_drive();
+  //move forward 20 inches
+  chassis.set_drive_pid(23, 70);
+  chassis.wait_drive();
+  //move back 30
+  chassis.set_drive_pid(-15, 50);
+  chassis.wait_drive();
+  //turn to -90 deg and turn intake off
+  chassis.set_turn_pid(-90, TURN_SPEED);
+  chassis.wait_drive();
+  intakeState = 0;
+  intaketoggle();
+  //move forward 29
+  chassis.set_drive_pid(26, DRIVE_SPEED);
+  chassis.wait_drive();
+  //spin roller
+  spinRoller();
+  pros::delay(500);
+  //swing left to 180
+  chassis.set_swing_pid(ez::LEFT_SWING, -180, SWING_SPEED);
+  chassis.wait_drive();
+  //move back 42
+  chassis.set_drive_pid(-42, DRIVE_SPEED);
+  chassis.wait_drive();
+  //fire
+  fire();
+  //turn to 135 deg
+  chassis.set_turn_pid(135, TURN_SPEED);
+  chassis.wait_drive();
+  //turn on intake
+  intakeState = 1;
+  intaketoggle();
+  //move forward into disc
+  chassis.set_drive_pid(30, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-5, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn to 45 deg
+  chassis.set_turn_pid(45, TURN_SPEED);
+  chassis.wait_drive();
+  //move forward into 3 row
+  chassis.set_drive_pid(50, 60);
+  chassis.wait_drive();
+  //turn to -20 deg
+  chassis.set_turn_pid(-20, TURN_SPEED);
+  chassis.wait_drive();
+  //move forward towards wall
+  chassis.set_drive_pid(30, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn to 90 deg
+  chassis.set_turn_pid(90, TURN_SPEED);
+  chassis.wait_drive();
+  //move back into goal
+  chassis.set_drive_pid(-6, DRIVE_SPEED);
+  chassis.wait_drive();
+  //fire
+  fire();
+  //move forward 50 inches
+  chassis.set_drive_pid(50, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn to 45 deg
+  chassis.set_turn_pid(50, TURN_SPEED);
+  chassis.wait_drive();
+  //fire endgame piston
+  
 
-  // expansion
-  pros::ADIDigitalOut piston('B');
-  piston.set_value(true);
+  
+
+
+
 
 }
 

@@ -63,19 +63,19 @@ Drive chassis(
 void cataTask();
 void intaketoggle();
 bool cata_override = false;
+bool state = false;
 
 void cata_task_fn() {
-
-  bool state = false;
   
   while (true) {
 
-    if (limitButton.get_value() == false) {
+    if ((limitButton.get_value() == false) && state == false) {
       // move catapult down until its reached loading position
       catapultMotor = 127;
 
     } else if (!cata_override && limitButton.get_value()) {
       catapultMotor = 0;
+      state = true;
     }
 
     pros::delay(10);
@@ -87,4 +87,5 @@ void fire() {
   catapultMotor = 127;
   pros::delay(500);
   cata_override = false;
+  state = false;
 }

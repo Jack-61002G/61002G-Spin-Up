@@ -147,12 +147,12 @@ void autonSkillsNew() {
 
   //intake on
   intakeState = 1;
-  intaketoggle();
+  intaketoggle(); 
 
   //move forward into disc
-  chassis.set_drive_pid(40, DRIVE_SPEED);
+  chassis.set_drive_pid(30, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-15, DRIVE_SPEED);
+  chassis.set_drive_pid(-5, DRIVE_SPEED);
   chassis.wait_drive();
   //turn to 135 deg
   chassis.set_turn_pid(-135, TURN_SPEED);
@@ -181,6 +181,7 @@ void autonSkillsNew() {
   chassis.set_drive_pid(5, DRIVE_SPEED);
   chassis.wait_drive();
 
+  /* no more 3 stack
   //turn to -45 deg
   chassis.set_turn_pid(-40, TURN_SPEED);
   chassis.wait_drive();
@@ -198,7 +199,7 @@ void autonSkillsNew() {
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
   //fire
-  fire();
+  fire(); */
 
   //move forward 40 inches
   chassis.set_drive_pid(40, DRIVE_SPEED);
@@ -281,7 +282,7 @@ void autonSkillsNew() {
   chassis.set_drive_pid(65, DRIVE_SPEED);
   chassis.wait_drive();
   //turn to 45 deg
-  chassis.set_turn_pid(50, TURN_SPEED);
+  chassis.set_turn_pid(45, TURN_SPEED);
   chassis.wait_drive();
   //fire endgame piston
   

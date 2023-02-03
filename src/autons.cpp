@@ -118,18 +118,19 @@ void autonSkillsNew() {
   fire();
 
   //turn to face 3 stack
-  chassis.set_turn_pid(-20, TURN_SPEED);
+  chassis.set_turn_pid(-18, TURN_SPEED);
   chassis.wait_drive();
   //move into 3 stack
-  chassis.set_drive_pid(43, DRIVE_SPEED);
+  chassis.set_drive_pid(43.5, DRIVE_SPEED);
   chassis.wait_drive();
   //turn intake on and move forward slowly
   intakeState = 1;
   intaketoggle();
   chassis.set_drive_pid(32, 30);
   chassis.wait_drive();
+  pros::delay(200);
   //move back to the goal
-  chassis.set_drive_pid(-75, DRIVE_SPEED);
+  chassis.set_drive_pid(-75.5, DRIVE_SPEED);
   chassis.wait_drive();
   //turn to face goal
   intakeState = 0;
@@ -160,10 +161,10 @@ void autonSkillsNew() {
   chassis.set_drive_pid(50, 60);
   chassis.wait_drive();
   //turn to 180 deg
-  chassis.set_turn_pid(-180, TURN_SPEED);
+  chassis.set_turn_pid(-200, TURN_SPEED);
   chassis.wait_drive();
   //move forward towards wall
-  chassis.set_drive_pid(30, DRIVE_SPEED);
+  chassis.set_drive_pid(32, DRIVE_SPEED);
   chassis.wait_drive();
   //turn intake off
   intakeState = 0;
@@ -172,18 +173,41 @@ void autonSkillsNew() {
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
   //move back to goal
-  chassis.set_drive_pid(-15, DRIVE_SPEED);
+  chassis.set_drive_pid(-5, DRIVE_SPEED);
   chassis.wait_drive();
   //fire
   fire();
+  //move forward 5
+  chassis.set_drive_pid(5, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  //turn to -45 deg
+  chassis.set_turn_pid(-40, TURN_SPEED);
+  chassis.wait_drive();
+  //turn intake on and then move forward into 3 stack at 40 speed
+  intakeState = 1;
+  intaketoggle();
+  chassis.set_drive_pid(20, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(30, 30);
+  chassis.wait_drive();
+  //move back to goal
+  chassis.set_drive_pid(-50, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn to -90 deg
+  chassis.set_turn_pid(-90, TURN_SPEED);
+  chassis.wait_drive();
+  //fire
+  fire();
+
   //move forward 40 inches
-  chassis.set_drive_pid(42, DRIVE_SPEED);
+  chassis.set_drive_pid(40, DRIVE_SPEED);
   chassis.wait_drive();
   //turn to 180 deg
   chassis.set_turn_pid(-180, TURN_SPEED);
   chassis.wait_drive();
   //move forward 6 inches and spin roller
-  chassis.set_drive_pid(8.5, DRIVE_SPEED);
+  chassis.set_drive_pid(9.5, DRIVE_SPEED);
   chassis.wait_drive();
   spinRoller();
   pros::delay(500);
@@ -254,7 +278,7 @@ void autonSkillsNew() {
   //fire
   fire();
   //move forward 50 inches
-  chassis.set_drive_pid(50, DRIVE_SPEED);
+  chassis.set_drive_pid(65, DRIVE_SPEED);
   chassis.wait_drive();
   //turn to 45 deg
   chassis.set_turn_pid(50, TURN_SPEED);

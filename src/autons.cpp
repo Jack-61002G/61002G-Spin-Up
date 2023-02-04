@@ -78,6 +78,9 @@ void testCata(){
 
 void autonSkillsNew() {
 
+  pros::ADIDigitalOut piston('B');
+  piston.set_value(false);
+
   chassis.set_drive_pid(2.5, DRIVE_SPEED);
   chassis.wait_drive();
 
@@ -285,7 +288,25 @@ void autonSkillsNew() {
   //fire
   fire();
 
-  //DO NOT FORGET TO ADD 3 STACK TOMORROW
+  
+  //turn to 135 deg
+  chassis.set_turn_pid(135, TURN_SPEED);
+  chassis.wait_drive();
+  //turn intake on and then move forward into 3 stack at 40 speed
+  intakeState = 1;
+  intaketoggle();
+  chassis.set_drive_pid(20, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(30, 30);
+  chassis.wait_drive();
+  //move back to goal
+  chassis.set_drive_pid(-50, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn to -90 deg
+  chassis.set_turn_pid(90, TURN_SPEED);
+  chassis.wait_drive();
+  //fire
+  fire();
 
 
   //move forward 50 inches
@@ -296,7 +317,7 @@ void autonSkillsNew() {
   chassis.wait_drive();
 
   //fire endgame piston
-  
+  piston.set_value(true);
   //PLEASE FOR THE LOVE OF GOD DO NOT FORGET TO ADD AND TEST THIS BEFORE ROBOBASH
 
   

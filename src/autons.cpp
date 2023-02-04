@@ -117,24 +117,30 @@ void autonSkillsNew() {
 
   fire();
 
-  //turn to face 3 stack
-  chassis.set_turn_pid(-18, TURN_SPEED);
-  chassis.wait_drive();
   //move into 3 stack
-  chassis.set_drive_pid(43.5, DRIVE_SPEED);
+  chassis.set_drive_pid(33, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn to -90
+  chassis.set_turn_pid(-45, TURN_SPEED);
   chassis.wait_drive();
   //turn intake on and move forward slowly
   intakeState = 1;
   intaketoggle();
-  chassis.set_drive_pid(32, 30);
+  chassis.set_drive_pid(40, 50);
   chassis.wait_drive();
   pros::delay(200);
   //move back to the goal
-  chassis.set_drive_pid(-75.5, DRIVE_SPEED);
+  chassis.set_drive_pid(-40, DRIVE_SPEED);
   chassis.wait_drive();
   //turn to face goal
+  chassis.set_turn_pid(0, TURN_SPEED);
+  chassis.wait_drive();
+
   intakeState = 0;
   intaketoggle();
+  //move back to goal
+  chassis.set_drive_pid(-33, DRIVE_SPEED);
+  chassis.wait_drive();
 
   chassis.set_turn_pid(0, TURN_SPEED);
   chassis.wait_drive();
@@ -150,9 +156,9 @@ void autonSkillsNew() {
   intaketoggle(); 
 
   //move forward into disc
-  chassis.set_drive_pid(30, DRIVE_SPEED);
+  chassis.set_drive_pid(35, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-5, DRIVE_SPEED);
+  chassis.set_drive_pid(-10, DRIVE_SPEED);
   chassis.wait_drive();
   //turn to 135 deg
   chassis.set_turn_pid(-135, TURN_SPEED);
@@ -213,7 +219,7 @@ void autonSkillsNew() {
   spinRoller();
   pros::delay(500);
   // move back 3 inches and turn to 0 deg
-  chassis.set_drive_pid(-3.5, DRIVE_SPEED);
+  chassis.set_drive_pid(-4.5, DRIVE_SPEED);
   chassis.wait_drive(); 
   chassis.set_turn_pid(-10, TURN_SPEED);
   chassis.wait_drive();

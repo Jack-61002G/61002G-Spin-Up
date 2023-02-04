@@ -278,14 +278,20 @@ void autonSkillsNew() {
   chassis.wait_drive();
   //fire
   fire();
+
+  //DO NOT FORGET TO ADD 3 STACK TOMORROW
+
+
   //move forward 50 inches
   chassis.set_drive_pid(65, DRIVE_SPEED);
   chassis.wait_drive();
   //turn to 45 deg
   chassis.set_turn_pid(45, TURN_SPEED);
   chassis.wait_drive();
+
   //fire endgame piston
   
+  //PLEASE FOR THE LOVE OF GOD DO NOT FORGET TO ADD AND TEST THIS BEFORE ROBOBASH
 
   
 
@@ -298,32 +304,6 @@ void pushAuton() {
 
   chassis.set_drive_pid(-20, 60);
   chassis.wait_drive();
-
-}
-
-void autonSkills() {
-
-  //move 2 inches forward and spin the roller
-  chassis.set_drive_pid(2, DRIVE_SPEED);
-  chassis.wait_drive();
-  spinRoller();
-  //swing to face next roller
-  chassis.set_swing_pid(ez::LEFT_SWING, 105, SWING_SPEED);
-  //toggle intake and move towards roller
-  intakeState = 1;
-  intaketoggle();
-  chassis.set_drive_pid(20, DRIVE_SPEED);
-  chassis.wait_drive();
-  //toggle intake, move into the roller, and spin the roller
-  intakeState = 0;
-  intaketoggle();
-  chassis.set_drive_pid(2, DRIVE_SPEED);
-  chassis.wait_drive();
-  spinRoller();
-  //move back and swing the goal
-
-  //back up and shoot
-
 
 }
 

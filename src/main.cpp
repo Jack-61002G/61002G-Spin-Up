@@ -55,10 +55,7 @@ void initialize() {
         Auton("Teamwork Match NO AUTON", matchNoAuton),
         Auton("new skills route", autonSkillsNew),
         Auton("roller auto", rollerAuto),
-        Auton("Autonomous Skills\n\nSafe Route", skillsSafe),
         Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
-        Auton("Teamwork Match, Left Side\n\nPartial", matchLeftPartial),
-        Auton("Teamwork Match, Right Side", matchRight),
         Auton("Test Drive\n\nDrive forward and come back.", drive_example),
         Auton("turn test\n\ntest turn", turn_test)});
 

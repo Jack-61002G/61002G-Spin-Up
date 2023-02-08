@@ -32,7 +32,7 @@ void initialize() {
   chassis.toggle_modify_curve_with_controller(
       true); // Enables modifying the controller curve with buttons on the
              // joysticks
-  chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
+  chassis.set_active_brake(0.1); // Sets the active brake kP. We recommend 0.1.
   chassis.set_curve_default(
       0, 0); // Defaults for curve. If using tank, only the first parameter is
              // used. (Comment this line out if you have an SD card!)
@@ -55,10 +55,7 @@ void initialize() {
         Auton("Teamwork Match NO AUTON", matchNoAuton),
         Auton("new skills route", autonSkillsNew),
         Auton("roller auto", rollerAuto),
-        Auton("Autonomous Skills\n\nSafe Route", skillsSafe),
         Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
-        Auton("Teamwork Match, Left Side\n\nPartial", matchLeftPartial),
-        Auton("Teamwork Match, Right Side", matchRight),
         Auton("Test Drive\n\nDrive forward and come back.", drive_example),
         Auton("turn test\n\ntest turn", turn_test)});
 

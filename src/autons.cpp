@@ -70,6 +70,39 @@ void drive_example() {
 
 // Auton Functions
 
+void rightPushRoller() {
+
+  chassis.set_drive_pid(-20, 60);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(68, 80);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(90, 80);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(6, 60);
+  chassis.wait_drive();
+
+  spinRoller();
+
+}
+
+void rightRoller() {
+
+  chassis.set_drive_pid(48, 80);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(90, 80);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(6, 60);
+  chassis.wait_drive();
+
+  spinRoller();
+
+}
+
 void autonSkillsNew() {
 
   pros::ADIDigitalOut piston('B');
@@ -337,6 +370,7 @@ void matchLeftFull() {
   chassis.set_swing_pid(ez::RIGHT_SWING, 45, SWING_SPEED);
   chassis.wait_drive();
   //back up to the middle of the field
+  
   chassis.set_drive_pid(-55, DRIVE_SPEED);
   chassis.wait_drive();
   //turn left 90 degrees to face the goal

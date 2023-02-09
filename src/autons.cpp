@@ -75,7 +75,7 @@ void rightPushRoller() {
   chassis.set_drive_pid(-20, 60);
   chassis.wait_drive();
 
-  chassis.set_drive_pid(68, 80);
+  chassis.set_drive_pid(63, 80);
   chassis.wait_drive();
 
   chassis.set_turn_pid(90, 80);
@@ -84,7 +84,7 @@ void rightPushRoller() {
   chassis.set_drive_pid(6, 60);
   chassis.wait_drive();
 
-  spinRoller();
+  intake1.move_relative(600, 100);
 
 }
 
@@ -99,7 +99,7 @@ void rightRoller() {
   chassis.set_drive_pid(6, 60);
   chassis.wait_drive();
 
-  spinRoller();
+  intake1.move_relative(600, 100);
 
 }
 
@@ -361,8 +361,8 @@ void matchLeftFull() {
 
   //move into roller and spin it
   chassis.set_drive_pid(2, DRIVE_SPEED);
-  chassis.wait_drive();
-  spinRoller();
+  intake1.move_relative(600, 100);
+  pros::delay(200);
   chassis.wait_drive();
   
   //right swing to face 45 degrees
@@ -375,15 +375,21 @@ void matchLeftFull() {
   //turn left 90 degrees to face the goal
   chassis.set_swing_pid(ez::LEFT_SWING, -40, SWING_SPEED);
   chassis.wait_drive();
+  //move forward 7
+  chassis.set_drive_pid(2.5, DRIVE_SPEED);
+  chassis.wait_drive();
   //fire
   fire();
+  //move back 7
+  chassis.set_drive_pid(-2.5, DRIVE_SPEED);
+  chassis.wait_drive();
   //swing forwards and to the left
   intakeState = 1;
   intaketoggle();
   chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
   chassis.wait_drive();
   //move towards the roller
-  chassis.set_drive_pid(58, DRIVE_SPEED);
+  chassis.set_drive_pid(59, DRIVE_SPEED);
   chassis.wait_drive();
   intakeState = 0;
   intaketoggle();
@@ -397,14 +403,10 @@ void matchLeftFull() {
 
 void rollerAuto() {  
 
-  chassis.set_drive_pid(2.5, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  intake1.move_relative(500, 100);
-  
-  pros::delay(500);
-
-  chassis.set_drive_pid(-2, DRIVE_SPEED);
+  //move into roller and spin it
+  chassis.set_drive_pid(2, DRIVE_SPEED);
+  intake1.move_relative(600, 100);
+  pros::delay(200);
   chassis.wait_drive();
 
 }

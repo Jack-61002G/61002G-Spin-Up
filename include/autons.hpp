@@ -1,9 +1,7 @@
 #pragma once
 
-#include "EZ-Template/drive/drive.hpp"
 #include "autons.hpp"
 
-extern Drive chassis;
 
 void drive_example();
 void matchLeftFull();

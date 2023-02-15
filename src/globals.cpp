@@ -8,56 +8,65 @@ pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
 pros::ADIButton limitButton('A');
 pros::Motor intake1(9);
 int intakeState = 0;
+pros::ADIDigitalOut booster('H');
 
-// Chassis constructor
-Drive chassis(
-    // Left Chassis Ports (negative port will reverse it!)
-    //   the first port is the sensored port (when trackers are not used!)
-    {-7, 6, -3}
+pros::Motor left_front_motor(7, true); // port 1, not reversed
+pros::Motor left_back_motor(2, true); // port 2, not reversed
+pros::Motor left_top_motor(3, false); // port 3, reversed
+pros::Motor right_top_motor(20, true); // port 3, reversed
+pros::Motor right_back_motor(8, true); // port 4, reversed
+pros::Motor right_front_motor(18, false); // port 2, not reversed
 
-    // Right Chassis Ports (negative port will reverse it!)
-    //   the first port is the sensored port (when trackers are not used!)
-    ,
-    {18, 8, -20}
+pros::MotorGroup left_side_motors({left_front_motor, left_back_motor, left_top_motor});
+pros::MotorGroup right_side_motors({right_front_motor, right_back_motor, right_top_motor});
 
-    // IMU Port
-    ,
-    1
-
-    // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
-    //    (or tracking wheel diameter)
-    ,
-    3.25
-
-    // Cartridge RPM
-    //   (or tick per rotation if using tracking wheels)
-    ,
-    600
-
-    // External Gear Ratio (MUST BE DECIMAL)
-    //    (or gear ratio of tracking wheel)
-    // eg. if your drive is 84:36 where the 36t is powered, your RATIO would
-    // be 2.333. eg. if your drive is 36:60 where the 60t is powered, your RATIO
-    // would be 0.6.
-    ,
-    1.666
-
-    // Uncomment if using tracking wheels
-    /*
-    // Left Tracking Wheel Ports (negative port will reverse it!)
-    // ,{1, 2} // 3 wire encoder
-    // ,8 // Rotation sensor
-
-    // Right Tracking Wheel Ports (negative port will reverse it!)
-    // ,{-3, -4} // 3 wire encoder
-    // ,-9 // Rotation sensor
-    */
-
-    // Uncomment if tracking wheels are plugged into a 3 wire expander
-    // 3 Wire Port Expander Smart Port
-    // ,1
-);
-
+// left tracking wheel encoder
+pros::ADIEncoder right_enc('E', 'F', true); // ports A and B, reversed
+// right tracking wheel encoder
+// back tracking wheel encoder
+pros::ADIEncoder back_enc('C', 'D', false); // ports C and D, not reversed
+ 
+// left tracking wheel
+lemlib::TrackingWheel left_tracking_wheel(&right_enc, 2.75, -4.6); // 2.75" wheel diameter, -4.6" offset from tracking center
+lemlib::TrackingWheel back_tracking_wheel(&back_enc, 2.75, 0.75); // 2.75" wheel diameter, 4.5" offset from tracking center
+ 
+// inertial sensor
+pros::Imu inertial_sensor(1); // port 2
+ 
+// odometry struct
+lemlib::OdomSensors_t sensors {
+    &left_tracking_wheel, // vertical tracking wheel 1
+    &back_tracking_wheel, // horizontal tracking wheel 1
+    nullptr,
+    nullptr, // we don't have a second tracking wheel, so we set it to nullptr
+    &inertial_sensor // inertial sensor
+};
+ 
+// forward/backward PID
+lemlib::ChassisController_t lateralController {
+    10, // kP
+    30, // kD
+    1, // smallErrorRange
+    100, // smallErrorTimeout
+    3, // largeErrorRange
+    500 // largeErrorTimeout
+};
+ 
+// turning PID
+lemlib::ChassisController_t angularController {
+    2, // kP
+    10, // kD
+    1, // smallErrorRange
+    100, // smallErrorTimeout
+    3, // largeErrorRange
+    500 // largeErrorTimeout
+};
+ 
+// track width
+float track_width = 11.5; // 15.5" track width
+ 
+// create the chassis object
+lemlib::Chassis chassis(&left_side_motors, &right_side_motors, track_width, lateralController, angularController, sensors);
 
 
 void cataTask();
@@ -76,16 +85,37 @@ void cata_task_fn() {
     } else if (!cata_override && limitButton.get_value()) {
       catapultMotor = 0;
       state = true;
+      booster.set_value(0);
     }
 
     pros::delay(10);
   }
 }
 
-void fire() {
+void fire(bool release) {
   cata_override = true;
   catapultMotor = 127;
-  pros::delay(500);
+  pros::delay(200);
+  if (release) {
+  booster.set_value(1);
+  }
   cata_override = false;
   state = false;
+}
+
+int joystickCurve(double input, bool red) {
+  int val = 0;
+  int t = 9;
+  //scale input from -127 to 127 to -100 to 100
+  input = input * 100 / 127;
+
+  if(red){
+    val = (std::exp(-t/10)+std::exp((std::abs(input)-100)/10)*(1-std::exp(-t/10))) * input;
+  }else{
+    //blue
+    val = std::exp(((std::abs(input)-100)*t)/1000) * input;
+  }
+  //return value scaled back to -127 to 127
+  return val * 127 / 100;
+
 }

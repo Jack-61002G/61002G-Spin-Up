@@ -89,3 +89,12 @@ void fire() {
   cata_override = false;
   state = false;
 }
+
+void fireAsync() {
+  cata_override = true;
+  while (limitButton.get_value() == true) {
+    catapultMotor = 127;
+  }
+  cata_override = false;
+  state = false;
+}

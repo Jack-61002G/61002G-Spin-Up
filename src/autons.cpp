@@ -376,12 +376,12 @@ void matchLeftFull() {
   chassis.set_swing_pid(ez::LEFT_SWING, -40, SWING_SPEED);
   chassis.wait_drive();
   //move forward 7
-  chassis.set_drive_pid(2.5, DRIVE_SPEED);
+  chassis.set_drive_pid(1.5, DRIVE_SPEED);
   chassis.wait_drive();
   //fire
   fire();
   //move back 7
-  chassis.set_drive_pid(-2.5, DRIVE_SPEED);
+  chassis.set_drive_pid(-1.5, DRIVE_SPEED);
   chassis.wait_drive();
   //swing forwards and to the left
   intakeState = 1;

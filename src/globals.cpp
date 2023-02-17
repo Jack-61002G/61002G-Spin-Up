@@ -11,11 +11,12 @@ int intakeState = 0;
 pros::ADIDigitalOut booster('H');
 
 pros::Motor left_front_motor(7, true); // port 1, not reversed
-pros::Motor left_back_motor(2, true); // port 2, not reversed
-pros::Motor left_top_motor(3, false); // port 3, reversed
+pros::Motor left_back_motor(11, true); // port 2, not reversed
+pros::Motor left_top_motor(6, false); // port 3, reversed
 pros::Motor right_top_motor(20, true); // port 3, reversed
-pros::Motor right_back_motor(8, true); // port 4, reversed
+pros::Motor right_back_motor(8, false); // port 4, reversed
 pros::Motor right_front_motor(18, false); // port 2, not reversed
+
 
 pros::MotorGroup left_side_motors({left_front_motor, left_back_motor, left_top_motor});
 pros::MotorGroup right_side_motors({right_front_motor, right_back_motor, right_top_motor});
@@ -27,25 +28,25 @@ pros::ADIEncoder right_enc('E', 'F', true); // ports A and B, reversed
 pros::ADIEncoder back_enc('C', 'D', false); // ports C and D, not reversed
  
 // left tracking wheel
-lemlib::TrackingWheel left_tracking_wheel(&right_enc, 2.75, -4.6); // 2.75" wheel diameter, -4.6" offset from tracking center
-lemlib::TrackingWheel back_tracking_wheel(&back_enc, 2.75, 0.75); // 2.75" wheel diameter, 4.5" offset from tracking center
+lemlib::TrackingWheel left_tracking_wheel(&right_enc, 2.80, -3.5); // 2.75" wheel diameter, -4.6" offset from tracking center
+lemlib::TrackingWheel back_tracking_wheel(&back_enc, 2.76, 0.25); // 2.75" wheel diameter, 4.5" offset from tracking center
  
 // inertial sensor
-pros::Imu inertial_sensor(1); // port 2
+pros::Imu inertial_sensor(17); // port 2
  
 // odometry struct
 lemlib::OdomSensors_t sensors {
     &left_tracking_wheel, // vertical tracking wheel 1
-    &back_tracking_wheel, // horizontal tracking wheel 1
-    nullptr,
+    nullptr, // horizontal tracking wheel 1
+    &back_tracking_wheel, // vertical tracking wheel 2
     nullptr, // we don't have a second tracking wheel, so we set it to nullptr
     &inertial_sensor // inertial sensor
 };
  
 // forward/backward PID
 lemlib::ChassisController_t lateralController {
-    10, // kP
-    30, // kD
+    12, // kP
+    25, // kD
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
@@ -54,8 +55,8 @@ lemlib::ChassisController_t lateralController {
  
 // turning PID
 lemlib::ChassisController_t angularController {
-    2, // kP
-    10, // kD
+    4, // kP
+    20, // kD
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
@@ -95,7 +96,7 @@ void cata_task_fn() {
 void fire(bool release) {
   cata_override = true;
   catapultMotor = 127;
-  pros::delay(200);
+  pros::delay(500);
   if (release) {
   booster.set_value(1);
   }

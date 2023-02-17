@@ -1,8 +1,10 @@
 #include "main.h"
+//#include "autons.hpp"
 #include "autons.hpp"
 #include "globals.h"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
+#include "autoSelect/selection.h"
 
 /////
 // For instalattion, upgrading, documentations and tutorials, check out website!
@@ -18,10 +20,26 @@
  * to keep execution time for this mode under a few seconds.
  */
 
+ void screen() {
+    // loop forever
+    while (true) {
+        lemlib::Pose pose = chassis.getPose(); // get the current position of the robot
+        pros::lcd::print(0, "x: %f", pose.x); // print the x position
+        pros::lcd::print(1, "y: %f", pose.y); // print the y position
+        pros::lcd::print(2, "heading: %f", pose.theta); // print the heading
+        pros::delay(10);
+    }
+}
+
 void initialize() {
 
+  selector::init();
+
   pros::Task cata_task(cata_task_fn);
+  pros::lcd::initialize();
   chassis.calibrate();
+  pros::Task screenTask(screen); // create a task to print the position to the screen
+  
 
 }
 
@@ -47,13 +65,50 @@ void competition_initialize() {
   // . . .
 }
 
-void autonomous() {
-  chassis.setPose({60, -31, 90});
+void auton() {
 
-  chassis.moveTo(0, 0, 7000);
-  chassis.turnTo(-53, -53, 1000);
+  chassis.setPose({55.5, -36, 90});
+
+  chassis.moveTo(62, -36, 1000, 200);
+  spinRoller();
+  pros::delay(700);
+
+  chassis.moveTo(52.5, -36, 1000, 200);
+  chassis.turnTo(-52, -52, 1000, true);
+  fire(false);
+
+  intakeState = 1;
+  intaketoggle();
+
+  chassis.turnTo(35, -12, 1000);
+  chassis.moveTo(23, 0, 4000, 200);
+
+  intakeState = 0;
+  intaketoggle();
+
+  chassis.turnTo(-52, -52, 1000, true);
+  fire(false);
+
+  intakeState = 1;
+  intaketoggle();
+
+  chassis.moveTo(24, 48, 5000, 200);
+  
+  intakeState = 0;
+  intaketoggle();
+
+  chassis.moveTo(-10, 24, 2000, 200);
+
+  chassis.turnTo(-52, -52, 1000, true);
+  fire(false);
+
 }
 
+void autonomous() {
+
+  if(selector::auton == 1){auton();};
+
+}
 void opcontrol() {
 
 
@@ -74,7 +129,7 @@ void opcontrol() {
 
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      fire();
+      fire(false);
     }
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {

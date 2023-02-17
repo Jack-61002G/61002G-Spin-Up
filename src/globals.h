@@ -24,5 +24,5 @@ extern lemlib::Chassis chassis;
 extern void cata_task_fn();
 extern void intaketoggle();
 extern void spinRoller();
-extern void fire();
+extern void fire(bool release);
 extern int joystickCurve(double input, bool red);

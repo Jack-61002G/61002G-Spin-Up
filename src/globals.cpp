@@ -28,8 +28,8 @@ pros::ADIEncoder right_enc('E', 'F', true); // ports A and B, reversed
 pros::ADIEncoder back_enc('C', 'D', false); // ports C and D, not reversed
  
 // left tracking wheel
-lemlib::TrackingWheel left_tracking_wheel(&right_enc, 2.80, -3.5); // 2.75" wheel diameter, -4.6" offset from tracking center
-lemlib::TrackingWheel back_tracking_wheel(&back_enc, 2.76, 0.25); // 2.75" wheel diameter, 4.5" offset from tracking center
+lemlib::TrackingWheel left_tracking_wheel(&right_enc, 2.77, .375); // 2.75" wheel diameter, -4.6" offset from tracking center
+lemlib::TrackingWheel back_tracking_wheel(&back_enc, 2.76, -3.75); // 2.75" wheel diameter, 4.5" offset from tracking center
  
 // inertial sensor
 pros::Imu inertial_sensor(17); // port 2
@@ -45,8 +45,8 @@ lemlib::OdomSensors_t sensors {
  
 // forward/backward PID
 lemlib::ChassisController_t lateralController {
-    12, // kP
-    25, // kD
+    9, // kP
+    20, // kD
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
@@ -55,8 +55,8 @@ lemlib::ChassisController_t lateralController {
  
 // turning PID
 lemlib::ChassisController_t angularController {
-    4, // kP
-    20, // kD
+    2, // kP
+    13, // kD
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
@@ -64,7 +64,7 @@ lemlib::ChassisController_t angularController {
 };
  
 // track width
-float track_width = 11.5; // 15.5" track width
+float track_width = 11.5625; // 15.5" track width
  
 // create the chassis object
 lemlib::Chassis chassis(&left_side_motors, &right_side_motors, track_width, lateralController, angularController, sensors);

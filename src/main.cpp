@@ -67,21 +67,21 @@ void competition_initialize() {
 
 void auton() {
 
-  chassis.setPose({55.5, -36, 90});
+  chassis.setPose({53, -31, 90});
 
-  chassis.moveTo(62, -36, 1000, 200);
+  chassis.moveTo(59.5, -31, 1000, 200);
   spinRoller();
   pros::delay(700);
 
-  chassis.moveTo(52.5, -36, 1000, 200);
-  chassis.turnTo(-52, -52, 1000, true);
+  chassis.moveTo(52.5, -36, 1000, 70);
+  chassis.turnTo(-52, -52, 500, true);
   fire(false);
 
   intakeState = 1;
   intaketoggle();
 
   chassis.turnTo(35, -12, 1000);
-  chassis.moveTo(23, 0, 4000, 200);
+  chassis.moveTo(13, 13, 4000, 60);
 
   intakeState = 0;
   intaketoggle();
@@ -91,21 +91,23 @@ void auton() {
 
   intakeState = 1;
   intaketoggle();
-
-  chassis.moveTo(24, 48, 5000, 200);
+  
+  chassis.turnTo(-26, 56, 1000);
+  chassis.moveTo(-26, 56, 5000, 70);
   
   intakeState = 0;
   intaketoggle();
 
-  chassis.moveTo(-10, 24, 2000, 200);
+  chassis.moveTo(-10, 24, 2000, 70);
 
   chassis.turnTo(-52, -52, 1000, true);
   fire(false);
+  chassis.moveTo(-40.5, 69.5, 3000, 70);
 
 }
 
 void autonomous() {
-
+  
   if(selector::auton == 1){auton();};
 
 }

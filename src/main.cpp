@@ -73,7 +73,7 @@ void auton() {
   spinRoller();
   pros::delay(700);
 
-  chassis.moveTo(52.5, -36, 1000, 70);
+  chassis.moveTo(53, -31, 1000, 90);
   chassis.turnTo(-52, -52, 500, true);
   fire(false);
 
@@ -81,28 +81,31 @@ void auton() {
   intaketoggle();
 
   chassis.turnTo(35, -12, 1000);
-  chassis.moveTo(13, 13, 4000, 60);
-
+  chassis.moveTo(16, 5, 4000, 90);
+  pros::delay(500);
   intakeState = 0;
   intaketoggle();
-
+  
+  chassis.moveTo(23, -2, 1000, 90);
   chassis.turnTo(-52, -52, 1000, true);
+  
   fire(false);
-
-  intakeState = 1;
-  intaketoggle();
   
   chassis.turnTo(-26, 56, 1000);
-  chassis.moveTo(-26, 56, 5000, 70);
+  intakeState = 1;
+  intaketoggle();
+  chassis.moveTo(-26, 56, 5000, 90);
   
   intakeState = 0;
   intaketoggle();
 
-  chassis.moveTo(-10, 24, 2000, 70);
+  chassis.moveTo(-10, 24, 2000, 90);
 
   chassis.turnTo(-52, -52, 1000, true);
   fire(false);
-  chassis.moveTo(-40.5, 69.5, 3000, 70);
+  chassis.turnTo(31, 61, 1000);
+  chassis.moveTo(31, 61, 3000, 90);
+  spinRoller();
 
 }
 

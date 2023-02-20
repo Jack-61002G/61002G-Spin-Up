@@ -77,27 +77,23 @@ void auton() {
   chassis.turnTo(-52, -52, 500, true);
   fire(false);
 
-  intakeState = 1;
+    intakeState = 1;
   intaketoggle();
 
   chassis.turnTo(35, -12, 1000);
-  chassis.moveTo(16, 5, 4000, 90);
+  chassis.moveTo(32, -8, 2000, 200);
+
+  chassis.moveTo(16, 5, 4000, 50);
   pros::delay(500);
-  intakeState = 0;
-  intaketoggle();
   
-  chassis.moveTo(23, -2, 1000, 90);
-  chassis.turnTo(-52, -52, 1000, true);
+  chassis.moveTo(23, -10, 1000, 90);
+  chassis.turnTo(-56, -44, 1000, true);
   
   fire(false);
   
   chassis.turnTo(-26, 56, 1000);
-  intakeState = 1;
-  intaketoggle();
-  chassis.moveTo(-26, 56, 5000, 90);
+  chassis.moveTo(-26, 56, 5000, 70);
   
-  intakeState = 0;
-  intaketoggle();
 
   chassis.moveTo(-10, 24, 2000, 90);
 
@@ -135,6 +131,10 @@ void opcontrol() {
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
       fire(false);
+    }
+    //fire with true of r1 is pressed
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+      fire(true);
     }
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {

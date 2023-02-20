@@ -2,6 +2,9 @@
 #include "pros/adi.hpp"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
+#include "pros/rtos.hpp"
+#include <iostream>
+#include <type_traits>
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
@@ -74,8 +77,10 @@ void cataTask();
 void intaketoggle();
 bool cata_override = false;
 bool state = false;
+bool boost = true;
 
 void cata_task_fn() {
+  bool shouldStop = true;
   
   while (true) {
 
@@ -84,9 +89,11 @@ void cata_task_fn() {
       catapultMotor = 127;
 
     } else if (!cata_override && limitButton.get_value()) {
-      catapultMotor = 0;
-      state = true;
-      booster.set_value(0);
+
+        catapultMotor = 0;
+        std::cout << "stopping cata: else true" << std::endl;
+        state = true;
+      
     }
 
     pros::delay(10);
@@ -96,10 +103,11 @@ void cata_task_fn() {
 void fire(bool release) {
   cata_override = true;
   catapultMotor = 127;
-  pros::delay(500);
   if (release) {
   booster.set_value(1);
+  boost = false;
   }
+  pros::delay(500);
   cata_override = false;
   state = false;
 }

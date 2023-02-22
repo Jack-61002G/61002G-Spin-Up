@@ -13,7 +13,7 @@ int intakeState = 0;
 Drive chassis(
     // Left Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
-    {-7, 6, -3}
+    {-7, 6, -11}
 
     // Right Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
@@ -22,7 +22,7 @@ Drive chassis(
 
     // IMU Port
     ,
-    1
+    17
 
     // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
     //    (or tracking wheel diameter)

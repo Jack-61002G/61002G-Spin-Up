@@ -36,9 +36,9 @@ void garage_constants() {
 }
 
 void exit_condition_defaults() {
-  chassis.set_exit_condition(chassis.turn_exit, 100, 3, 500, 7, 500, 500);
-  chassis.set_exit_condition(chassis.swing_exit, 100, 3, 500, 7, 500, 500);
-  chassis.set_exit_condition(chassis.drive_exit, 80, 50, 300, 150, 500, 500);
+  chassis.set_exit_condition(chassis.turn_exit, 50, 3, 250, 7, 250, 500);
+  chassis.set_exit_condition(chassis.swing_exit, 50, 3, 250, 7, 250, 500);
+  chassis.set_exit_condition(chassis.drive_exit, 40, 50, 150, 150, 250, 500);
 }
 
 void modified_exit_condition() {
@@ -71,19 +71,35 @@ void drive_example() {
 // Auton Functions
 
 void rightPushRoller() {
-
-  chassis.set_drive_pid(-20, 60);
+  
+  chassis.set_swing_pid(ez::RIGHT_SWING, 22, SWING_SPEED);
   chassis.wait_drive();
-
-  chassis.set_drive_pid(63, 80);
+  //fire
+  fire();
+  pros::delay(450);
+  //right swing to 90 and move forward 45 with intake on
+  chassis.set_swing_pid(ez::RIGHT_SWING, 135, SWING_SPEED);
   chassis.wait_drive();
-
-  chassis.set_turn_pid(90, 80);
+  chassis.set_drive_pid(57, 60, true);
+  intakeState = 1;
+  intaketoggle();
   chassis.wait_drive();
-
-  chassis.set_drive_pid(6, 60);
+  //right swing to -45
+  chassis.set_swing_pid(ez::LEFT_SWING, 45, SWING_SPEED);
   chassis.wait_drive();
+  //move back 2
+  chassis.set_drive_pid(-2, DRIVE_SPEED, true);
+  chassis.wait_drive();
+  fire();
+  //right swing to -45
+  chassis.set_turn_pid(-40, TURN_SPEED);
+  chassis.wait_drive();
+  // move forward 50
+  intakeState = 0;
+  intaketoggle();
 
+  chassis.set_drive_pid(67, DRIVE_SPEED, true);
+  chassis.wait_drive();
   intake1.move_relative(600, 100);
 
 }
@@ -104,6 +120,7 @@ void rightRoller() {
 }
 
 void autonSkillsNew() {
+  modified_exit_condition();
 
   pros::ADIDigitalOut piston('B');
   piston.set_value(false);
@@ -207,7 +224,7 @@ void autonSkillsNew() {
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
   //move back to goal
-  chassis.set_drive_pid(-8.5, DRIVE_SPEED);
+  chassis.set_drive_pid(-6.5, DRIVE_SPEED);
   chassis.wait_drive();
   //fire
   fire();
@@ -360,44 +377,75 @@ void pushAuton() {
 void matchLeftFull() {
 
   //move into roller and spin it
-  chassis.set_drive_pid(2, DRIVE_SPEED);
+  chassis.set_drive_pid(7.5, DRIVE_SPEED);
+  chassis.wait_drive();
   intake1.move_relative(600, 100);
   pros::delay(200);
   chassis.wait_drive();
   
-  //right swing to face 45 degrees
-  chassis.set_swing_pid(ez::RIGHT_SWING, 45, SWING_SPEED);
-  chassis.wait_drive();
-  //back up to the middle of the field
-
-  chassis.set_drive_pid(-55, DRIVE_SPEED);
-  chassis.wait_drive();
-  //turn left 90 degrees to face the goal
-  chassis.set_swing_pid(ez::LEFT_SWING, -40, SWING_SPEED);
-  chassis.wait_drive();
-  //move forward 7
-  chassis.set_drive_pid(1.5, DRIVE_SPEED);
+  chassis.set_swing_pid(ez::LEFT_SWING, -10, SWING_SPEED);
   chassis.wait_drive();
   //fire
   fire();
-  //move back 7
-  chassis.set_drive_pid(-1.5, DRIVE_SPEED);
+  pros::delay(400);
+  //left swing to -120
+  chassis.set_swing_pid(ez::LEFT_SWING, -120, SWING_SPEED);
   chassis.wait_drive();
-  //swing forwards and to the left
+  //move forward 40 inches
+  //intake on
   intakeState = 1;
   intaketoggle();
-  chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
+  chassis.set_drive_pid(26, DRIVE_SPEED, true);
+  chassis.wait_drive();  //move another 25
+  chassis.set_drive_pid(31, 50, true);
   chassis.wait_drive();
-  //move towards the roller
-  chassis.set_drive_pid(59, DRIVE_SPEED);
+  //move back 20
+  chassis.set_drive_pid(-15, DRIVE_SPEED);
   chassis.wait_drive();
+  //intake off
   intakeState = 0;
   intaketoggle();
-  //swing to -90 degrees
-  chassis.set_swing_pid(ez::LEFT_SWING, -90, SWING_SPEED);
+  //swing right to -20
+  chassis.set_swing_pid(ez::RIGHT_SWING, -23, SWING_SPEED);
   chassis.wait_drive();
-  //spin the roller
+  //move back 3
+  chassis.set_drive_pid(-4, DRIVE_SPEED);
+  //fire
+  pros::delay(30);
+  fire();
+  chassis.wait_drive();
+  pros::delay(200);
+
+  //swing right to -135
+  chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
+  chassis.wait_drive();
+  //move forward 60 with intake and slew on
+  intakeState = 1;
+  intaketoggle();
+  chassis.set_drive_pid(70, DRIVE_SPEED, true);
+  chassis.wait_drive();
+  //move back 10
+  chassis.set_drive_pid(-10, DRIVE_SPEED);
+  chassis.wait_drive();
+  //swing right to -60
+  chassis.set_swing_pid(ez::RIGHT_SWING, -60, SWING_SPEED);
+  chassis.wait_drive();
+  //move back 7
+  chassis.set_drive_pid(-11, DRIVE_SPEED, true);
+  chassis.wait_drive();
+  //intake off and fire
+  intakeState = 0;
+  intaketoggle();
+  fire();
+  //swing right to -110
+  chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
+  chassis.wait_drive();
+  //move forward 30
+  chassis.set_drive_pid(43, DRIVE_SPEED, true);
+  chassis.wait_drive();
+  //spin roller
   intake1.move_relative(600, 100);
+
   
 }
 

@@ -18,8 +18,8 @@ const int DRIVE_SPEED =
         // only correcting by making one side slower.  When this is 87%, it's
         // correcting by making one side faster and one side slower, giving
         // better heading correction.
-const int TURN_SPEED = 90;
-const int SWING_SPEED = 90;
+const int TURN_SPEED = 95;
+const int SWING_SPEED = 95;
 
 // It's best practice to tune constants when the robot is empty and with heavier
 // game objects, or with lifts up vs down. If the objects are light or the cog
@@ -91,9 +91,11 @@ void rightPushRoller() {
   chassis.set_drive_pid(-2, DRIVE_SPEED, true);
   chassis.wait_drive();
   fire();
+  boost.set_value(true);
   //right swing to -45
   chassis.set_turn_pid(-40, TURN_SPEED);
   chassis.wait_drive();
+  boost.set_value(false);
   // move forward 50
   intakeState = 0;
   intaketoggle();
@@ -375,19 +377,20 @@ void pushAuton() {
 }
 
 void matchLeftFull() {
+  exit_condition_defaults();
 
   //move into roller and spin it
   chassis.set_drive_pid(7.5, DRIVE_SPEED);
   chassis.wait_drive();
   intake1.move_relative(600, 100);
-  pros::delay(200);
+  pros::delay(150);
   chassis.wait_drive();
   
   chassis.set_swing_pid(ez::LEFT_SWING, -10, SWING_SPEED);
   chassis.wait_drive();
   //fire
   fire();
-  pros::delay(400);
+  pros::delay(500);
   //left swing to -120
   chassis.set_swing_pid(ez::LEFT_SWING, -120, SWING_SPEED);
   chassis.wait_drive();
@@ -402,9 +405,6 @@ void matchLeftFull() {
   //move back 20
   chassis.set_drive_pid(-15, DRIVE_SPEED);
   chassis.wait_drive();
-  //intake off
-  intakeState = 0;
-  intaketoggle();
   //swing right to -20
   chassis.set_swing_pid(ez::RIGHT_SWING, -23, SWING_SPEED);
   chassis.wait_drive();
@@ -414,15 +414,13 @@ void matchLeftFull() {
   pros::delay(30);
   fire();
   chassis.wait_drive();
-  pros::delay(200);
+  pros::delay(300);
 
   //swing right to -135
   chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
   chassis.wait_drive();
   //move forward 60 with intake and slew on
-  intakeState = 1;
-  intaketoggle();
-  chassis.set_drive_pid(70, DRIVE_SPEED, true);
+  chassis.set_drive_pid(70, 75, true);
   chassis.wait_drive();
   //move back 10
   chassis.set_drive_pid(-10, DRIVE_SPEED);
@@ -431,17 +429,19 @@ void matchLeftFull() {
   chassis.set_swing_pid(ez::RIGHT_SWING, -60, SWING_SPEED);
   chassis.wait_drive();
   //move back 7
-  chassis.set_drive_pid(-11, DRIVE_SPEED, true);
+  chassis.set_drive_pid(-10, DRIVE_SPEED, true);
   chassis.wait_drive();
   //intake off and fire
-  intakeState = 0;
-  intaketoggle();
   fire();
+  boost.set_value(true);
   //swing right to -110
   chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
   chassis.wait_drive();
+  boost.set_value(false);
+  intakeState = 0;
+  intaketoggle();
   //move forward 30
-  chassis.set_drive_pid(43, DRIVE_SPEED, true);
+  chassis.set_drive_pid(38, DRIVE_SPEED, true);
   chassis.wait_drive();
   //spin roller
   intake1.move_relative(600, 100);

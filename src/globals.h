@@ -13,6 +13,7 @@ extern pros::Motor intake1;
 extern pros::Motor intake2;
 extern int intakeState;
 extern Drive chassis;
+extern pros::ADIDigitalOut boost;
 
 
 extern void cata_task_fn();

@@ -1,5 +1,6 @@
 #include "main.h"
 #include "pros/adi.hpp"
+#include "pros/misc.hpp"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
 
@@ -8,6 +9,7 @@ pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
 pros::ADIButton limitButton('A');
 pros::Motor intake1(9);
 int intakeState = 0;
+pros::ADIDigitalOut boost('h');
 
 // Chassis constructor
 Drive chassis(
@@ -64,19 +66,29 @@ void cataTask();
 void intaketoggle();
 bool cata_override = false;
 bool state = false;
+pros::ADIDigitalIn limit2('G');
 
 void cata_task_fn() {
   
   while (true) {
 
-    if ((limitButton.get_value() == false) && state == false) {
-      // move catapult down until its reached loading position
-      catapultMotor = 127;
+    if (pros::competition::is_autonomous()) {
 
-    } else if (!cata_override && limitButton.get_value()) {
-      catapultMotor = 0;
-      state = true;
+      if (limit2.get_value() == false) {catapultMotor = 127;}
+
+      else if (!cata_override && limit2.get_value()) {
+        catapultMotor = 0;
+        state = true;}
     }
+    else {
+      if ((limitButton.get_value() == false)) {
+        // move catapult down until its reached loading position
+        catapultMotor = 127;
+
+      } else if (!cata_override && limitButton.get_value()) {
+        catapultMotor = 0;
+        state = true;
+    }}
 
     pros::delay(10);
   }

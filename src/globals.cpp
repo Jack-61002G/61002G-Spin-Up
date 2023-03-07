@@ -66,21 +66,10 @@ void cataTask();
 void intaketoggle();
 bool cata_override = false;
 bool state = false;
-pros::ADIDigitalIn limit2('G');
 
 void cata_task_fn() {
   
   while (true) {
-
-    if (pros::competition::is_autonomous()) {
-
-      if (limit2.get_value() == false) {catapultMotor = 127;}
-
-      else if (!cata_override && limit2.get_value()) {
-        catapultMotor = 0;
-        state = true;}
-    }
-    else {
       if ((limitButton.get_value() == false)) {
         // move catapult down until its reached loading position
         catapultMotor = 127;
@@ -88,11 +77,10 @@ void cata_task_fn() {
       } else if (!cata_override && limitButton.get_value()) {
         catapultMotor = 0;
         state = true;
-    }}
+    }pros::delay(10);}
 
-    pros::delay(10);
+    
   }
-}
 
 void fire() {
   cata_override = true;

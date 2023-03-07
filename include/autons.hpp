@@ -13,6 +13,7 @@ void autonSkillsNew();
 void rollerAuto();
 void pushAuton();
 void rightPushRoller();
+void trustAlliance();
 
 void garage_constants();
 void one_mogo_constants();

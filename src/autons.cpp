@@ -29,8 +29,8 @@ void garage_constants() {
   chassis.set_slew_min_power(55, 55);
   chassis.set_slew_distance(7, 7);
   chassis.set_pid_constants(&chassis.headingPID, 11, 0, 20, 0);
-  chassis.set_pid_constants(&chassis.forward_drivePID, .45, 0, 5, 0);
-  chassis.set_pid_constants(&chassis.backward_drivePID, .45, 0, 5, 0);
+  chassis.set_pid_constants(&chassis.forward_drivePID, .45, 0, 4, 0);
+  chassis.set_pid_constants(&chassis.backward_drivePID, .45, 0, 4, 0);
   chassis.set_pid_constants(&chassis.turnPID, 5, 0.003, 35, 15);
   chassis.set_pid_constants(&chassis.swingPID, 7, 0, 45, 0);
 }
@@ -71,12 +71,17 @@ void drive_example() {
 // Auton Functions
 
 void rightPushRoller() {
+  exit_condition_defaults();
   
-  chassis.set_swing_pid(ez::RIGHT_SWING, 22, SWING_SPEED);
+  chassis.set_swing_pid(ez::RIGHT_SWING, 21, SWING_SPEED);
   chassis.wait_drive();
   //fire
+  chassis.set_drive_pid(-6.5, 127);
+  pros::delay(75);
   fire();
-  pros::delay(450);
+  chassis.wait_drive();
+  chassis.set_drive_pid(6.5, DRIVE_SPEED);
+  chassis.wait_drive();
   //right swing to 90 and move forward 45 with intake on
   chassis.set_swing_pid(ez::RIGHT_SWING, 135, SWING_SPEED);
   chassis.wait_drive();
@@ -88,9 +93,10 @@ void rightPushRoller() {
   chassis.set_swing_pid(ez::LEFT_SWING, 45, SWING_SPEED);
   chassis.wait_drive();
   //move back 2
-  chassis.set_drive_pid(-2, DRIVE_SPEED, true);
-  chassis.wait_drive();
+  chassis.set_drive_pid(-4, DRIVE_SPEED);
+  pros::delay(25);
   fire();
+  chassis.wait_drive();
   boost.set_value(true);
   //right swing to -45
   chassis.set_turn_pid(-40, TURN_SPEED);
@@ -100,11 +106,71 @@ void rightPushRoller() {
   intakeState = 0;
   intaketoggle();
 
-  chassis.set_drive_pid(67, DRIVE_SPEED, true);
+  chassis.set_drive_pid(66.5, DRIVE_SPEED);
   chassis.wait_drive();
   intake1.move_relative(600, 100);
+  pros::delay(250);
+  //left swing to -55
+  chassis.set_swing_pid(ez::LEFT_SWING, -50, SWING_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-70, DRIVE_SPEED);
+  chassis.wait_drive();
+  //swing to 0 and ride the low goal
+  chassis.set_swing_pid(ez::RIGHT_SWING, 0, SWING_SPEED);
+  chassis.wait_drive();
+  intakeState = 1;
+  intaketoggle();
+  chassis.set_drive_pid(45, 60);
+  chassis.wait_drive();
 
 }
+
+void trustAlliance() {
+
+  exit_condition_defaults();
+
+  //turn to goal
+  chassis.set_turn_pid(-30, TURN_SPEED);
+  chassis.wait_drive();
+  //move back and fire
+  chassis.set_drive_pid(-14.5, 127);
+  pros::delay(85);
+  fire();
+  chassis.wait_drive();
+
+  //move forward
+  chassis.set_drive_pid(10, DRIVE_SPEED);
+  chassis.wait_drive();
+  //right swing
+  chassis.set_swing_pid(ez::RIGHT_SWING, -90, SWING_SPEED);
+  chassis.wait_drive();
+  //move forward
+  chassis.set_drive_pid(2.25, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn to low goal
+  chassis.set_turn_pid(-180, TURN_SPEED);
+  chassis.wait_drive();
+
+  pros::delay(6000);
+
+  intakeState = 1;
+  intaketoggle();
+  //move forward
+  chassis.set_drive_pid(45, 50);
+  chassis.wait_drive();
+  //turn to goal
+  chassis.set_turn_pid(-47, TURN_SPEED);
+  chassis.wait_drive();
+  //move back and fire
+  chassis.set_drive_pid(-10, 127);
+  pros::delay(50);
+  fire();
+  boost.set_value(true);
+  chassis.wait_drive();
+  boost.set_value(false);
+
+
+} 
 
 void rightRoller() {
 
@@ -127,6 +193,7 @@ void autonSkillsNew() {
   pros::ADIDigitalOut piston('B');
   piston.set_value(false);
 
+
   chassis.set_drive_pid(2.5, DRIVE_SPEED);
   chassis.wait_drive();
 
@@ -135,37 +202,37 @@ void autonSkillsNew() {
 
   chassis.set_drive_pid(-2, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_swing_pid(ez::RIGHT_SWING, 105, SWING_SPEED);
+
+  chassis.set_drive_pid(-2, 80);
+  chassis.wait_drive();
+  chassis.set_turn_pid(120, 80);
   chassis.wait_drive();
 
   intakeState = 1;
   intaketoggle();
 
-  chassis.set_drive_pid(25, 75);
-  chassis.wait_drive();
+  chassis.set_drive_pid(31, 75);
 
-  pros::delay(300);
-  intakeState = -1;
-  intaketoggle();
-  pros::delay(200);
+  pros::delay(1000);
   intakeState = 0;
   intaketoggle();
-
-  chassis.set_turn_pid(85, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(11, DRIVE_SPEED);
+  
   chassis.wait_drive();
 
   spinRoller();
-  pros::delay(500);
+  pros::delay(400);
 
-  chassis.set_swing_pid(ez::LEFT_SWING, 0, SWING_SPEED);
+  //line up to fire
+  chassis.set_drive_pid(-8, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-53, DRIVE_SPEED);
+  chassis.set_turn_pid(0, 80);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-57, DRIVE_SPEED);
   chassis.wait_drive();
 
   fire();
 
+  
   //move into 3 stack
   chassis.set_drive_pid(33, DRIVE_SPEED);
   chassis.wait_drive();
@@ -175,11 +242,13 @@ void autonSkillsNew() {
   //turn intake on and move forward slowly
   intakeState = 1;
   intaketoggle();
-  chassis.set_drive_pid(35, 30);
+  chassis.set_drive_pid(20, 100);
+  chassis.wait_drive();
+  chassis.set_drive_pid(25, 60);
   chassis.wait_drive();
   pros::delay(200);
   //move back to the goal
-  chassis.set_drive_pid(-40, DRIVE_SPEED);
+  chassis.set_drive_pid(-47, DRIVE_SPEED);
   chassis.wait_drive();
   //turn to face goal
   chassis.set_turn_pid(0, TURN_SPEED);
@@ -205,32 +274,44 @@ void autonSkillsNew() {
   intaketoggle(); 
 
   //move forward into disc
-  chassis.set_drive_pid(27, 50);
+  chassis.set_drive_pid(27.5, 50);
   chassis.wait_drive();
   //turn to 135 deg
   chassis.set_turn_pid(-135, TURN_SPEED);
   chassis.wait_drive();
   //move forward into 3 row
-  chassis.set_drive_pid(45, DRIVE_SPEED);
+  chassis.set_drive_pid(45, 70);
   chassis.wait_drive();
-  //turn to 180 deg
-  chassis.set_turn_pid(-180, TURN_SPEED);
+  //move back 15
+  chassis.set_drive_pid(-14, DRIVE_SPEED);
   chassis.wait_drive();
-  //move forward towards wall
-  chassis.set_drive_pid(30, DRIVE_SPEED);
-  chassis.wait_drive();
-  //turn intake off
+
   intakeState = 0;
   intaketoggle();
-  //turn to 90 deg
-  chassis.set_turn_pid(-90, TURN_SPEED);
+
+  //turn to -45
+  chassis.set_turn_pid(-45, TURN_SPEED);
   chassis.wait_drive();
-  //move back to goal
-  chassis.set_drive_pid(-6.5, DRIVE_SPEED);
-  chassis.wait_drive();
-  //fire
+
+  //fire while backing up
+  chassis.set_drive_pid(-10, DRIVE_SPEED);
+  pros::delay(75);
   fire();
-  //move forward 5
+  chassis.wait_drive();
+
+  //move forward
+  chassis.set_drive_pid(3, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_turn_pid(-180, 80);
+  chassis.wait_drive();
+
+  //move forward
+  intakeState = 1;
+  intaketoggle();
+  chassis.set_drive_pid(41, 50);
+  chassis.wait_drive();
+  intakeState = 0;
+  intaketoggle();
 
   /* no more 3 stack
   //turn to -45 deg
@@ -252,46 +333,62 @@ void autonSkillsNew() {
   //fire
   fire(); */
 
-  //move forward 40 inches
-  chassis.set_drive_pid(43, DRIVE_SPEED);
+  //set up to fire
+  chassis.set_angle(180);
+  chassis.set_turn_pid(268, TURN_SPEED);
   chassis.wait_drive();
-  //turn to 180 deg
-  chassis.set_turn_pid(-180, TURN_SPEED);
+  fire();
+  chassis.set_turn_pid(270, 60);
   chassis.wait_drive();
+
+  //move forward and turn into roller
+  chassis.set_drive_pid(47, 90);
+  chassis.wait_drive();
+  chassis.set_turn_pid(180, TURN_SPEED);
+  chassis.wait_drive();
+
   //move forward 6 inches and spin roller
-  chassis.set_drive_pid(9.5, DRIVE_SPEED);
+  chassis.set_drive_pid(4, DRIVE_SPEED);
   chassis.wait_drive();
   spinRoller();
   pros::delay(500);
+
   // move back 3 inches and turn to 0 deg
   chassis.set_drive_pid(-4.5, DRIVE_SPEED);
   chassis.wait_drive(); 
   chassis.set_turn_pid(-10, TURN_SPEED);
   chassis.wait_drive();
+
   //move forward 7 inches and turn intake on
   intakeState = 1;
   intaketoggle();
-  chassis.set_drive_pid(14, DRIVE_SPEED);
+  chassis.set_drive_pid(12, DRIVE_SPEED);
   chassis.wait_drive();
+
   //move forward 20 inches
-  chassis.set_drive_pid(25, 70);
+  chassis.set_drive_pid(22, 60);
   chassis.wait_drive();
+
   //move back 30
-  chassis.set_drive_pid(-13.5, DRIVE_SPEED);
+  chassis.set_drive_pid(-10.5, DRIVE_SPEED);
   chassis.wait_drive();
+
   //turn to -90 deg and turn intake off
-  chassis.set_turn_pid(-90, TURN_SPEED);
+  chassis.set_turn_pid(270, TURN_SPEED);
   chassis.wait_drive();
   intakeState = 0;
   intaketoggle();
+
   //move forward 29
-  chassis.set_drive_pid(27, DRIVE_SPEED);
+  chassis.set_drive_pid(25, DRIVE_SPEED);
   chassis.wait_drive();
+
   //spin roller
   spinRoller();
   pros::delay(500);
+
   //swing left to 180
-  chassis.set_swing_pid(ez::LEFT_SWING, -180, SWING_SPEED);
+  chassis.set_swing_pid(ez::LEFT_SWING, 180, SWING_SPEED);
   chassis.wait_drive();
   //move back 42
   chassis.set_drive_pid(-40, DRIVE_SPEED);
@@ -315,31 +412,57 @@ void autonSkillsNew() {
   //move forward into 3 row
   chassis.set_drive_pid(45, 50);
   chassis.wait_drive();
-  //turn to -20 deg
+  
+  //pasted from other half
+    //move back 15
+  chassis.set_drive_pid(-15, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  intakeState = 0;
+  intaketoggle();
+
+  //turn to -45
+  chassis.set_turn_pid(135, TURN_SPEED);
+  chassis.wait_drive();
+
+  //fire while backing up
+  chassis.set_drive_pid(-11, DRIVE_SPEED);
+  pros::delay(75);
+  fire();
+  chassis.wait_drive();
+
+  //move forward
+  chassis.set_drive_pid(4, DRIVE_SPEED);
+  chassis.wait_drive();
   chassis.set_turn_pid(0, TURN_SPEED);
   chassis.wait_drive();
-  //move forward towards wall
-  chassis.set_drive_pid(30, DRIVE_SPEED);
+
+  //move forward
+  intakeState = 1;
+  intaketoggle();
+  chassis.set_drive_pid(41, 50);
   chassis.wait_drive();
-  //turn to 90 deg
+  intakeState = 0;
+  intaketoggle();
+
+
+  //turn to goal and then fire
   chassis.set_turn_pid(90, TURN_SPEED);
   chassis.wait_drive();
-  //move back into goal
-  chassis.set_drive_pid(-8.5, DRIVE_SPEED);
-  chassis.wait_drive();
-  //fire
   fire();
-
   
+  //end paste
+
+  /*
   //turn to 135 deg
-  chassis.set_turn_pid(127, TURN_SPEED);
+  chassis.set_turn_pid(124, TURN_SPEED);
   chassis.wait_drive();
   //turn intake on and then move forward into 3 stack at 40 speed
   intakeState = 1;
   intaketoggle();
-  chassis.set_drive_pid(25, DRIVE_SPEED);
+  chassis.set_drive_pid(28, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(15, 35);
+  chassis.set_drive_pid(18, 35);
   chassis.wait_drive();
   //move back to goal
   chassis.set_drive_pid(-43, DRIVE_SPEED);
@@ -348,7 +471,7 @@ void autonSkillsNew() {
   chassis.set_turn_pid(90, TURN_SPEED);
   chassis.wait_drive();
   //fire
-  fire();
+  fire();*/
 
   chassis.set_turn_pid(92, TURN_SPEED);
   //move forward 50 inches
@@ -377,7 +500,6 @@ void pushAuton() {
 }
 
 void matchLeftFull() {
-  exit_condition_defaults();
 
   //move into roller and spin it
   chassis.set_drive_pid(7.5, DRIVE_SPEED);
@@ -388,9 +510,14 @@ void matchLeftFull() {
   
   chassis.set_swing_pid(ez::LEFT_SWING, -10, SWING_SPEED);
   chassis.wait_drive();
+  
+  chassis.set_drive_pid(-7, DRIVE_SPEED);
+  pros::delay(75);
   //fire
   fire();
-  pros::delay(500);
+  chassis.wait_drive();
+  chassis.set_drive_pid(7, DRIVE_SPEED);
+  chassis.wait_drive();
   //left swing to -120
   chassis.set_swing_pid(ez::LEFT_SWING, -120, SWING_SPEED);
   chassis.wait_drive();
@@ -409,16 +536,20 @@ void matchLeftFull() {
   chassis.set_swing_pid(ez::RIGHT_SWING, -23, SWING_SPEED);
   chassis.wait_drive();
   //move back 3
-  chassis.set_drive_pid(-4, DRIVE_SPEED);
+  chassis.set_drive_pid(-5, 127);
   //fire
-  pros::delay(30);
+  pros::delay(50);
   fire();
   chassis.wait_drive();
-  pros::delay(300);
 
   //swing right to -135
   chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
   chassis.wait_drive();
+  while (!state) {
+    pros::delay(1);
+  }
+  
+  
   //move forward 60 with intake and slew on
   chassis.set_drive_pid(70, 75, true);
   chassis.wait_drive();
@@ -429,19 +560,19 @@ void matchLeftFull() {
   chassis.set_swing_pid(ez::RIGHT_SWING, -60, SWING_SPEED);
   chassis.wait_drive();
   //move back 7
-  chassis.set_drive_pid(-10, DRIVE_SPEED, true);
-  chassis.wait_drive();
-  //intake off and fire
+  chassis.set_drive_pid(-8, DRIVE_SPEED, true);
+  pros::delay(75);
   fire();
   boost.set_value(true);
+  chassis.wait_drive();
   //swing right to -110
-  chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
+  chassis.set_swing_pid(ez::RIGHT_SWING, -137, SWING_SPEED);
   chassis.wait_drive();
   boost.set_value(false);
   intakeState = 0;
   intaketoggle();
   //move forward 30
-  chassis.set_drive_pid(42, DRIVE_SPEED, true);
+  chassis.set_drive_pid(41, DRIVE_SPEED, true);
   chassis.wait_drive();
   //spin roller
   intake1.move_relative(600, 100);

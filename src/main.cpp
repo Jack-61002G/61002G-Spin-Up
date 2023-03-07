@@ -20,7 +20,6 @@
 
 void initialize() {
 
-  pros::Task cata_task(cata_task_fn);
 
   // Print our branding over your terminal :D
   ez::print_ez_template();
@@ -50,18 +49,19 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons(
       {
+        Auton("Trust Alliance", trustAlliance),
         Auton("right side push", rightPushRoller),
+        Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
+        Auton("new skills route", autonSkillsNew),
         Auton("Teamwork Match, Push Disks In", pushAuton),
         Auton("Teamwork Match NO AUTON", matchNoAuton),
-        Auton("new skills route", autonSkillsNew),
-        Auton("roller auto", rollerAuto),
-        Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
         Auton("Test Drive\n\nDrive forward and come back.", drive_example),
         Auton("turn test\n\ntest turn", turn_test)});
 
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+  pros::Task cata_task(cata_task_fn);
 }
 
 /**
@@ -92,6 +92,7 @@ void autonomous() {
   chassis.reset_drive_sensor();              // Reset drive sensors to 0
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps
                                              // autonomous consistency.
+
 
   ez::as::auton_selector
       .call_selected_auton(); // Calls selected auton from autonomous selector.

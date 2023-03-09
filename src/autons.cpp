@@ -314,8 +314,6 @@ void autonSkillsNew() {
   intaketoggle();
   chassis.set_drive_pid(41, 50);
   chassis.wait_drive();
-  intakeState = 0;
-  intaketoggle();
 
   /* no more 3 stack
   //turn to -45 deg
@@ -341,6 +339,10 @@ void autonSkillsNew() {
   chassis.set_angle(180);
   chassis.set_turn_pid(268, TURN_SPEED);
   chassis.wait_drive();
+
+  intakeState = 0;
+  intaketoggle();
+
   fire();
   chassis.set_turn_pid(270, 60);
   chassis.wait_drive();

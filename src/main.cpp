@@ -105,6 +105,8 @@ void opcontrol() {
   pros::ADIDigitalOut piston('B');
   piston.set_value(false);
 
+  useAltLimitSwitch = false;
+
   while (true) {
 
     chassis.arcade_standard(ez::SPLIT);

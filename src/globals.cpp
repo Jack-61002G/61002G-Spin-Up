@@ -7,8 +7,10 @@
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
 pros::ADIButton limitButton('A');
+pros::ADIButton altLimitButton('E');
 pros::Motor intake1(9);
 int intakeState = 0;
+bool useAltLimitSwitch = false;
 pros::ADIDigitalOut boost('h');
 
 // Chassis constructor
@@ -70,6 +72,7 @@ bool state = false;
 void cata_task_fn() {
   
   while (true) {
+    if (useAltLimitSwitch) {
       if ((limitButton.get_value() == false)) {
         // move catapult down until its reached loading position
         catapultMotor = 127;
@@ -77,7 +80,18 @@ void cata_task_fn() {
       } else if (!cata_override && limitButton.get_value()) {
         catapultMotor = 0;
         state = true;
-    }pros::delay(10);}
+      }
+    } else {
+      if ((limitButton.get_value() == false)) {
+        // move catapult down until its reached loading position
+        catapultMotor = 127;
+
+      } else if (!cata_override && limitButton.get_value()) {
+        catapultMotor = 0;
+        state = true;
+      }
+    }
+    pros::delay(5);}
 
     
   }
@@ -85,7 +99,7 @@ void cata_task_fn() {
 void fire() {
   cata_override = true;
   catapultMotor = 127;
-  pros::delay(500);
+  pros::delay(250);
   cata_override = false;
   state = false;
 }

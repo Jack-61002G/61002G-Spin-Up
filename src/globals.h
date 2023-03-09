@@ -12,6 +12,7 @@ extern bool cata_override;
 extern pros::Motor intake1;
 extern pros::Motor intake2;
 extern int intakeState;
+extern bool useAltLimitSwitch;
 extern Drive chassis;
 extern pros::ADIDigitalOut boost;
 extern bool state;

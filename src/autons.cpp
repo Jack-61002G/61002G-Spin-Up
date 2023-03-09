@@ -72,6 +72,8 @@ void drive_example() {
 
 void rightPushRoller() {
   exit_condition_defaults();
+
+  useAltLimitSwitch = true;
   
   chassis.set_swing_pid(ez::RIGHT_SWING, 21, SWING_SPEED);
   chassis.wait_drive();
@@ -128,6 +130,8 @@ void rightPushRoller() {
 void trustAlliance() {
 
   exit_condition_defaults();
+
+  useAltLimitSwitch = true;
 
   //turn to goal
   chassis.set_turn_pid(-30, TURN_SPEED);
@@ -500,6 +504,8 @@ void pushAuton() {
 }
 
 void matchLeftFull() {
+
+  useAltLimitSwitch = true;
 
   //move into roller and spin it
   chassis.set_drive_pid(7.5, DRIVE_SPEED);

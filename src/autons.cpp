@@ -215,9 +215,9 @@ void autonSkillsNew() {
   intakeState = 1;
   intaketoggle();
 
-  chassis.set_drive_pid(31, 75);
+  chassis.set_drive_pid(31, 50);
 
-  pros::delay(1000);
+  pros::delay(1200);
   intakeState = 0;
   intaketoggle();
   
@@ -240,15 +240,15 @@ void autonSkillsNew() {
   //move into 3 stack
   chassis.set_drive_pid(33, DRIVE_SPEED);
   chassis.wait_drive();
-  //turn to -90
-  chassis.set_turn_pid(-45, TURN_SPEED);
+  //turn to -45
+  chassis.set_turn_pid(-48, TURN_SPEED);
   chassis.wait_drive();
   //turn intake on and move forward slowly
   intakeState = 1;
   intaketoggle();
   chassis.set_drive_pid(20, 100);
   chassis.wait_drive();
-  chassis.set_drive_pid(25, 60);
+  chassis.set_drive_pid(30, 60);
   chassis.wait_drive();
   pros::delay(200);
   //move back to the goal
@@ -278,8 +278,9 @@ void autonSkillsNew() {
   intaketoggle(); 
 
   //move forward into disc
-  chassis.set_drive_pid(27.5, 50);
+  chassis.set_drive_pid(28.5, 50);
   chassis.wait_drive();
+  chassis.set_drive_pid(-2, 60);
   //turn to 135 deg
   chassis.set_turn_pid(-135, TURN_SPEED);
   chassis.wait_drive();
@@ -348,19 +349,19 @@ void autonSkillsNew() {
   chassis.wait_drive();
 
   //move forward and turn into roller
-  chassis.set_drive_pid(47, 90);
+  chassis.set_drive_pid(46, 90);
   chassis.wait_drive();
   chassis.set_turn_pid(180, TURN_SPEED);
   chassis.wait_drive();
 
   //move forward 6 inches and spin roller
-  chassis.set_drive_pid(4, DRIVE_SPEED);
+  chassis.set_drive_pid(5, DRIVE_SPEED);
   chassis.wait_drive();
   spinRoller();
   pros::delay(500);
 
   // move back 3 inches and turn to 0 deg
-  chassis.set_drive_pid(-4.5, DRIVE_SPEED);
+  chassis.set_drive_pid(-6.5, DRIVE_SPEED);
   chassis.wait_drive(); 
   chassis.set_turn_pid(-10, TURN_SPEED);
   chassis.wait_drive();
@@ -386,7 +387,7 @@ void autonSkillsNew() {
   intaketoggle();
 
   //move forward 29
-  chassis.set_drive_pid(25, DRIVE_SPEED);
+  chassis.set_drive_pid(24.5, DRIVE_SPEED);
   chassis.wait_drive();
 
   //spin roller
@@ -410,17 +411,17 @@ void autonSkillsNew() {
   //move forward into disc
   chassis.set_drive_pid(30, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-5, DRIVE_SPEED);
+  chassis.set_drive_pid(-3, DRIVE_SPEED);
   chassis.wait_drive();
   //turn to 45 deg
-  chassis.set_turn_pid(45, TURN_SPEED);
+  chassis.set_turn_pid(47, TURN_SPEED);
   chassis.wait_drive();
   //move forward into 3 row
   chassis.set_drive_pid(45, 50);
   chassis.wait_drive();
   
   //pasted from other half
-    //move back 15
+  //move back 15
   chassis.set_drive_pid(-15, DRIVE_SPEED);
   chassis.wait_drive();
 
@@ -428,17 +429,16 @@ void autonSkillsNew() {
   intaketoggle();
 
   //turn to -45
-  chassis.set_turn_pid(135, TURN_SPEED);
+  chassis.set_turn_pid(134, TURN_SPEED);
   chassis.wait_drive();
 
   //fire while backing up
-  chassis.set_drive_pid(-11, DRIVE_SPEED);
-  pros::delay(75);
+  chassis.set_drive_pid(-10, DRIVE_SPEED);
   fire();
   chassis.wait_drive();
 
   //move forward
-  chassis.set_drive_pid(4, DRIVE_SPEED);
+  chassis.set_drive_pid(3, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_turn_pid(0, TURN_SPEED);
   chassis.wait_drive();
@@ -480,12 +480,35 @@ void autonSkillsNew() {
   fire();*/
 
   chassis.set_turn_pid(92, TURN_SPEED);
+
   //move forward 50 inches
-  chassis.set_drive_pid(66, DRIVE_SPEED);
+  intakeState = 1;
+  intaketoggle();
+
+  chassis.set_drive_pid(68, DRIVE_SPEED);
   chassis.wait_drive();
+  pros::delay(500);
+
+  intakeState = 0;
+  intaketoggle();
+  
+  //back up to goal
+  chassis.set_drive_pid(-60, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  fire();
+
+  //move to corner
+  chassis.set_drive_pid(61, DRIVE_SPEED);
+  chassis.wait_drive();
+
   //turn to 45 deg
   chassis.set_turn_pid(45, TURN_SPEED);
   chassis.wait_drive();
+
+  chassis.set_drive_pid(1, 30);
+  chassis.wait_drive();
+  pros::delay(2000);
 
   //fire endgame piston
   piston.set_value(true);

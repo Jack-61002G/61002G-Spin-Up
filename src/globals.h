@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Catapult.hpp"
+
 #include "main.h"
 #include "pros/adi.hpp"
 #include "pros/misc.hpp"
@@ -26,3 +28,4 @@ extern void intaketoggle();
 extern void spinRoller();
 extern void fire(bool release);
 extern int joystickCurve(double input, bool red);
+extern Catapult cata;

@@ -1,5 +1,6 @@
 #include "main.h"
 //#include "autons.hpp"
+#include "Catapult.hpp"
 #include "autons.hpp"
 #include "globals.h"
 #include "pros/misc.h"
@@ -35,9 +36,10 @@ void initialize() {
 
   selector::init();
 
-  pros::Task cata_task(cata_task_fn);
+  
   pros::lcd::initialize();
   chassis.calibrate();
+  cata.startTask(); // start the catapult task
   pros::Task screenTask(screen); // create a task to print the position to the screen
   
 
@@ -75,7 +77,7 @@ void auton() {
 
   chassis.moveTo(53, -31, 1000, 90);
   chassis.turnTo(-52, -52, 500, true);
-  fire(false);
+  cata.fire();
 
     intakeState = 1;
   intaketoggle();
@@ -89,7 +91,7 @@ void auton() {
   chassis.moveTo(23, -10, 1000, 90);
   chassis.turnTo(-56, -44, 1000, true);
   
-  fire(false);
+  cata.fire();
   
   chassis.turnTo(-26, 56, 1000);
   chassis.moveTo(-26, 56, 5000, 70);
@@ -98,7 +100,7 @@ void auton() {
   chassis.moveTo(-10, 24, 2000, 90);
 
   chassis.turnTo(-52, -52, 1000, true);
-  fire(false);
+  cata.fire();
   chassis.turnTo(31, 61, 1000);
   chassis.moveTo(31, 61, 3000, 90);
   spinRoller();
@@ -130,11 +132,7 @@ void opcontrol() {
 
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-      fire(false);
-    }
-    //fire with true of r1 is pressed
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-      fire(true);
+      cata.fire();
     }
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {

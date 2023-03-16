@@ -43,13 +43,3 @@
   bool Catapult::getState() {
     return state;
   }
-
-  void Catapult::fire(lemlib::Pose pose) {
-
-    for (;;) {
-        if ((chassis.getPose().distance(pose) <= .5) && (chassis.getPose().angle(pose) <=2)) {
-        fire();
-        break;
-        }
-    }
-  }

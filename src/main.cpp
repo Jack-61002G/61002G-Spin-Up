@@ -7,6 +7,9 @@
 #include "pros/rtos.hpp"
 #include "autoSelect/selection.h"
 
+  #define fireDelay 350
+  #define ASYNC(func) pros::Task task{ [=] {pros::delay(fireDelay); func();} }
+
 /////
 // For instalattion, upgrading, documentations and tutorials, check out website!
 // https://ez-robotics.github.io/EZ-Template/
@@ -74,10 +77,11 @@ void auton() {
   chassis.moveTo(59.5, -31, 1000, 200);
   spinRoller();
   pros::delay(700);
-
+  
+  ASYNC(cata.fire);
   chassis.moveTo(53, -31, 1000, 90);
   chassis.turnTo(-52, -52, 500, true);
-  cata.fire();
+  
 
     intakeState = 1;
   intaketoggle();

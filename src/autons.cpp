@@ -75,7 +75,7 @@ void rightPushRoller() {
 
   useAltLimitSwitch = true;
   
-  chassis.set_swing_pid(ez::RIGHT_SWING, 21, SWING_SPEED);
+  chassis.set_swing_pid(ez::RIGHT_SWING, 20, SWING_SPEED);
   chassis.wait_drive();
   //fire
   chassis.set_drive_pid(-6.5, 127);
@@ -108,22 +108,10 @@ void rightPushRoller() {
   intakeState = 0;
   intaketoggle();
 
-  chassis.set_drive_pid(66.5, DRIVE_SPEED);
+  chassis.set_drive_pid(68.5, DRIVE_SPEED);
   chassis.wait_drive();
   intake1.move_relative(600, 100);
   pros::delay(250);
-  //left swing to -55
-  chassis.set_swing_pid(ez::LEFT_SWING, -50, SWING_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-70, DRIVE_SPEED);
-  chassis.wait_drive();
-  //swing to 0 and ride the low goal
-  chassis.set_swing_pid(ez::RIGHT_SWING, 0, SWING_SPEED);
-  chassis.wait_drive();
-  intakeState = 1;
-  intaketoggle();
-  chassis.set_drive_pid(45, 60);
-  chassis.wait_drive();
 
 }
 
@@ -597,7 +585,7 @@ void matchLeftFull() {
   boost.set_value(true);
   chassis.wait_drive();
   //swing right to -110
-  chassis.set_swing_pid(ez::RIGHT_SWING, -137, SWING_SPEED);
+  chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
   chassis.wait_drive();
   boost.set_value(false);
   intakeState = 0;

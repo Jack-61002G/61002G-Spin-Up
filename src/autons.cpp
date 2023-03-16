@@ -89,7 +89,6 @@ void rightPushRoller() {
   chassis.wait_drive();
   chassis.set_drive_pid(57, 60, true);
   intakeState = 1;
-  intaketoggle();
   chassis.wait_drive();
   //right swing to -45
   chassis.set_swing_pid(ez::LEFT_SWING, 45, SWING_SPEED);
@@ -106,7 +105,6 @@ void rightPushRoller() {
   boost.set_value(false);
   // move forward 50
   intakeState = 0;
-  intaketoggle();
 
   chassis.set_drive_pid(68.5, DRIVE_SPEED);
   chassis.wait_drive();
@@ -146,7 +144,6 @@ void trustAlliance() {
   pros::delay(6000);
 
   intakeState = 1;
-  intaketoggle();
   //move forward
   chassis.set_drive_pid(45, 50);
   chassis.wait_drive();
@@ -201,13 +198,11 @@ void autonSkillsNew() {
   chassis.wait_drive();
 
   intakeState = 1;
-  intaketoggle();
 
   chassis.set_drive_pid(31, 50);
 
   pros::delay(1200);
   intakeState = 0;
-  intaketoggle();
   
   chassis.wait_drive();
 
@@ -233,7 +228,6 @@ void autonSkillsNew() {
   chassis.wait_drive();
   //turn intake on and move forward slowly
   intakeState = 1;
-  intaketoggle();
   chassis.set_drive_pid(20, 100);
   chassis.wait_drive();
   chassis.set_drive_pid(30, 60);
@@ -247,7 +241,6 @@ void autonSkillsNew() {
   chassis.wait_drive();
 
   intakeState = 0;
-  intaketoggle();
   //move back to goal
   chassis.set_drive_pid(-33, DRIVE_SPEED);
   chassis.wait_drive();
@@ -263,7 +256,6 @@ void autonSkillsNew() {
 
   //intake on
   intakeState = 1;
-  intaketoggle(); 
 
   //move forward into disc
   chassis.set_drive_pid(28.5, 50);
@@ -280,7 +272,6 @@ void autonSkillsNew() {
   chassis.wait_drive();
 
   intakeState = 0;
-  intaketoggle();
 
   //turn to -45
   chassis.set_turn_pid(-45, TURN_SPEED);
@@ -300,7 +291,6 @@ void autonSkillsNew() {
 
   //move forward
   intakeState = 1;
-  intaketoggle();
   chassis.set_drive_pid(41, 50);
   chassis.wait_drive();
 
@@ -310,7 +300,6 @@ void autonSkillsNew() {
   chassis.wait_drive();
   //turn intake on and then move forward into 3 stack at 40 speed
   intakeState = 1;
-  intaketoggle();
   chassis.set_drive_pid(20, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(30, 30);
@@ -330,7 +319,6 @@ void autonSkillsNew() {
   chassis.wait_drive();
 
   intakeState = 0;
-  intaketoggle();
 
   fire();
   chassis.set_turn_pid(270, 60);
@@ -356,7 +344,6 @@ void autonSkillsNew() {
 
   //move forward 7 inches and turn intake on
   intakeState = 1;
-  intaketoggle();
   chassis.set_drive_pid(12, DRIVE_SPEED);
   chassis.wait_drive();
 
@@ -372,7 +359,6 @@ void autonSkillsNew() {
   chassis.set_turn_pid(270, TURN_SPEED);
   chassis.wait_drive();
   intakeState = 0;
-  intaketoggle();
 
   //move forward 29
   chassis.set_drive_pid(24.5, DRIVE_SPEED);
@@ -395,7 +381,6 @@ void autonSkillsNew() {
   chassis.wait_drive();
   //turn on intake
   intakeState = 1;
-  intaketoggle();
   //move forward into disc
   chassis.set_drive_pid(30, DRIVE_SPEED);
   chassis.wait_drive();
@@ -414,7 +399,6 @@ void autonSkillsNew() {
   chassis.wait_drive();
 
   intakeState = 0;
-  intaketoggle();
 
   //turn to -45
   chassis.set_turn_pid(134, TURN_SPEED);
@@ -433,11 +417,9 @@ void autonSkillsNew() {
 
   //move forward
   intakeState = 1;
-  intaketoggle();
   chassis.set_drive_pid(41, 50);
   chassis.wait_drive();
   intakeState = 0;
-  intaketoggle();
 
 
   //turn to goal and then fire
@@ -453,7 +435,6 @@ void autonSkillsNew() {
   chassis.wait_drive();
   //turn intake on and then move forward into 3 stack at 40 speed
   intakeState = 1;
-  intaketoggle();
   chassis.set_drive_pid(28, DRIVE_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(18, 35);
@@ -471,14 +452,12 @@ void autonSkillsNew() {
 
   //move forward 50 inches
   intakeState = 1;
-  intaketoggle();
 
   chassis.set_drive_pid(68, DRIVE_SPEED);
   chassis.wait_drive();
   pros::delay(500);
 
   intakeState = 0;
-  intaketoggle();
   
   //back up to goal
   chassis.set_drive_pid(-60, DRIVE_SPEED);
@@ -500,12 +479,6 @@ void autonSkillsNew() {
 
   //fire endgame piston
   piston.set_value(true);
-  //PLEASE FOR THE LOVE OF GOD DO NOT FORGET TO ADD AND TEST THIS BEFORE ROBOBASH
-
-  
-
-
-
 
 }
 
@@ -543,7 +516,6 @@ void matchLeftFull() {
   //move forward 40 inches
   //intake on
   intakeState = 1;
-  intaketoggle();
   chassis.set_drive_pid(26, DRIVE_SPEED, true);
   chassis.wait_drive();  //move another 25
   chassis.set_drive_pid(31, 50, true);
@@ -589,7 +561,6 @@ void matchLeftFull() {
   chassis.wait_drive();
   boost.set_value(false);
   intakeState = 0;
-  intaketoggle();
   //move forward 30
   chassis.set_drive_pid(41, DRIVE_SPEED, true);
   chassis.wait_drive();

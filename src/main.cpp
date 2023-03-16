@@ -62,6 +62,7 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   pros::Task cata_task(cata_task_fn);
+  pros::Task intake_task(intake_task_fn);
 }
 
 /**
@@ -113,24 +114,6 @@ void opcontrol() {
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
       fire();
-    }
-
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-      if (intakeState == 0) {
-        intakeState = -1;
-        intaketoggle();
-      } else {
-        intakeState = 0;
-        intaketoggle();
-      }
-    } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-      if (intakeState == 0) {
-        intakeState = 1;
-        intaketoggle();
-      } else {
-        intakeState = 0;
-        intaketoggle();
-      }
     }
 
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) &&

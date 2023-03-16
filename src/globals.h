@@ -19,6 +19,6 @@ extern bool state;
 
 
 extern void cata_task_fn();
-extern void intaketoggle();
+extern void intake_task_fn();
 extern void spinRoller();
 extern void fire();

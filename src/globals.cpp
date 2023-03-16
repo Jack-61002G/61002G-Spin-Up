@@ -9,7 +9,6 @@ pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
 pros::ADIButton limitButton('A');
 pros::ADIButton altLimitButton('E');
 pros::Motor intake1(9);
-int intakeState = 0;
 bool useAltLimitSwitch = false;
 pros::ADIDigitalOut boost('h');
 
@@ -67,7 +66,7 @@ Drive chassis(
 void cataTask();
 void intaketoggle();
 bool cata_override = false;
-bool state = false;
+bool cata_state = false;
 
 void cata_task_fn() {
   
@@ -76,32 +75,63 @@ void cata_task_fn() {
       if ((limitButton.get_value() == false)) {
         // move catapult down until its reached loading position
         catapultMotor = 127;
+        cata_state = false;
 
       } else if (!cata_override && limitButton.get_value()) {
         catapultMotor = 0;
-        state = true;
+        cata_state = true;
       }
     } else {
       if ((limitButton.get_value() == false)) {
         // move catapult down until its reached loading position
         catapultMotor = 127;
+        cata_state = false;
 
       } else if (!cata_override && limitButton.get_value()) {
         catapultMotor = 0;
-        state = true;
+        cata_state = true;
       }
     }
-    pros::delay(5);}
-
-    
+    pros::delay(5);
   }
+}
+
+void intakeTask();
+int intakeState = 0;
+
+void intake_task_fn() {
+  while (true) {
+
+    //take input
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+      if (intakeState == 0) {intakeState = -1;}
+      else {intakeState = 0;}}
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+      if (intakeState == 0) {intakeState = 1;}
+      else {intakeState = 0;}}
+
+    //apply change to motors
+    if (intakeState == 1 && cata_state) {
+      intake1.move_voltage(12000);}
+    else if (intakeState == -1 && cata_state) {
+      intake1.move_voltage(-12000);}
+    else {
+      intake1.move_voltage(0);
+    }
+    pros::delay(5);
+  }
+}
+
+void spinRoller() {
+  intake1.move_relative(1100, 100);
+}
 
 void fire() {
   cata_override = true;
   catapultMotor = 127;
   pros::delay(250);
   cata_override = false;
-  state = false;
+  cata_state = false;
 }
 
 void fireAsync() {
@@ -110,5 +140,5 @@ void fireAsync() {
     catapultMotor = 127;
   }
   cata_override = false;
-  state = false;
+  cata_state = false;
 }

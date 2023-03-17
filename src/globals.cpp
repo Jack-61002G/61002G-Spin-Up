@@ -118,6 +118,9 @@ void intake_task_fn() {
     else {
       intake1.move_voltage(0);
     }
+      
+    if (!cata_state) {intake1.move_voltage(0);}
+      
     pros::delay(5);
   }
 }

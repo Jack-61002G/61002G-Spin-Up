@@ -17,5 +17,5 @@ void intaketoggle() { // 0 = stop, -1 = intake, 1 = output
 }
 
 void spinRoller() {
-  intake1.move_relative(1100, 100);
+  intake1.move_relative(600, 100);
 }

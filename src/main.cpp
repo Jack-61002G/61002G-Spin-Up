@@ -71,47 +71,19 @@ void competition_initialize() {
 }
 
 void auton() {
+chassis.setPose(54.5, -31.8, 90);
 
-  chassis.setPose({53, -31, 90});
-
-  chassis.moveTo(59.5, -31, 1000, 200);
-  spinRoller();
-  pros::delay(700);
-  
-  ASYNC(cata.fire);
-  chassis.moveTo(53, -31, 1000, 90);
-  chassis.turnTo(-52, -52, 500, true);
-  
-
-    intakeState = 1;
-  intaketoggle();
-
-  chassis.turnTo(35, -12, 1000);
-  chassis.moveTo(32, -8, 2000, 200);
-
-  chassis.moveTo(16, 5, 4000, 50);
-  pros::delay(500);
-  
-  chassis.moveTo(23, -10, 1000, 90);
-  chassis.turnTo(-56, -44, 1000, true);
-  
-  cata.fire();
-  
-  chassis.turnTo(-26, 56, 1000);
-  chassis.moveTo(-26, 56, 5000, 70);
-  
-
-  chassis.moveTo(-10, 24, 2000, 90);
-
-  chassis.turnTo(-52, -52, 1000, true);
-  cata.fire();
-  chassis.turnTo(31, 61, 1000);
-  chassis.moveTo(31, 61, 3000, 90);
-  spinRoller();
+chassis.moveTo(60.5, -31.8, 1000);
+spinRoller();
+pros::delay(350);
+chassis.moveTo(54, -31.8, 1000);
 
 }
 
 void autonomous() {
+
+  left_side_motors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+  right_side_motors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
   
   if(selector::auton == 1){auton();};
 

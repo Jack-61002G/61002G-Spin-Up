@@ -16,16 +16,16 @@ pros::ADIDigitalOut boost('h');
 Drive chassis(
     // Left Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
-    {-7, 6, -11}
+    {-12, -13, 4}
 
     // Right Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
     ,
-    {18, 8, -20}
+    {18, -17, 20}
 
     // IMU Port
     ,
-    17
+    10
 
     // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
     //    (or tracking wheel diameter)
@@ -72,12 +72,12 @@ void cata_task_fn() {
   
   while (true) {
     if (useAltLimitSwitch) {
-      if ((limitButton.get_value() == false)) {
+      if ((altLimitButton.get_value() == false)) {
         // move catapult down until its reached loading position
         catapultMotor = 127;
         cata_state = false;
 
-      } else if (!cata_override && limitButton.get_value()) {
+      } else if (!cata_override && altLimitButton.get_value()) {
         catapultMotor = 0;
         cata_state = true;
       }
@@ -98,9 +98,12 @@ void cata_task_fn() {
 
 void intakeTask();
 int intakeState = 0;
+bool shouldSpin = true;
 
 void intake_task_fn() {
   while (true) {
+
+    if(shouldSpin) {
 
     //take input
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
@@ -119,14 +122,17 @@ void intake_task_fn() {
       intake1.move_voltage(0);
     }
       
-    if (!cata_state) {intake1.move_voltage(0);}
+    if (!cata_state) {intake1.move_voltage(0);}}
       
     pros::delay(5);
   }
 }
 
 void spinRoller() {
+  shouldSpin = false;
   intake1.move_relative(1100, 100);
+  pros::delay(500);
+  shouldSpin = true;
 }
 
 void fire() {

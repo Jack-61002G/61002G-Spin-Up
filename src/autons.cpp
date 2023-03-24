@@ -13,32 +13,32 @@
 ///
 
 const int DRIVE_SPEED =
-    95; // This is 110/127 (around 87% of max speed).  We don't suggest making
+    110; // This is 110/127 (around 87% of max speed).  We don't suggest making
         // this 127. If this is 127 and the robot tries to heading correct, it's
         // only correcting by making one side slower.  When this is 87%, it's
         // correcting by making one side faster and one side slower, giving
         // better heading correction.
-const int TURN_SPEED = 95;
-const int SWING_SPEED = 95;
+const int TURN_SPEED = 110;
+const int SWING_SPEED = 100;
 
 // It's best practice to tune constants when the robot is empty and with heavier
 // game objects, or with lifts up vs down. If the objects are light or the cog
 // doesn't change much, then there isn't a concern here.
 
 void garage_constants() {
-  chassis.set_slew_min_power(55, 55);
+  chassis.set_slew_min_power(70, 70);
   chassis.set_slew_distance(7, 7);
-  chassis.set_pid_constants(&chassis.headingPID, 11, 0, 20, 0);
+  chassis.set_pid_constants(&chassis.headingPID, 12, 0, 20, 0);
   chassis.set_pid_constants(&chassis.forward_drivePID, .45, 0, 4, 0);
   chassis.set_pid_constants(&chassis.backward_drivePID, .45, 0, 4, 0);
-  chassis.set_pid_constants(&chassis.turnPID, 5, 0.003, 35, 15);
-  chassis.set_pid_constants(&chassis.swingPID, 7, 0, 45, 0);
+  chassis.set_pid_constants(&chassis.turnPID, 5, 0.003, 47, 15);
+  chassis.set_pid_constants(&chassis.swingPID, 7, 0, 50, 0);
 }
 
 void exit_condition_defaults() {
-  chassis.set_exit_condition(chassis.turn_exit, 50, 3, 250, 7, 250, 500);
-  chassis.set_exit_condition(chassis.swing_exit, 50, 3, 250, 7, 250, 500);
-  chassis.set_exit_condition(chassis.drive_exit, 40, 50, 150, 150, 250, 500);
+  chassis.set_exit_condition(chassis.turn_exit, 35, 1, 150, 3, 250, 500);
+  chassis.set_exit_condition(chassis.swing_exit, 50, 2, 250, 5, 250, 500);
+  chassis.set_exit_condition(chassis.drive_exit, 35, 50, 150, 150, 250, 500);
 }
 
 void modified_exit_condition() {
@@ -69,6 +69,62 @@ void drive_example() {
 }
 
 // Auton Functions
+
+void rightSide(){
+  useAltLimitSwitch = true;
+
+
+  //swing to 180
+  chassis.set_swing_pid(ez::LEFT_SWING, 192, SWING_SPEED);
+  chassis.wait_drive();
+  //move forward into roller
+  chassis.set_drive_pid(4, DRIVE_SPEED);
+  chassis.wait_drive();
+  //spin the roller
+  spinRoller();
+  chassis.set_drive_pid(-6, 127);
+  fire();
+  chassis.wait_drive();
+  
+  //turn into the 3 row
+  chassis.set_turn_pid(-50, TURN_SPEED);
+  chassis.wait_drive();
+
+  //move forward into the 3 row, intake on
+  intakeState = 1;
+  chassis.set_drive_pid(65, 110);
+  chassis.wait_drive();
+
+  //swing to goal and fire
+  chassis.set_swing_pid(ez::LEFT_SWING, -138, SWING_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-5, 127);
+  pros::delay(60);
+  fire();
+  chassis.wait_drive();
+
+  //move into low goal 3
+  chassis.set_drive_pid(17.5, DRIVE_SPEED);
+  chassis.wait_drive();
+  while (!cata_state) {
+    pros::delay(5);
+  }
+  chassis.set_turn_pid(-170, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(35, 70);
+  chassis.wait_drive();
+  pros::delay(100);
+
+  //back up and fire
+  chassis.set_swing_pid(ez::RIGHT_SWING, -146, SWING_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-25, DRIVE_SPEED);
+  pros::delay(270);
+  fire();
+  chassis.wait_drive();
+
+
+}
 
 void rightPushRoller() {
   exit_condition_defaults();
@@ -177,6 +233,18 @@ void rightRoller() {
 }
 
 void autonSkillsNew() {
+
+  chassis.set_drive_pid(24, DRIVE_SPEED);
+  chassis.wait_drive();
+  //turn to 90
+  chassis.set_turn_pid(90, TURN_SPEED);
+  chassis.wait_drive();
+  //move forward 24
+  chassis.set_drive_pid(24, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  return;
+
   modified_exit_condition();
 
   pros::ADIDigitalOut piston('B');
@@ -503,12 +571,13 @@ void matchLeftFull() {
   chassis.set_swing_pid(ez::LEFT_SWING, -10, SWING_SPEED);
   chassis.wait_drive();
   
-  chassis.set_drive_pid(-7, DRIVE_SPEED);
-  pros::delay(75);
-  //fire
+  //move back 2
+  chassis.set_drive_pid(-4, DRIVE_SPEED);
+  pros::delay(50);
   fire();
   chassis.wait_drive();
-  chassis.set_drive_pid(7, DRIVE_SPEED);
+  //move forward 2
+  chassis.set_drive_pid(4, DRIVE_SPEED);
   chassis.wait_drive();
   //left swing to -120
   chassis.set_swing_pid(ez::LEFT_SWING, -120, SWING_SPEED);
@@ -527,18 +596,15 @@ void matchLeftFull() {
   chassis.set_swing_pid(ez::RIGHT_SWING, -23, SWING_SPEED);
   chassis.wait_drive();
   //move back 3
-  chassis.set_drive_pid(-5, 127);
+  chassis.set_drive_pid(-6, 127);
   //fire
   pros::delay(50);
   fire();
   chassis.wait_drive();
 
   //swing right to -135
-  chassis.set_swing_pid(ez::RIGHT_SWING, -135, SWING_SPEED);
+  chassis.set_swing_pid(ez::RIGHT_SWING, -140, SWING_SPEED);
   chassis.wait_drive();
-  while (!state) {
-    pros::delay(1);
-  }
   
   
   //move forward 60 with intake and slew on
@@ -551,7 +617,7 @@ void matchLeftFull() {
   chassis.set_swing_pid(ez::RIGHT_SWING, -60, SWING_SPEED);
   chassis.wait_drive();
   //move back 7
-  chassis.set_drive_pid(-8, DRIVE_SPEED, true);
+  chassis.set_drive_pid(-4, 127, true);
   pros::delay(75);
   fire();
   boost.set_value(true);

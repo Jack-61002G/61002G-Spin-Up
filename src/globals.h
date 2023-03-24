@@ -15,7 +15,7 @@ extern int intakeState;
 extern bool useAltLimitSwitch;
 extern Drive chassis;
 extern pros::ADIDigitalOut boost;
-extern bool state;
+extern bool cata_state;
 
 
 extern void cata_task_fn();

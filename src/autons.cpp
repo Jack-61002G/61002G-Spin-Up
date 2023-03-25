@@ -83,6 +83,7 @@ void rightSide(){
   //spin the roller
   spinRoller();
   chassis.set_drive_pid(-6, 127);
+  pros::delay(50);
   fire();
   chassis.wait_drive();
   
@@ -99,7 +100,7 @@ void rightSide(){
   chassis.set_swing_pid(ez::LEFT_SWING, -138, SWING_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(-5, 127);
-  pros::delay(60);
+  pros::delay(65);
   fire();
   chassis.wait_drive();
 
@@ -116,10 +117,12 @@ void rightSide(){
   pros::delay(100);
 
   //back up and fire
-  chassis.set_swing_pid(ez::RIGHT_SWING, -146, SWING_SPEED);
+  chassis.set_swing_pid(ez::RIGHT_SWING, -147.5, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-25, DRIVE_SPEED);
-  pros::delay(270);
+  chassis.set_drive_pid(-35, DRIVE_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-7, 127);
+  pros::delay(50);
   fire();
   chassis.wait_drive();
 

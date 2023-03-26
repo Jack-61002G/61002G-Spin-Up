@@ -14,6 +14,7 @@ void rollerAuto();
 void pushAuton();
 void rightPushRoller();
 void rightSide();
+void left8Disc();
 void trustAlliance();
 
 void garage_constants();

@@ -49,6 +49,7 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons(
       {
+        Auton("left", left8Disc),
         Auton("right", rightSide),
         Auton("right side push", rightPushRoller),
         Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),

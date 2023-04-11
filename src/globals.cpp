@@ -72,3 +72,8 @@ Drive chassis(
     // 3 Wire Port Expander Smart Port
     // ,1
 );
+
+void fire() {
+
+  intake.move_relative(500, 100); //idk how many ticks to move the intake  
+};

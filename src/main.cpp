@@ -105,6 +105,15 @@ void opcontrol() {
       fire();
     }
 
+    //intake control
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+      intake.move_velocity(200);
+    } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+      intake.move_velocity(-200);
+    } else {
+      intake.move_velocity(0);
+    }
+
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!
                                        // Keep this ez::util::DELAY_TIME
   }

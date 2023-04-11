@@ -5,12 +5,24 @@
 #include "pros/motors.hpp"
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
-pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
-pros::ADIButton limitButton('A');
-pros::ADIButton altLimitButton('E');
-pros::Motor intake1(9);
-bool useAltLimitSwitch = false;
-pros::ADIDigitalOut boost('h');
+pros::Motor intake(9);
+
+sylib::SpeedControllerInfo motor_speed_controller ( // read here on how to graph this for easy tuning https://sylvie.fyi/sylib/docs/dd/d2c/md_sample_code__demo.html
+    //set the gain to 0 to not use it
+    [](double rpm){return 5;}, // kV function (feedforward), should return x in this: voltage = x * rpm
+    1, // kP
+    1, // kI
+    1, // kD
+    1, // kH (tbh gain)
+    false, // anti-windup enabled
+    0, // anti-windup range
+    false, // p controller bounds threshold enabled
+    0, // p controller bounds cutoff enabled
+    1, // kP2 for when over threshold
+    0 // range to target to apply max voltage
+);
+
+auto flywheel = sylib::Motor(19,3600, true, motor_speed_controller);
 
 // Chassis constructor
 Drive chassis(
@@ -60,94 +72,3 @@ Drive chassis(
     // 3 Wire Port Expander Smart Port
     // ,1
 );
-
-
-
-void cataTask();
-void intaketoggle();
-bool cata_override = false;
-bool cata_state = false;
-
-void cata_task_fn() {
-  
-  while (true) {
-    if (useAltLimitSwitch) {
-      if ((altLimitButton.get_value() == false)) {
-        // move catapult down until its reached loading position
-        catapultMotor = 127;
-        cata_state = false;
-
-      } else if (!cata_override && altLimitButton.get_value()) {
-        catapultMotor = 0;
-        cata_state = true;
-      }
-    } else {
-      if ((limitButton.get_value() == false)) {
-        // move catapult down until its reached loading position
-        catapultMotor = 127;
-        cata_state = false;
-
-      } else if (!cata_override && limitButton.get_value()) {
-        catapultMotor = 0;
-        cata_state = true;
-      }
-    }
-    pros::delay(5);
-  }
-}
-
-void intakeTask();
-int intakeState = 0;
-bool shouldSpin = true;
-
-void intake_task_fn() {
-  while (true) {
-
-    if(shouldSpin) {
-
-    //take input
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-      if (intakeState == 0) {intakeState = -1;}
-      else {intakeState = 0;}}
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-      if (intakeState == 0) {intakeState = 1;}
-      else {intakeState = 0;}}
-
-    //apply change to motors
-    if (intakeState == 1 && cata_state) {
-      intake1.move_voltage(12000);}
-    else if (intakeState == -1 && cata_state) {
-      intake1.move_voltage(-12000);}
-    else {
-      intake1.move_voltage(0);
-    }
-      
-    if (!cata_state) {intake1.move_voltage(0);}}
-      
-    pros::delay(5);
-  }
-}
-
-void spinRoller() {
-  shouldSpin = false;
-  intake1.move_relative(1100, 100);
-  pros::delay(500);
-  shouldSpin = true;
-}
-
-void fire() {
-  cata_override = true;
-  catapultMotor = 127;
-  pros::delay(250);
-  cata_override = false;
-  cata_state = false;
-}
-
-void fireAsync() {
-  cata_override = true;
-  while (limitButton.get_value() == true) {
-    catapultMotor = 127;
-  }
-  cata_override = false;
-  cata_state = false;
-}

@@ -3,22 +3,11 @@
 #include "main.h"
 #include "pros/adi.hpp"
 #include "pros/motors.hpp"
+#include "sylib/motor.hpp"
 
-
-extern bool flywheel_state;
-extern pros::Motor catapultMotor;
-extern pros::ADIButton limitButton;
-extern bool cata_override;
-extern pros::Motor intake1;
-extern pros::Motor intake2;
+extern pros::Motor intake;
 extern int intakeState;
-extern bool useAltLimitSwitch;
 extern Drive chassis;
-extern pros::ADIDigitalOut boost;
-extern bool cata_state;
+extern sylib::Motor flywheel;
 
-
-extern void cata_task_fn();
-extern void intake_task_fn();
-extern void spinRoller();
 extern void fire();

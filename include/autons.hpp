@@ -6,16 +6,7 @@
 extern Drive chassis;
 
 void drive_example();
-void matchLeftFull();
-void matchNoAuton();
 void turn_test();
-void autonSkillsNew();
-void rollerAuto();
-void pushAuton();
-void rightPushRoller();
-void rightSide();
-void left8Disc();
-void trustAlliance();
 
 void garage_constants();
 void one_mogo_constants();

@@ -49,21 +49,13 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.add_autons(
       {
-        Auton("right", rightSide),
-        Auton("left", left8Disc),
-        Auton("right side push", rightPushRoller),
-        Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
-        Auton("Teamwork Match, Push Disks In", pushAuton),
-        Auton("Teamwork Match NO AUTON", matchNoAuton),
-        Auton("Trust Alliance", trustAlliance),
         Auton("Test Drive\n\nDrive forward and come back.", drive_example),
         Auton("turn test\n\ntest turn", turn_test)});
 
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
-  pros::Task cata_task(cata_task_fn);
-  pros::Task intake_task(intake_task_fn);
+  sylib::initialize();
 }
 
 /**
@@ -103,11 +95,7 @@ void autonomous() {
 void opcontrol() {
 
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
-
-  pros::ADIDigitalOut piston('B');
-  piston.set_value(false);
-
-  useAltLimitSwitch = false;
+  flywheel.set_velocity_custom_controller(2700); 
 
   while (true) {
 
@@ -115,11 +103,6 @@ void opcontrol() {
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
       fire();
-    }
-
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) &&
-        master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-      piston.set_value(true);
     }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!

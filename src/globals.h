@@ -3,6 +3,7 @@
 #include "main.h"
 #include "pros/adi.hpp"
 #include "pros/motors.hpp"
+#include "pros/rotation.hpp"
 
 
 extern bool flywheel_state;
@@ -15,6 +16,7 @@ extern int intakeState;
 extern bool useAltLimitSwitch;
 extern Drive chassis;
 extern pros::ADIDigitalOut boost;
+extern pros::Rotation catarotation;
 extern bool cata_state;
 
 

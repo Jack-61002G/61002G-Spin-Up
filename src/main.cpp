@@ -20,6 +20,7 @@
 
 void initialize() {
 
+  pros::Task intake_task(intake_task_fn);
 
   // Print our branding over your terminal :D
   ez::print_ez_template();
@@ -62,8 +63,9 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+
+  // Initialize catapult
   pros::Task cata_task(cata_task_fn);
-  pros::Task intake_task(intake_task_fn);
 }
 
 /**

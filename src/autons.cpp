@@ -38,7 +38,7 @@ void garage_constants() {
 void exit_condition_defaults() {
   chassis.set_exit_condition(chassis.turn_exit, 35, 1, 150, 3, 250, 500);
   chassis.set_exit_condition(chassis.swing_exit, 50, 2, 250, 5, 250, 500);
-  chassis.set_exit_condition(chassis.drive_exit, 35, 50, 150, 150, 250, 500);
+  chassis.set_exit_condition(chassis.drive_exit, 35, 30, 150, 150, 250, 500);
 }
 
 void modified_exit_condition() {
@@ -84,10 +84,13 @@ void left8Disc() {
   chassis.wait_drive();
   
   //move back 2
-  chassis.set_drive_pid(-4, 127);
+  chassis.set_drive_pid(-7, 127);
   pros::delay(70);
   fire();
   chassis.wait_drive();
+
+  //move forward 4
+  chassis.set_drive_pid(3, DRIVE_SPEED);
 
 
   //left swing to -120
@@ -107,12 +110,14 @@ void left8Disc() {
   chassis.set_turn_pid(-33, TURN_SPEED);
   chassis.wait_drive();
   //momentum shot
-  chassis.set_drive_pid(-7, 127);
-  pros::delay(75);
+  chassis.set_drive_pid(-10, 127);
+  pros::delay(200);
   fire();
   chassis.wait_drive();
 
   //turn to low goal
+  chassis.set_drive_pid(4, 100);
+  chassis.wait_drive();
   chassis.set_turn_pid(-75, TURN_SPEED);
   chassis.wait_drive();
   //move forward into low goal
@@ -122,7 +127,7 @@ void left8Disc() {
   chassis.set_turn_pid(-12, TURN_SPEED);
   chassis.wait_drive();
   //move forward into low goal discs
-  chassis.set_drive_pid(32, 70);
+  chassis.set_drive_pid(32, 60);
   chassis.wait_drive();
 
   //turn to goal, back up and fire
@@ -132,10 +137,12 @@ void left8Disc() {
   chassis.wait_drive();
 
   //momentum shot
-  chassis.set_drive_pid(-6, 127);
-  pros::delay(75);
+  chassis.set_drive_pid(-9, 127);
+  pros::delay(80);
   fire();
   chassis.wait_drive();
+
+  intakeState = false;
   
   //fire boost piston
   boost.set_value(true);
@@ -148,9 +155,13 @@ void left8Disc() {
 void rightSide(){
   useAltLimitSwitch = true;
 
+  chassis.set_angle(-90);
+
+  chassis.set_drive_pid(-19.5, 100);
+  chassis.wait_drive();
 
   //swing to 180
-  chassis.set_swing_pid(ez::LEFT_SWING, 192, 127);
+  chassis.set_turn_pid(-169, TURN_SPEED);
   chassis.wait_drive();
   //move forward into roller
   chassis.set_drive_pid(6, DRIVE_SPEED);
@@ -158,12 +169,9 @@ void rightSide(){
   //spin the roller
   spinRoller();
   pros::delay(100);
-  chassis.set_drive_pid(-8, 127);
+  chassis.set_drive_pid(-6, 127);
   pros::delay(75);
   fire();
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(1, DRIVE_SPEED);
   chassis.wait_drive();
   
   //turn into the 3 row
@@ -172,40 +180,40 @@ void rightSide(){
 
   //move forward into the 3 row, intake on
   intakeState = 1;
-  chassis.set_drive_pid(68, 70);
+  chassis.set_drive_pid(63, 70);
   chassis.wait_drive();
 
   //swing to goal and fire
-  chassis.set_swing_pid(ez::LEFT_SWING, -139, SWING_SPEED);
+  chassis.set_swing_pid(ez::LEFT_SWING, -140, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-4.5, 127);
-  pros::delay(65);
+  chassis.set_drive_pid(-7, 127);
+  pros::delay(75);
   fire();
   chassis.wait_drive();
 
   //move into low goal 3
-  chassis.set_drive_pid(16, DRIVE_SPEED);
+  chassis.set_drive_pid(17.5, DRIVE_SPEED);
   chassis.wait_drive();
   while (!cata_state) {
     pros::delay(5);
   }
-  chassis.set_turn_pid(-170, TURN_SPEED);
+  chassis.set_turn_pid(-165, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(35, 70);
+  chassis.set_drive_pid(35, 60);
   chassis.wait_drive();
-  pros::delay(100);
+  pros::delay(250);
 
   //back up and fire
-  chassis.set_swing_pid(ez::RIGHT_SWING, -146, SWING_SPEED);
+  chassis.set_swing_pid(ez::RIGHT_SWING, -147, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-36, DRIVE_SPEED);
+  chassis.set_drive_pid(-38, DRIVE_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-6.5, 127);
-  pros::delay(50);
+  chassis.set_drive_pid(-6, 127);
+  pros::delay(60);
   fire();
   chassis.wait_drive();
   boost.set_value(true);
-  pros::delay(250);
+  pros::delay(50);
   boost.set_value(false);
 
 

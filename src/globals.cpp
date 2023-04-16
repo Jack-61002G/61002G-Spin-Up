@@ -3,11 +3,13 @@
 #include "pros/misc.hpp"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
+#include "pros/rotation.hpp"
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
 pros::ADIButton limitButton('A');
 pros::ADIButton altLimitButton('E');
+pros::Rotation catarotation(7);
 pros::Motor intake1(9);
 bool useAltLimitSwitch = false;
 pros::ADIDigitalOut boost('h');
@@ -67,32 +69,25 @@ void cataTask();
 void intaketoggle();
 bool cata_override = false;
 bool cata_state = false;
+int targetvalue = 70; //   <------- cata target position
 
 void cata_task_fn() {
   
   while (true) {
-    if (useAltLimitSwitch) {
-      if ((altLimitButton.get_value() == false)) {
-        // move catapult down until its reached loading position
-        catapultMotor = 127;
-        cata_state = false;
 
-      } else if (!cata_override && altLimitButton.get_value()) {
-        catapultMotor = 0;
-        cata_state = true;
-      }
-    } else {
-      if ((limitButton.get_value() == false)) {
-        // move catapult down until its reached loading position
-        catapultMotor = 127;
-        cata_state = false;
+    targetvalue = useAltLimitSwitch ? 72 : 69;
 
-      } else if (!cata_override && limitButton.get_value()) {
-        catapultMotor = 0;
-        cata_state = true;
-      }
+    int pos = catarotation.get_angle() / 100;
+    if ((pos < targetvalue)) {
+      // move catapult down until its reached loading position
+      catapultMotor = 127;
+      cata_state = false;
+
+    } else if (!cata_override && catarotation.get_position() >= targetvalue) {
+      catapultMotor = 0;
+      cata_state = true;
     }
-    pros::delay(5);
+    pros::delay(10);
   }
 }
 

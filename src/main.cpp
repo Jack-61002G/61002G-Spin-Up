@@ -106,10 +106,10 @@ void opcontrol() {
     }
 
     //intake control
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-      intake.move_velocity(200);
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+      intake = (intake.get_actual_velocity() == 0) ? 127 : 0;
     } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-      intake.move_velocity(-200);
+      intake = -127;
     } else {
       intake.move_velocity(0);
     }

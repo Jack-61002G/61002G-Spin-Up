@@ -2,6 +2,7 @@
 #include "EZ-Template/util.hpp"
 #include "autons.hpp"
 #include "globals.h"
+#include "pros/misc.h"
 #include "pros/rtos.hpp"
 
 /////
@@ -51,6 +52,7 @@ void initialize() {
   ez::as::auton_selector.add_autons(
       {
         Auton("right", rightSide),
+        Auton("left 11 disc", left11Disc),
         Auton("left", left8Disc),
         Auton("right side push", rightPushRoller),
         Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
@@ -117,6 +119,12 @@ void opcontrol() {
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
       fire();
+    }
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+      pisstake.set_value(1);
+    }
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+      pisstake.set_value(0);
     }
 
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) &&

@@ -8,7 +8,7 @@
 
 extern bool flywheel_state;
 extern pros::Motor catapultMotor;
-extern pros::ADIButton limitButton;
+extern pros::ADIDigitalOut pisstake;
 extern bool cata_override;
 extern pros::Motor intake1;
 extern pros::Motor intake2;

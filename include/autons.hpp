@@ -16,6 +16,7 @@ void rightPushRoller();
 void rightSide();
 void left8Disc();
 void trustAlliance();
+void left11Disc();
 
 void garage_constants();
 void one_mogo_constants();

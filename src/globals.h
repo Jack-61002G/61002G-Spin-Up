@@ -19,6 +19,11 @@ extern pros::ADIDigitalOut boost;
 extern pros::Rotation catarotation;
 extern bool cata_state;
 
+extern sylib::Addrled leftSideLights;
+extern sylib::Addrled rightSideLights;
+extern sylib::Addrled intakeLights;
+extern sylib::Addrled rearLights;
+
 
 extern void cata_task_fn();
 extern void intake_task_fn();

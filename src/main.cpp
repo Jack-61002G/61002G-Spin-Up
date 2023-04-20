@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
+#include "sylib/system.hpp"
 
 /////
 // For instalattion, upgrading, documentations and tutorials, check out website!
@@ -65,6 +66,7 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+  sylib::initialize();
 
   // Initialize catapult
   pros::Task cata_task(cata_task_fn);
@@ -113,6 +115,11 @@ void opcontrol() {
 
   useAltLimitSwitch = false;
 
+  int colorR = 255;
+  int colorG = 0;
+  int colorB = 0;
+  char color = 'G';
+
   while (true) {
 
     chassis.arcade_standard(ez::SPLIT);
@@ -131,6 +138,19 @@ void opcontrol() {
         master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
       piston.set_value(true);
     }
+
+    // lights
+    if (color == 'R') {colorB --; colorR++;
+      if (colorR >= 255) {color = 'G';}}
+    if (color == 'G') {colorR --; colorG++;
+      if (colorR >= 255) {color = 'B';}}
+    if (color == 'B') {colorG --; colorB++;
+      if (colorR >= 255) {color = 'R';}}
+
+    leftSideLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
+    rightSideLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
+    intakeLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
+    rearLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!
                                        // Keep this ez::util::DELAY_TIME

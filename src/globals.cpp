@@ -75,7 +75,7 @@ void cata_task_fn() {
   
   while (true) {
 
-    targetvalue = useAltLimitSwitch ? 72 : 69;
+    targetvalue = useAltLimitSwitch ? 72 : 71;
 
     int pos = catarotation.get_angle() / 100;
     if ((pos < targetvalue)) {

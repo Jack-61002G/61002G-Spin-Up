@@ -69,16 +69,16 @@ void cataTask();
 void intaketoggle();
 bool cata_override = false;
 bool cata_state = false;
-int targetvalue = 70; //   <------- cata target position
+double targetvalue = 70; //   <------- cata target position
 
 void cata_task_fn() {
   
   while (true) {
 
-    targetvalue = useAltLimitSwitch ? 72 : 71;
+    targetvalue = useAltLimitSwitch ? 73.25 : 71;
 
     int pos = catarotation.get_angle() / 100;
-    if ((pos < targetvalue)) {
+    if ((pos < targetvalue || pos > 300)) {
       // move catapult down until its reached loading position
       catapultMotor = 127;
       cata_state = false;

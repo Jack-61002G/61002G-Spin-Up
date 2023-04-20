@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
+#include "sylib/system.hpp"
 
 /////
 // For instalattion, upgrading, documentations and tutorials, check out website!
@@ -65,6 +66,7 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+  sylib::initialize();
 
   // Initialize catapult
   pros::Task cata_task(cata_task_fn);

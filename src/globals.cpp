@@ -13,6 +13,11 @@ bool useAltLimitSwitch = false;
 pros::ADIDigitalOut boost('h');
 pros::ADIDigitalOut pisstake('c');
 
+//creating led objects
+sylib::Addrled rightSideLights = sylib::Addrled(0, 1, 48); //change port numbers later, idk what ports are open
+sylib::Addrled leftSideLights = sylib::Addrled(0, 2, 48);
+sylib::Addrled rearUnderGlow = sylib::Addrled(0, 3, 10);
+sylib::Addrled intakeLights = sylib::Addrled(0, 4, 28);
 
 // Chassis constructor
 Drive chassis(

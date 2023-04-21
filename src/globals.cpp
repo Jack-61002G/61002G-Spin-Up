@@ -87,6 +87,11 @@ void light_task_fn() {
     rightSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
     intakeLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
     rearLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+  } else if (whatTheLightDoin == "init_blue") {
+    leftSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
+    rightSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
+    intakeLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
+    rearLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
   }
 
   pros::delay(5);
@@ -110,26 +115,17 @@ void cata_task_fn() {
       catapultMotor = 127;
       cata_state = false;
 
-      //leftSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-      //rightSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-      //intakeLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-      //rearLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+      whatTheLightDoin = "pink";
 
     } else if (!cata_override && catarotation.get_position() >= targetvalue) {
       catapultMotor = 0;
       cata_state = true;
 
-      //if (pros::competition::is_autonomous()) {
-      //  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-      //  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-      //  intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-      //  rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-      //} else if (!pros::competition::is_disabled){
-      //  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-      //  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-      //  intakeLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-      //  rearLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-      //}
+      if (pros::competition::is_autonomous() || pros::competition::is_disabled()) {
+        whatTheLightDoin = "urple_bright";
+      } else {
+        whatTheLightDoin = "urple_dim";
+      }
     }
     pros::delay(10);
   }

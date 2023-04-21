@@ -72,26 +72,28 @@ string whatTheLightDoin;
 
 void light_task_fn() {
 
-  if (whatTheLightDoin == "urple_bright") {
-    leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-    rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-    intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-    rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-  } else if (whatTheLightDoin == "urple_dim") {
-    leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-    rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-    intakeLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-    rearLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-  } else if (whatTheLightDoin == "pink") {
-    leftSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-    rightSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-    intakeLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-    rearLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-  } else if (whatTheLightDoin == "init_blue") {
-    leftSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
-    rightSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
-    intakeLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
-    rearLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
+  while (true) {
+    if (whatTheLightDoin == "urple_bright") {
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+      intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+      rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+    } else if (whatTheLightDoin == "urple_dim") {
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+      intakeLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+      rearLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+    } else if (whatTheLightDoin == "pink") {
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+      intakeLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+      rearLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+    } else if (whatTheLightDoin == "init_blue") {
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
+      intakeLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
+      rearLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
+    }
   }
 
   pros::delay(5);

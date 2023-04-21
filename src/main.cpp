@@ -120,9 +120,9 @@ void opcontrol() {
   leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
   rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
   intakeLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-  rearLights.set_all(sylib::Addrled::rgb_to_hex(48, 9, 66));
+  rearLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
   for (int i = 1; i <= 10; i++) {
-    intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(48, 9, 66), std::uint8_t index);
+    intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 18 + i);
   }
   
 

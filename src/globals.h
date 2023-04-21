@@ -9,6 +9,7 @@
 extern bool flywheel_state;
 extern pros::Motor catapultMotor;
 extern pros::ADIDigitalOut pisstake;
+extern string whatTheLightDoin;
 extern bool cata_override;
 extern pros::Motor intake1;
 extern pros::Motor intake2;
@@ -24,7 +25,7 @@ extern sylib::Addrled rightSideLights;
 extern sylib::Addrled intakeLights;
 extern sylib::Addrled rearLights;
 
-
+extern void light_task_fn();
 extern void cata_task_fn();
 extern void intake_task_fn();
 extern void spinRoller();

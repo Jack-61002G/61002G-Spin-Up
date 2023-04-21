@@ -1,3 +1,4 @@
+#include "EZ-Template/util.hpp"
 #include "main.h"
 #include "pros/adi.hpp"
 #include "pros/misc.h"
@@ -10,7 +11,6 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
 pros::Rotation catarotation(7);
 pros::Motor intake1(9);
-bool useAltLimitSwitch = false;
 pros::ADIDigitalOut boost('h');
 pros::ADIDigitalOut pisstake('c');
 
@@ -19,6 +19,17 @@ sylib::Addrled rightSideLights = sylib::Addrled(22, 2, 48); //change port number
 sylib::Addrled leftSideLights = sylib::Addrled(22, 4, 48);
 sylib::Addrled rearLights = sylib::Addrled(22, 5, 10);
 sylib::Addrled intakeLights = sylib::Addrled(22, 6, 28);
+
+//declaring variables
+int intakeState = 0;
+bool useAltLimitSwitch = false;
+void cataTask();
+void intaketoggle();
+void intakeTask();
+bool shouldSpin = true;
+bool cata_override = false;
+bool cata_state = false;
+double targetvalue = 70; //   <------- cata target position
 
 // Chassis constructor
 Drive chassis(
@@ -69,26 +80,23 @@ Drive chassis(
     // ,1
 );
 
+
+
 void light_task_fn() {
 
   int rotation_pixel;
+  int cata_count;
+  int intake_count;
+  int flash_count;
+
+  leftSideLights.clear();
+  rightSideLights.clear();
+  rearLights.clear();
+  intakeLights.clear();
 
   while (true) {
 
-    if (pros::competition::get_status() & COMPETITION_DISABLED) {
-      leftSideLights.clear();
-      rightSideLights.clear();
-      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), rotation_pixel);
-      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), rotation_pixel + 1);
-      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), rotation_pixel + 2);
-      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), 48 - rotation_pixel);
-      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), 47 - rotation_pixel);
-      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), 46 - rotation_pixel);
-      rotation_pixel++;
-      if (rotation_pixel > 48) {rotation_pixel = -2;}
-      pros::delay(50);
-    }
-    else if (pros::competition::get_status() & COMPETITION_AUTONOMOUS) {
+    if (pros::competition::get_status() & COMPETITION_DISABLED) {// rotating effect when the robot is disabled
       leftSideLights.clear();
       rightSideLights.clear();
       leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), rotation_pixel);
@@ -99,49 +107,75 @@ void light_task_fn() {
       rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), 46 - rotation_pixel);
       rotation_pixel++;
       if (rotation_pixel > 48) {rotation_pixel = -2;}
-      pros::delay(30);
     }
     else {
-      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+      if (intakeState == 1) {// green flowing effect when intaking
+        rearLights.clear();
+        intakeLights.clear();
+
+        if (intake_count == 0 || intake_count == 1) {
+          rearLights.set_all(sylib::Addrled::rgb_to_hex(0, 200, 0));
+        }
+        if (intake_count == 1 || intake_count == 2) {
+          intakeLights.set_all(sylib::Addrled::rgb_to_hex(0, 200, 0));
+        }
+        for (int i; i <= 10; i++) {
+          if (intake_count == 2 || intake_count == 0) {
+            intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(0, 200, 0), 18 + i);
+          } else {
+            intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(0, 0, 0), 18 + i);
+          }
+        }
+        intake_count++; if (intake_count > 2) {intake_count = 0;}
+
+      } else if (intakeState == -1) {// red flowing effect when extaking
+        rearLights.clear();
+        intakeLights.clear();
+
+        if (intake_count == 2 || intake_count == 0) {
+          rearLights.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+        }
+        if (intake_count == 1 || intake_count == 2) {
+          intakeLights.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+        }
+        for (int i; i <= 10; i++) {
+          if (intake_count == 0 || intake_count == 1) {
+            intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(200, 0, 0), 18 + i);
+          } else {
+            intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(0, 0, 0), 18 + i);
+          }
+        }
+        intake_count++; if (intake_count > 2) {intake_count = 0;}
+
+      } else {rearLights.clear();}// clear lights if intake is off
+      
+      if ((chassis.right_velocity() < 100 && chassis.right_mA() > 200) || (chassis.left_velocity() < 100 && chassis.left_mA() > 200)) {// lights flash if pinned
+
+        if (flash_count < 5) {
+          leftSideLights.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+          rightSideLights.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
+        } else {leftSideLights.clear(); rightSideLights.clear();}
+
+        flash_count++;
+        if (flash_count > 10) {flash_count = 0;}
+
+      } else {leftSideLights.clear(); rightSideLights.clear();}
+
+      if (cata_state == false) {// lights fill up when cata is returning
+        leftSideLights.clear();
+        rightSideLights.clear();
+        for (int i; i <= cata_count; i++) {
+          leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(0, 200, 0), i);
+          rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(0, 200, 0), i);
+        } cata_count++;
+      } else {cata_count = 0;}
+
     }
-
-
-    //if (lightMode == 0) {
-    //  leftSideLights.clear();
-    //  rightSideLights.clear();
-    //  intakeLights.clear();
-    //  rearLights.clear();
-    //} else if (lightMode == 1) {
-    //  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-    //  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-    //  intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-    //  rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-    //} else if (lightMode == 2) {
-    //  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-    //  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-    //  intakeLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-    //  rearLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-    //} else if (lightMode == 3) {
-    //  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-    //  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-    //  intakeLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-    //  rearLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-    //} else if (lightMode == 4) {
-    //  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
-    //  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
-    //  intakeLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
-    //  rearLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
-    //}
-    pros::delay(5);
+    pros::delay(50);
   }
 }
 
-void cataTask();
-void intaketoggle();
-bool cata_override = false;
-bool cata_state = false;
-double targetvalue = 70; //   <------- cata target position
+
 
 void cata_task_fn() {
   
@@ -164,9 +198,7 @@ void cata_task_fn() {
   }
 }
 
-void intakeTask();
-int intakeState = 0;
-bool shouldSpin = true;
+
 
 void intake_task_fn() {
   while (true) {

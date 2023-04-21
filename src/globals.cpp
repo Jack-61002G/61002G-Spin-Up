@@ -1,5 +1,6 @@
 #include "main.h"
 #include "pros/adi.hpp"
+#include "pros/misc.h"
 #include "pros/misc.hpp"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
@@ -68,40 +69,72 @@ Drive chassis(
     // ,1
 );
 
-int lightMode = 0;
-
 void light_task_fn() {
 
+  int rotation_pixel;
+
   while (true) {
-    if (lightMode == 0) {
+
+    if (pros::competition::get_status() & COMPETITION_DISABLED) {
       leftSideLights.clear();
       rightSideLights.clear();
-      intakeLights.clear();
-      rearLights.clear();
-    } else if (lightMode == 1) {
-      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-      intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-      rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-    } else if (lightMode == 2) {
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), rotation_pixel);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), rotation_pixel + 1);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), rotation_pixel + 2);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), 48 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), 47 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(40, 8, 60), 46 - rotation_pixel);
+      rotation_pixel++;
+      if (rotation_pixel > 48) {rotation_pixel = -2;}
+      pros::delay(50);
+    }
+    else if (pros::competition::get_status() & COMPETITION_AUTONOMOUS) {
+      leftSideLights.clear();
+      rightSideLights.clear();
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), rotation_pixel);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), rotation_pixel + 1);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), rotation_pixel + 2);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), 48 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), 47 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), 46 - rotation_pixel);
+      rotation_pixel++;
+      if (rotation_pixel > 48) {rotation_pixel = -2;}
+      pros::delay(30);
+    }
+    else {
       leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
       rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-      intakeLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-      rearLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-    } else if (lightMode == 3) {
-      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-      intakeLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-      rearLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-    } else if (lightMode == 4) {
-      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
-      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
-      intakeLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
-      rearLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
     }
-  }
 
-  pros::delay(5);
+
+    //if (lightMode == 0) {
+    //  leftSideLights.clear();
+    //  rightSideLights.clear();
+    //  intakeLights.clear();
+    //  rearLights.clear();
+    //} else if (lightMode == 1) {
+    //  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+    //  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+    //  intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+    //  rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+    //} else if (lightMode == 2) {
+    //  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+    //  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+    //  intakeLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+    //  rearLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+    //} else if (lightMode == 3) {
+    //  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+    //  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+    //  intakeLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+    //  rearLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+    //} else if (lightMode == 4) {
+    //  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
+    //  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
+    //  intakeLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
+    //  rearLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
+    //}
+    pros::delay(5);
+  }
 }
 
 void cataTask();
@@ -122,17 +155,10 @@ void cata_task_fn() {
       catapultMotor = 127;
       cata_state = false;
 
-      lightMode = 3;
-
     } else if (!cata_override && catarotation.get_position() >= targetvalue) {
+      // hold catapult down
       catapultMotor = 0;
       cata_state = true;
-
-      if (pros::competition::is_autonomous() || pros::competition::is_disabled()) {
-        lightMode = 1;
-      } else {
-        lightMode = 2;
-      }
     }
     pros::delay(10);
   }

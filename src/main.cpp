@@ -22,12 +22,6 @@
 
 void initialize() {
 
-  // Initialize tasks
-  pros::Task light_task(light_task_fn);
-  pros::Task cata_task(cata_task_fn);
-  pros::Task intake_task(intake_task_fn);
-  whatTheLightDoin = "init_blue";
-
   // Print our branding over your terminal :D
   ez::print_ez_template();
 
@@ -71,6 +65,11 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   sylib::initialize();
+
+  // Initialize tasks
+  pros::Task light_task(light_task_fn);
+  pros::Task cata_task(cata_task_fn);
+  pros::Task intake_task(intake_task_fn);
 }
 
 /**

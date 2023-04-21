@@ -88,11 +88,6 @@ void light_task_fn() {
       rightSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
       intakeLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
       rearLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
-    } else if (whatTheLightDoin == "init_blue") {
-      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
-      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
-      intakeLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
-      rearLights.set_all(sylib::Addrled::rgb_to_hex(50, 0, 150));
     }
   }
 

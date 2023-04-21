@@ -68,26 +68,36 @@ Drive chassis(
     // ,1
 );
 
-string whatTheLightDoin;
+int lightMode = 0;
 
 void light_task_fn() {
 
   while (true) {
-    if (whatTheLightDoin == "urple_bright") {
+    if (lightMode == 0) {
+      leftSideLights.clear();
+      rightSideLights.clear();
+      intakeLights.clear();
+      rearLights.clear();
+    } else if (lightMode == 1) {
       leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
       rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
       intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
       rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
-    } else if (whatTheLightDoin == "urple_dim") {
+    } else if (lightMode == 2) {
       leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
       rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
       intakeLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
       rearLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
-    } else if (whatTheLightDoin == "pink") {
+    } else if (lightMode == 3) {
       leftSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
       rightSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
       intakeLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
       rearLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+    } else if (lightMode == 4) {
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
+      intakeLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
+      rearLights.set_all(sylib::Addrled::rgb_to_hex(50, 50, 100));
     }
   }
 
@@ -112,16 +122,16 @@ void cata_task_fn() {
       catapultMotor = 127;
       cata_state = false;
 
-      whatTheLightDoin = "pink";
+      lightMode = 3;
 
     } else if (!cata_override && catarotation.get_position() >= targetvalue) {
       catapultMotor = 0;
       cata_state = true;
 
       if (pros::competition::is_autonomous() || pros::competition::is_disabled()) {
-        whatTheLightDoin = "urple_bright";
+        lightMode = 1;
       } else {
-        whatTheLightDoin = "urple_dim";
+        lightMode = 2;
       }
     }
     pros::delay(10);

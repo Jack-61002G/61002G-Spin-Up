@@ -22,7 +22,11 @@
 
 void initialize() {
 
+  // Initialize tasks
+  pros::Task light_task(light_task_fn);
+  pros::Task cata_task(cata_task_fn);
   pros::Task intake_task(intake_task_fn);
+  lightMode = 4;
 
   // Print our branding over your terminal :D
   ez::print_ez_template();
@@ -67,10 +71,6 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   sylib::initialize();
-
-  // Initialize tasks
-  pros::Task light_task(light_task_fn);
-  pros::Task cata_task(cata_task_fn);
 }
 
 /**
@@ -79,7 +79,7 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-  whatTheLightDoin = "urple_bright";
+  lightMode = 1;
 }
 
 /**
@@ -97,7 +97,7 @@ void competition_initialize() {
 
 void autonomous() {
 
-  whatTheLightDoin = "urple_bright";
+  lightMode = 1;
 
   chassis.reset_pid_targets();               // Resets PID targets to 0
   chassis.reset_gyro();                      // Reset gyro position to 0
@@ -112,8 +112,7 @@ void autonomous() {
 
 void opcontrol() {
 
-  whatTheLightDoin = "urple_dim";
-  
+  lightMode = 2;
 
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 

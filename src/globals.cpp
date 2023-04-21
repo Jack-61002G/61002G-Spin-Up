@@ -14,10 +14,10 @@ pros::ADIDigitalOut boost('h');
 pros::ADIDigitalOut pisstake('c');
 
 //creating led objects
-sylib::Addrled rightSideLights = sylib::Addrled(0, 1, 48); //change port numbers later, idk what ports are open
-sylib::Addrled leftSideLights = sylib::Addrled(0, 2, 48);
-sylib::Addrled rearLights = sylib::Addrled(0, 3, 10);
-sylib::Addrled intakeLights = sylib::Addrled(0, 4, 28);
+sylib::Addrled rightSideLights = sylib::Addrled(22, 2, 48); //change port numbers later, idk what ports are open
+sylib::Addrled leftSideLights = sylib::Addrled(22, 4, 48);
+sylib::Addrled rearLights = sylib::Addrled(22, 5, 10);
+sylib::Addrled intakeLights = sylib::Addrled(22, 6, 28);
 
 // Chassis constructor
 Drive chassis(
@@ -88,9 +88,26 @@ void cata_task_fn() {
       catapultMotor = 127;
       cata_state = false;
 
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+      intakeLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+      rearLights.set_all(sylib::Addrled::rgb_to_hex(150, 0, 50));
+
     } else if (!cata_override && catarotation.get_position() >= targetvalue) {
       catapultMotor = 0;
       cata_state = true;
+
+      if (pros::competition::is_autonomous()) {
+        leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+        rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+        intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+        rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+      } else if (!pros::competition::is_disabled){
+        leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+        rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+        intakeLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+        rearLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+      }
     }
     pros::delay(10);
   }

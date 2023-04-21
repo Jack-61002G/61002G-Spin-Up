@@ -78,7 +78,10 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-  // . . .
+  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+  intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+  rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
 }
 
 /**
@@ -95,6 +98,12 @@ void competition_initialize() {
 }
 
 void autonomous() {
+
+  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+  intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+  rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+
   chassis.reset_pid_targets();               // Resets PID targets to 0
   chassis.reset_gyro();                      // Reset gyro position to 0
   chassis.reset_drive_sensor();              // Reset drive sensors to 0
@@ -108,6 +117,15 @@ void autonomous() {
 
 void opcontrol() {
 
+  leftSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+  rightSideLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+  intakeLights.set_all(sylib::Addrled::rgb_to_hex(40, 8, 60));
+  rearLights.set_all(sylib::Addrled::rgb_to_hex(48, 9, 66));
+  for (int i = 1; i <= 10; i++) {
+    intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(48, 9, 66), std::uint8_t index);
+  }
+  
+
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
   pros::ADIDigitalOut piston('B');
@@ -115,10 +133,10 @@ void opcontrol() {
 
   useAltLimitSwitch = false;
 
-  int colorR = 255;
-  int colorG = 0;
-  int colorB = 0;
-  char color = 'G';
+  //int colorR = 255;
+  //int colorG = 0;
+  //int colorB = 0;
+  //char color = 'G';
 
   while (true) {
 
@@ -140,17 +158,17 @@ void opcontrol() {
     }
 
     // lights
-    if (color == 'R') {colorB --; colorR++;
-      if (colorR >= 255) {color = 'G';}}
-    if (color == 'G') {colorR --; colorG++;
-      if (colorR >= 255) {color = 'B';}}
-    if (color == 'B') {colorG --; colorB++;
-      if (colorR >= 255) {color = 'R';}}
+    //if (color == 'R') {colorB --; colorR++;
+    //  if (colorR >= 255) {color = 'G';}}
+    //if (color == 'G') {colorR --; colorG++;
+    //  if (colorG >= 255) {color = 'B';}}
+    //if (color == 'B') {colorG --; colorB++;
+    //  if (colorB >= 255) {color = 'R';}}
 
-    leftSideLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
-    rightSideLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
-    intakeLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
-    rearLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
+    //leftSideLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
+    //rightSideLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
+    //intakeLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
+    //rearLights.set_all(sylib::Addrled::rgb_to_hex(colorR, colorG, colorB));
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!
                                        // Keep this ez::util::DELAY_TIME

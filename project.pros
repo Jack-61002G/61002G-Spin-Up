@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "EVENT DRIVER",
+    "project_name": "NO LIGHT",
     "target": "v5",
     "templates": {
       "EZ-Template": {
@@ -331,7 +331,7 @@
     },
     "upload_options": {
       "icon": "pros",
-      "slot": 1
+      "slot": 2
     }
   }
 }

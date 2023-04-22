@@ -5,7 +5,7 @@
 #include "pros/motors.hpp"
 #include "pros/rotation.hpp"
 
-
+extern bool initializing;
 extern bool flywheel_state;
 extern pros::Motor catapultMotor;
 extern pros::ADIDigitalOut pisstake;

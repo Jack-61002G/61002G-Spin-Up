@@ -23,8 +23,7 @@
 void initialize() {
   //light up
   sylib::initialize();
-  rearLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
-  intakeLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
+  pros::Task light_task(light_task_fn);
 
   // Print our branding over your terminal :D
   ez::print_ez_template();
@@ -70,9 +69,9 @@ void initialize() {
   ez::as::initialize();
   
   // Initialize tasks
-  pros::Task light_task(light_task_fn);
   pros::Task cata_task(cata_task_fn);
   pros::Task intake_task(intake_task_fn);
+  initializing = false; 
 }
 
 /**

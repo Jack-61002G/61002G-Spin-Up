@@ -237,6 +237,8 @@ void left8Disc() {
   
   //fire boost piston
   boost.set_value(true);
+  pros::delay(100);
+  boost.set_value(false);
 
 
 }

@@ -21,6 +21,7 @@ sylib::Addrled rearLights = sylib::Addrled(22, 5, 10);
 sylib::Addrled intakeLights = sylib::Addrled(22, 6, 28);
 
 //declaring variables
+bool initializing = true;
 int intakeState = 0;
 bool useAltLimitSwitch = false;
 void cataTask();
@@ -80,98 +81,69 @@ Drive chassis(
     // ,1
 );
 
-
-
 void light_task_fn() {
 
-  int rotation_pixel;
-  int cata_count;
-  int intake_count;
-  int flash_count;
+  int rotation_pixel{0};
+  int cata_count{2};
+  int init_count{0};
+  int intake_count{0};
 
   leftSideLights.clear();
   rightSideLights.clear();
-  rearLights.clear();
-  intakeLights.clear();
+  rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+  intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
 
   while (true) {
 
-    if (pros::competition::get_status() & COMPETITION_DISABLED) {// rotating effect when the robot is disabled
+    if (pros::competition::get_status() & COMPETITION_DISABLED && !initializing) {// rotating effect when the robot is disabled
       leftSideLights.clear();
       rightSideLights.clear();
-      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), rotation_pixel);
-      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), rotation_pixel + 1);
-      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), rotation_pixel + 2);
-      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), 48 - rotation_pixel);
-      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), 47 - rotation_pixel);
-      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), 46 - rotation_pixel);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), rotation_pixel);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), rotation_pixel + 1);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), rotation_pixel + 2);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), rotation_pixel + 3);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), rotation_pixel + 4);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 48 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 47 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 46 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 45 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 44 - rotation_pixel);
       rotation_pixel++;
-      if (rotation_pixel > 48) {rotation_pixel = -2;}
+      if (rotation_pixel >= 52) {rotation_pixel = -4;}
     }
     else {
-      if (intakeState == 1) {// green flowing effect when intaking
-        rearLights.clear();
-        intakeLights.clear();
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
 
-        if (intake_count == 0 || intake_count == 1) {
-          rearLights.set_all(sylib::Addrled::rgb_to_hex(0, 200, 0));
-        }
-        if (intake_count == 1 || intake_count == 2) {
-          intakeLights.set_all(sylib::Addrled::rgb_to_hex(0, 200, 0));
-        }
-        for (int i; i <= 10; i++) {
-          if (intake_count == 2 || intake_count == 0) {
-            intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(0, 200, 0), 18 + i);
-          } else {
-            intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(0, 0, 0), 18 + i);
-          }
-        }
-        intake_count++; if (intake_count > 2) {intake_count = 0;}
-
-      } else if (intakeState == -1) {// red flowing effect when extaking
-        rearLights.clear();
-        intakeLights.clear();
-
-        if (intake_count == 2 || intake_count == 0) {
-          rearLights.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-        }
-        if (intake_count == 1 || intake_count == 2) {
-          intakeLights.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-        }
-        for (int i; i <= 10; i++) {
-          if (intake_count == 0 || intake_count == 1) {
-            intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(200, 0, 0), 18 + i);
-          } else {
-            intakeLights.set_pixel(sylib::Addrled::rgb_to_hex(0, 0, 0), 18 + i);
-          }
-        }
-        intake_count++; if (intake_count > 2) {intake_count = 0;}
-
-      } else {rearLights.clear();}// clear lights if intake is off
-      
-      if ((chassis.right_velocity() < 100 && chassis.right_mA() > 200) || (chassis.left_velocity() < 100 && chassis.left_mA() > 200)) {// lights flash if pinned
-
-        if (flash_count < 5) {
-          leftSideLights.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-          rightSideLights.set_all(sylib::Addrled::rgb_to_hex(200, 0, 0));
-        } else {leftSideLights.clear(); rightSideLights.clear();}
-
-        flash_count++;
-        if (flash_count > 10) {flash_count = 0;}
-
-      } else {leftSideLights.clear(); rightSideLights.clear();}
+      if (intakeState == 0) {// flowing lights when intaking
+        intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+      } else if (intakeState == 1) {
+        intakeLights.set_all(sylib::Addrled::rgb_to_hex(110, 32, 255));
+      } else {
+        intakeLights.set_all(sylib::Addrled::rgb_to_hex(240, 32, 180));
+      }
 
       if (cata_state == false) {// lights fill up when cata is returning
         leftSideLights.clear();
         rightSideLights.clear();
-        for (int i; i <= cata_count; i++) {
-          leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(0, 200, 0), i);
-          rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(0, 200, 0), i);
+        for (int i = 0; i <= cata_count; i++) {
+          leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
+          rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
         } cata_count++;
-      } else {cata_count = 0;}
+      } else {cata_count = 2;}
+
+      if (initializing) {
+        leftSideLights.clear();
+        rightSideLights.clear();
+        for (int i = 0; i <= init_count; i++) {
+          leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
+          rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
+        } init_count++;
+        pros::delay(28);
+      } else {init_count = 0;}
 
     }
-    pros::delay(50);
+    pros::delay(30);
   }
 }
 

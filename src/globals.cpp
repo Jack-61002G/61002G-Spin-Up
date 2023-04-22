@@ -29,7 +29,7 @@ void intaketoggle();
 void intakeTask();
 bool shouldSpin = true;
 bool cata_override = false;
-bool cata_state = false;
+bool cata_state = true;
 double targetvalue = 70; //   <------- cata target position
 
 // Chassis constructor
@@ -94,6 +94,15 @@ void light_task_fn() {
   intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
 
   while (true) {
+    
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) && master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+      pros::delay(200);
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
+      pros::delay(800);
+    }
 
     if (pros::competition::get_status() & COMPETITION_DISABLED && !initializing) {// rotating effect when the robot is disabled
       leftSideLights.clear();

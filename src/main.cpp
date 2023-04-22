@@ -32,9 +32,6 @@ void initialize() {
       500); // Stop the user from doing anything while legacy ports configure.
 
   // Configure your chassis controls
-  chassis.toggle_modify_curve_with_controller(
-      true); // Enables modifying the controller curve with buttons on the
-             // joysticks
   chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
   chassis.set_curve_default(
       0, 0); // Defaults for curve. If using tank, only the first parameter is

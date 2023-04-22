@@ -54,15 +54,10 @@ void initialize() {
   ez::as::auton_selector.add_autons(
       {
         Auton("right", rightSide),
-        Auton("left 11 disc", left11Disc),
         Auton("left", left8Disc),
-        Auton("right side push", rightPushRoller),
         Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
-        Auton("Teamwork Match, Push Disks In", pushAuton),
-        Auton("Teamwork Match NO AUTON", matchNoAuton),
-        Auton("Trust Alliance", trustAlliance),
-        Auton("Test Drive\n\nDrive forward and come back.", drive_example),
-        Auton("turn test\n\ntest turn", turn_test)});
+        Auton("Teamwork Match NO AUTON", matchNoAuton)
+      });
 
   // Initialize chassis and auton selector
   chassis.initialize();
@@ -113,7 +108,7 @@ void opcontrol() {
 
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
-  pros::ADIDigitalOut piston('B');
+  pros::ADIDigitalOut piston('A');
   piston.set_value(false);
 
   useAltLimitSwitch = false;

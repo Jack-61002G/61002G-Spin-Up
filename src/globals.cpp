@@ -15,7 +15,7 @@ pros::ADIDigitalOut boost('h');
 pros::ADIDigitalOut pisstake('c');
 
 //creating led objects
-sylib::Addrled rightSideLights = sylib::Addrled(22, 2, 48); //change port numbers later, idk what ports are open
+sylib::Addrled rightSideLights = sylib::Addrled(22, 2, 48);
 sylib::Addrled leftSideLights = sylib::Addrled(22, 4, 48);
 sylib::Addrled rearLights = sylib::Addrled(22, 5, 10);
 sylib::Addrled intakeLights = sylib::Addrled(22, 6, 28);
@@ -81,6 +81,7 @@ Drive chassis(
     // ,1
 );
 
+
 void light_task_fn() {
 
   int rotation_pixel{0};
@@ -95,7 +96,7 @@ void light_task_fn() {
 
   while (true) {
     
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) && master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) && master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {// flash on endgame deploy
       leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
       rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
       pros::delay(200);
@@ -117,14 +118,14 @@ void light_task_fn() {
       rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 46 - rotation_pixel);
       rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 45 - rotation_pixel);
       rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 44 - rotation_pixel);
-      rotation_pixel++;
+      if (rotation_pixel < 54) {rotation_pixel++;}
       if (rotation_pixel >= 52) {rotation_pixel = -4;}
     }
     else {
       leftSideLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
       rightSideLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
 
-      if (intakeState == 0) {// flowing lights when intaking
+      if (intakeState == 0) {// tinted lights when intaking
         intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
       } else if (intakeState == 1) {
         intakeLights.set_all(sylib::Addrled::rgb_to_hex(110, 32, 255));
@@ -138,31 +139,30 @@ void light_task_fn() {
         for (int i = 0; i <= cata_count; i++) {
           leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
           rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
-        } cata_count++;
+        } if (cata_count < 48) {cata_count++;}
       } else {cata_count = 2;}
 
-      if (initializing) {
+      if (initializing) {// lights fill up when initializing
         leftSideLights.clear();
         rightSideLights.clear();
         for (int i = 0; i <= init_count; i++) {
           leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
           rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
-        } init_count++;
+        } if (init_count < 48 ) {init_count++;}
         pros::delay(28);
       } else {init_count = 0;}
 
     }
-    pros::delay(30);
+    pros::delay(27);
   }
 }
-
 
 
 void cata_task_fn() {
   
   while (true) {
 
-    targetvalue = useAltLimitSwitch ? 73.25 : 71;
+    targetvalue = useAltLimitSwitch ? 73.25 : 71.2;
 
     int pos = catarotation.get_angle() / 100;
     if ((pos < targetvalue || pos > 300)) {

@@ -2,6 +2,7 @@
 #include "EZ-Template/util.hpp"
 #include "autons.hpp"
 #include "globals.h"
+#include "pros/adi.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
 #include "sylib/system.hpp"
@@ -128,6 +129,10 @@ void opcontrol() {
         master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
       piston.set_value(true);
     }
+
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+      boost.set_value(true);
+    } else {boost.set_value(false);}
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!
                                        // Keep this ez::util::DELAY_TIME

@@ -1,16 +1,36 @@
+#include "EZ-Template/util.hpp"
 #include "main.h"
 #include "pros/adi.hpp"
+#include "pros/misc.h"
 #include "pros/misc.hpp"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
+#include "pros/rotation.hpp"
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Motor catapultMotor(19, pros::E_MOTOR_GEARSET_36, true);
-pros::ADIButton limitButton('A');
-pros::ADIButton altLimitButton('E');
+pros::Rotation catarotation(7);
 pros::Motor intake1(9);
-bool useAltLimitSwitch = false;
 pros::ADIDigitalOut boost('h');
+pros::ADIDigitalOut pisstake('c');
+
+//creating led objects
+sylib::Addrled rightSideLights = sylib::Addrled(22, 2, 48);
+sylib::Addrled leftSideLights = sylib::Addrled(22, 4, 48);
+sylib::Addrled rearLights = sylib::Addrled(22, 5, 10);
+sylib::Addrled intakeLights = sylib::Addrled(22, 6, 28);
+
+//declaring variables
+bool initializing = true;
+int intakeState = 0;
+bool useAltLimitSwitch = false;
+void cataTask();
+void intaketoggle();
+void intakeTask();
+bool shouldSpin = true;
+bool cata_override = false;
+bool cata_state = true;
+double targetvalue = 70; //   <------- cata target position
 
 // Chassis constructor
 Drive chassis(
@@ -62,43 +82,104 @@ Drive chassis(
 );
 
 
+void light_task_fn() {
 
-void cataTask();
-void intaketoggle();
-bool cata_override = false;
-bool cata_state = false;
+  int rotation_pixel{0};
+  int cata_count{2};
+  int init_count{0};
+  int intake_count{0};
+
+  leftSideLights.clear();
+  rightSideLights.clear();
+  rearLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+  intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+
+  while (true) {
+    
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) && master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {// flash on endgame deploy
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+      pros::delay(200);
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
+      pros::delay(800);
+    }
+
+    if (pros::competition::get_status() & COMPETITION_DISABLED && !initializing) {// rotating effect when the robot is disabled
+      leftSideLights.clear();
+      rightSideLights.clear();
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), rotation_pixel);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), rotation_pixel + 1);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), rotation_pixel + 2);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), rotation_pixel + 3);
+      leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), rotation_pixel + 4);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 48 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 47 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 46 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 45 - rotation_pixel);
+      rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(160, 32, 240), 44 - rotation_pixel);
+      if (rotation_pixel < 54) {rotation_pixel++;}
+      if (rotation_pixel >= 52) {rotation_pixel = -4;}
+    }
+    else {
+      leftSideLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
+      rightSideLights.set_all(sylib::Addrled::rgb_to_hex(80, 16, 120));
+
+      if (intakeState == 0) {// tinted lights when intaking
+        intakeLights.set_all(sylib::Addrled::rgb_to_hex(160, 32, 240));
+      } else if (intakeState == 1) {
+        intakeLights.set_all(sylib::Addrled::rgb_to_hex(110, 32, 255));
+      } else {
+        intakeLights.set_all(sylib::Addrled::rgb_to_hex(240, 32, 180));
+      }
+
+      if (cata_state == false) {// lights fill up when cata is returning
+        leftSideLights.clear();
+        rightSideLights.clear();
+        for (int i = 0; i <= cata_count; i++) {
+          leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
+          rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
+        } if (cata_count < 48) {cata_count++;}
+      } else {cata_count = 2;}
+
+      if (initializing) {// lights fill up when initializing
+        leftSideLights.clear();
+        rightSideLights.clear();
+        for (int i = 0; i <= init_count; i++) {
+          leftSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
+          rightSideLights.set_pixel(sylib::Addrled::rgb_to_hex(80, 16, 120), i);
+        } if (init_count < 48 ) {init_count++;}
+        pros::delay(28);
+      } else {init_count = 0;}
+
+    }
+    pros::delay(27);
+  }
+}
+
 
 void cata_task_fn() {
   
   while (true) {
-    if (useAltLimitSwitch) {
-      if ((altLimitButton.get_value() == false)) {
-        // move catapult down until its reached loading position
-        catapultMotor = 127;
-        cata_state = false;
 
-      } else if (!cata_override && altLimitButton.get_value()) {
-        catapultMotor = 0;
-        cata_state = true;
-      }
-    } else {
-      if ((limitButton.get_value() == false)) {
-        // move catapult down until its reached loading position
-        catapultMotor = 127;
-        cata_state = false;
+    targetvalue = useAltLimitSwitch ? 73.25 : 71.2;
 
-      } else if (!cata_override && limitButton.get_value()) {
-        catapultMotor = 0;
-        cata_state = true;
-      }
+    int pos = catarotation.get_angle() / 100;
+    if ((pos < targetvalue || pos > 300)) {
+      // move catapult down until its reached loading position
+      catapultMotor = 127;
+      cata_state = false;
+
+    } else if (!cata_override && catarotation.get_position() >= targetvalue) {
+      // hold catapult down
+      catapultMotor = 0;
+      cata_state = true;
     }
-    pros::delay(5);
+    pros::delay(10);
   }
 }
 
-void intakeTask();
-int intakeState = 0;
-bool shouldSpin = true;
+
 
 void intake_task_fn() {
   while (true) {
@@ -139,15 +220,6 @@ void fire() {
   cata_override = true;
   catapultMotor = 127;
   pros::delay(250);
-  cata_override = false;
-  cata_state = false;
-}
-
-void fireAsync() {
-  cata_override = true;
-  while (limitButton.get_value() == true) {
-    catapultMotor = 127;
-  }
   cata_override = false;
   cata_state = false;
 }

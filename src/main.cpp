@@ -2,7 +2,10 @@
 #include "EZ-Template/util.hpp"
 #include "autons.hpp"
 #include "globals.h"
+#include "pros/adi.hpp"
+#include "pros/misc.h"
 #include "pros/rtos.hpp"
+#include "sylib/system.hpp"
 
 /////
 // For instalattion, upgrading, documentations and tutorials, check out website!
@@ -19,7 +22,9 @@
  */
 
 void initialize() {
-
+  //light up
+  sylib::initialize();
+  pros::Task light_task(light_task_fn);
 
   // Print our branding over your terminal :D
   ez::print_ez_template();
@@ -28,9 +33,6 @@ void initialize() {
       500); // Stop the user from doing anything while legacy ports configure.
 
   // Configure your chassis controls
-  chassis.toggle_modify_curve_with_controller(
-      true); // Enables modifying the controller curve with buttons on the
-             // joysticks
   chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
   chassis.set_curve_default(
       0, 0); // Defaults for curve. If using tank, only the first parameter is
@@ -51,19 +53,18 @@ void initialize() {
       {
         Auton("right", rightSide),
         Auton("left", left8Disc),
-        Auton("right side push", rightPushRoller),
         Auton("Teamwork Match, Left Side\n\nFull Routine", matchLeftFull),
-        Auton("Teamwork Match, Push Disks In", pushAuton),
-        Auton("Teamwork Match NO AUTON", matchNoAuton),
-        Auton("Trust Alliance", trustAlliance),
-        Auton("Test Drive\n\nDrive forward and come back.", drive_example),
-        Auton("turn test\n\ntest turn", turn_test)});
+        Auton("Teamwork Match NO AUTON", matchNoAuton)
+      });
 
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+  
+  // Initialize tasks
   pros::Task cata_task(cata_task_fn);
   pros::Task intake_task(intake_task_fn);
+  initializing = false; 
 }
 
 /**
@@ -89,6 +90,7 @@ void competition_initialize() {
 }
 
 void autonomous() {
+
   chassis.reset_pid_targets();               // Resets PID targets to 0
   chassis.reset_gyro();                      // Reset gyro position to 0
   chassis.reset_drive_sensor();              // Reset drive sensors to 0
@@ -104,7 +106,7 @@ void opcontrol() {
 
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 
-  pros::ADIDigitalOut piston('B');
+  pros::ADIDigitalOut piston('A');
   piston.set_value(false);
 
   useAltLimitSwitch = false;
@@ -116,11 +118,21 @@ void opcontrol() {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
       fire();
     }
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+      pisstake.set_value(1);
+    }
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+      pisstake.set_value(0);
+    }
 
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) &&
         master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
       piston.set_value(true);
     }
+
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+      boost.set_value(true);
+    } else {boost.set_value(false);}
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!
                                        // Keep this ez::util::DELAY_TIME

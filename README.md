@@ -1,5 +1,3 @@
-balling out
-
 61002G season code
 
 EZ template cata bot with Sylib for LED control
